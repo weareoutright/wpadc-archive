@@ -1,6 +1,6 @@
-import { useQuery, gql } from '@apollo/client';
-import * as MENUS from '../constants/menus';
-import { BlogInfoFragment } from '../fragments/GeneralSettings';
+import { useQuery, gql } from "@apollo/client";
+import * as MENUS from "../constants/menus";
+import { BlogInfoFragment } from "../fragments/GeneralSettings";
 import {
   Header,
   Footer,
@@ -9,7 +9,7 @@ import {
   NavigationMenu,
   Hero,
   SEO,
-} from '../components';
+} from "../components";
 
 export default function Component() {
   const { data } = useQuery(Component.query, {
@@ -31,7 +31,7 @@ export default function Component() {
       />
       <Main>
         <Container>
-          <Hero title={'Front Page'} />
+          <Hero title={"Now We're Cookin'"} />
           <div className="text-center">
             <p>This page is utilizing the "front-page" WordPress template.</p>
             <code>wp-templates/front-page.js</code>
