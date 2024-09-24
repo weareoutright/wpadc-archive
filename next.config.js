@@ -5,13 +5,11 @@ const { createSecureHeaders } = require("next-secure-headers");
  * @type {import('next').NextConfig}
  **/
 module.exports = withFaust({
-  basePath: "/wpdac-archive-dev",
   reactStrictMode: true,
   sassOptions: {
     includePaths: ["node_modules"],
   },
   images: {
-    unoptimized: true,
     domains: [getWpHostname()],
   },
   i18n: {
