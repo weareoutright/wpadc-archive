@@ -4,8 +4,7 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "faust dev",
-    "build": "next build",
-    "atlas-build": "faust build",
+    "build": "faust build",
     "generate": "faust generatePossibleTypes",
     "stylesheet": "faust generateGlobalStylesheet",
     "atlas-start": "faust start",
