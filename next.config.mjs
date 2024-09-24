@@ -1,10 +1,11 @@
-const { withFaust, getWpHostname } = require("@faustwp/core");
-const { createSecureHeaders } = require("next-secure-headers");
+import { withFaust, getWpHostname } from "@faustwp/core";
+import { createSecureHeaders } from "next-secure-headers";
 
 /**
  * @type {import('next').NextConfig}
  **/
-module.exports = withFaust({
+export default withFaust({
+  output: "export",
   reactStrictMode: true,
   sassOptions: {
     includePaths: ["node_modules"],
