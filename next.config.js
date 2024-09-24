@@ -5,7 +5,6 @@ const { createSecureHeaders } = require("next-secure-headers");
  * @type {import('next').NextConfig}
  **/
 module.exports = withFaust({
-  images: { unoptimized: true },
   basePath: "",
   output: "export",
   reactStrictMode: true,
@@ -13,6 +12,7 @@ module.exports = withFaust({
     includePaths: ["node_modules"],
   },
   images: {
+    unoptimized: true,
     domains: [getWpHostname()],
   },
   i18n: {
