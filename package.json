@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "faust dev",
     "build": "NEXT_PUBLIC_WORDPRESS_URL=https://wpdacarchivdev.wpenginepowered.com/ next build",
+    "export": "next export",
     "build-atlas": "NEXT_PUBLIC_WORDPRESS_URL=https://wpdacarchivdev.wpenginepowered.com/ faust build",
     "generate": "faust generatePossibleTypes",
     "stylesheet": "faust generateGlobalStylesheet",
