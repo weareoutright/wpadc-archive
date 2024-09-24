@@ -5,8 +5,6 @@ const { createSecureHeaders } = require("next-secure-headers");
 //  * @type {import('next').NextConfig}
  **/
 module.exports = withFaust({
-  basePath: "",
-  output: "standalone",
   reactStrictMode: true,
   sassOptions: {
     includePaths: ["node_modules"],
