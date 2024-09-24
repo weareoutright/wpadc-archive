@@ -5,7 +5,7 @@ import { createSecureHeaders } from "next-secure-headers";
  * @type {import('next').NextConfig}
  **/
 export default withFaust({
-  output: "export",
+  output: "standalone",
   reactStrictMode: true,
   sassOptions: {
     includePaths: ["node_modules"],
