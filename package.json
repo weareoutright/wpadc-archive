@@ -4,7 +4,8 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "faust dev",
-    "build": "NEXT_PUBLIC_WORDPRESS_URL=https://wpdacarchivdev.wpenginepowered.com/ faust build",
+    "build": "NEXT_PUBLIC_WORDPRESS_URL=https://wpdacarchivdev.wpenginepowered.com/ next build",
+    "build-atlas": "NEXT_PUBLIC_WORDPRESS_URL=https://wpdacarchivdev.wpenginepowered.com/ faust build",
     "generate": "faust generatePossibleTypes",
     "stylesheet": "faust generateGlobalStylesheet",
     "atlas-start": "faust start",
