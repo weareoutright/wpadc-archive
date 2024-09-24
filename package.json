@@ -4,10 +4,13 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "faust dev",
-    "build": "faust build",
+    "build": "next build",
+    "atlas-build": "faust build",
     "generate": "faust generatePossibleTypes",
     "stylesheet": "faust generateGlobalStylesheet",
-    "start": "faust start"
+    "atlas-start": "faust start",
+    "start": "next start",
+    "cache": "next cache"
   },
   "dependencies": {
     "@apollo/client": "^3.10.4",
