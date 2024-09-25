@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "faust dev",
-    "build-node": "next build",
+    "build-node": "NEXT_PUBLIC_WORDPRESS_URL=https://wpdacarchivdev.wpenginepowered.com/ next build",
     "start-node": "next start -p 8080",
     "export": "next export",
     "build-atlas": "NEXT_PUBLIC_WORDPRESS_URL=https://wpdacarchivdev.wpenginepowered.com/ faust build",
