@@ -13,6 +13,7 @@ export default withFaust({
       "/page": { page: "/pages/*" },
     };
   },
+  output: "standalone",
   basePath: "/wpdac-archive",
   reactStrictMode: true,
   sassOptions: {
