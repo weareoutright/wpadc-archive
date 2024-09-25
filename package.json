@@ -5,13 +5,12 @@
   "scripts": {
     "dev": "faust dev",
     "build-node": "NEXT_PUBLIC_WORDPRESS_URL=https://wpdacarchivdev.wpenginepowered.com/ next build",
-    "start-node": "next start -p 8080",
+    "start-node": "next start",
     "export": "next export",
     "build-atlas": "NEXT_PUBLIC_WORDPRESS_URL=https://wpdacarchivdev.wpenginepowered.com/ faust build",
     "generate": "faust generatePossibleTypes",
     "stylesheet": "faust generateGlobalStylesheet",
-    "atlas-start": "faust start",
-    "start": "next start",
+    "start-atlas": "faust start",
     "cache": "next cache"
   },
   "dependencies": {

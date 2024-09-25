@@ -4,8 +4,14 @@ import { createSecureHeaders } from "next-secure-headers";
  * @type {import('next').NextConfig}
  **/
 export default withFaust({
-  output: "standalone",
-  distDir: "out",
+  exportPathMap: async function (
+    defaultPathMap,
+    { dev, dir, outDir, distDir, buildId }
+  ) {
+    return {
+      "/": { page: "/" },
+    };
+  },
   reactStrictMode: true,
   sassOptions: {
     includePaths: ["node_modules"],
