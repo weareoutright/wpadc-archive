@@ -26,6 +26,7 @@ export default withFaust({
 
     return paths;
   },
+  assetPrefix: "./",
   distDir: "build",
   reactStrictMode: true,
   sassOptions: {
