@@ -6,7 +6,7 @@
     "dev": "faust dev",
     "build:mono": "next build",
     "start:mono": "next start",
-    "export": "next export -o out",
+    "export": "next export -o out && touch out/.nojekyll",
     "build-atlas": "NEXT_PUBLIC_WORDPRESS_URL=https://wpdacarchivdev.wpenginepowered.com/ faust build",
     "generate": "faust generatePossibleTypes",
     "stylesheet": "faust generateGlobalStylesheet",
