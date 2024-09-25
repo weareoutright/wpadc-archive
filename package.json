@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "faust dev",
-    "build": "next build",
+    "build": "cross-env next build",
     "export": "next export",
     "build-atlas": "NEXT_PUBLIC_WORDPRESS_URL=https://wpdacarchivdev.wpenginepowered.com/ faust build",
     "generate": "faust generatePossibleTypes",
