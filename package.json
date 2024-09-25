@@ -4,8 +4,8 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "faust dev",
-    "build-node": "NEXT_PUBLIC_WORDPRESS_URL=https://wpdacarchivdev.wpenginepowered.com/ next build",
-    "start-node": "next start",
+    "build:mono": "next build",
+    "start:mono": "next start",
     "export": "next export",
     "build-atlas": "NEXT_PUBLIC_WORDPRESS_URL=https://wpdacarchivdev.wpenginepowered.com/ faust build",
     "generate": "faust generatePossibleTypes",

@@ -10,6 +10,7 @@ export default withFaust({
   ) {
     return {
       "/": { page: "/" },
+      "/page": { page: "/pages/*" },
     };
   },
   reactStrictMode: true,
