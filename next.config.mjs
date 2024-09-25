@@ -4,23 +4,12 @@ import { createSecureHeaders } from "next-secure-headers";
  * @type {import('next').NextConfig}
  **/
 export default withFaust({
-  exportPathMap: async function (
-    defaultPathMap,
-    { dev, dir, outDir, distDir, buildId }
-  ) {
-    return {
-      "/": { page: "/" },
-      "/page": { page: "/pages/*" },
-    };
-  },
-  output: "standalone",
-  basePath: "/wpdac-archive",
   reactStrictMode: true,
   sassOptions: {
     includePaths: ["node_modules"],
   },
   images: {
-    domains: [getWpHostname() || "wpdacarchivdev.wpenginepowered.com"],
+    domains: [getWpHostname()],
   },
   i18n: {
     locales: ["en"],

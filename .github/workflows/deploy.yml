@@ -1,0 +1,38 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Change this if your main branch is named differently
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16" # Specify the Node.js version
+
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - name: Build the project
+        run: |
+          npm run build:mono
+
+      - name: Export the project
+        run: |
+          npm run export
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.0.0
+        with:
+          branch: gh-pages # The branch to deploy to
+          folder: out # The folder containing the exported files
+          clean: true # Clean the target branch before deploying
