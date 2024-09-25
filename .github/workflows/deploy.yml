@@ -19,16 +19,13 @@ jobs:
           node-version: "16" # Specify the Node.js version
 
       - name: Install dependencies
-        run: |
-          npm install
+        run: npm install
 
       - name: Build the project
-        run: |
-          npm run build:mono
+        run: npm run build:mono
 
       - name: Export the project
-        run: |
-          npm run export
+        run: npm run export
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.0.0
