@@ -1,17 +1,17 @@
-import classNames from 'classnames/bind';
-import { Container, NavigationMenu } from '../../components';
-import styles from './Footer.module.scss';
+import classNames from "classnames/bind";
+import { Container, NavigationMenu } from "../../components";
+import styles from "./Footer.module.scss";
 
 let cx = classNames.bind(styles);
 
-export default function Footer({ title, menuItems }) {
+export default function Footer({ title, menuItems, currentPage }) {
   const year = new Date().getFullYear();
 
   return (
-    <footer className={cx('component')}>
+    <footer className={cx("component")}>
       <Container>
-        <NavigationMenu menuItems={menuItems} />
-        <p className={cx('copyright')}>{`${title} © ${year}. Powered by WordPress.`}</p>
+        <NavigationMenu menuItems={menuItems} currentPage={currentPage} />
+        <p className={cx("copyright")}>{`${title} © ${year}`}</p>
       </Container>
     </footer>
   );
