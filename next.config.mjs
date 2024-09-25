@@ -12,6 +12,7 @@ export default withFaust({
       "/": { page: "/" },
     };
   },
+  distDir: "out",
   reactStrictMode: true,
   sassOptions: {
     includePaths: ["node_modules"],
