@@ -30,7 +30,7 @@ jobs:
           static_site_generator: next
 
       - name: Build with Next.js 🏗️
-        run: npm run build-atlas && mkdir ./out
+        run: npm run build-node && npm run start-node
 
       - name: Upload artifact 📡
         uses: actions/upload-pages-artifact@v3

@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "faust dev",
     "build": "NEXT_PUBLIC_WORDPRESS_URL=https://wpdacarchivdev.wpenginepowered.com/ next build",
+    "build-node": "next build && cp -r .next/static .next/standalone/.next && cp -r public .next/standalone",
+    "start-node": "node .next/standalone/server.js",
     "export": "next export",
     "build-atlas": "NEXT_PUBLIC_WORDPRESS_URL=https://wpdacarchivdev.wpenginepowered.com/ faust build",
     "generate": "faust generatePossibleTypes",
