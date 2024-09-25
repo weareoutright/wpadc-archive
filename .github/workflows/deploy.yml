@@ -5,6 +5,10 @@ on:
     branches:
       - main # Change this if your main branch is named differently
 
+env:
+  NEXT_PUBLIC_WORDPRESS_URL: https://wpdacarchivdev.wpenginepowered.com/
+  FAUST_SECRET_KEY: 1c69509c-2cd0-4916-ad12-853dc7453a94
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
