@@ -17,6 +17,18 @@ const GET_GLOBAL_CONTENT = gql`
         phoneNumber
       }
       pageTitle
+      defaultHeadshot {
+        node {
+          sourceUrl
+          title
+        }
+      }
+      defaultImage {
+        node {
+          sourceUrl
+          title
+        }
+      }
     }
   }
 `;
