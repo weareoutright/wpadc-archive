@@ -5,7 +5,10 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useQuery } from "@apollo/client";
-import { useGeneralSettings } from "../constants/customQueryHooks"; // Assuming these hooks are correct
+import {
+  useGeneralSettings,
+  useHeaderMenu,
+} from "../constants/customQueryHooks"; // Assuming these hooks are correct
 import { gql } from "@apollo/client";
 import * as MENUS from "../constants/menus";
 import { BlogInfoFragment } from "../fragments/GeneralSettings";
@@ -17,6 +20,7 @@ import {
   Container,
   SEO,
   NavigationMenu,
+  LoadingPage,
 } from "../components";
 
 export default function Component() {
@@ -29,6 +33,8 @@ export default function Component() {
     generalSettings,
   } = useGeneralSettings();
 
+  const { loading: loadingMenus, error: errorMenus, menus } = useHeaderMenu();
+
   const { loading, error, data } = useQuery(Component.query, {
     variables: Component.variables({ searchKeyword: debouncedKeyword }),
     notifyOnNetworkStatusChange: true,
@@ -36,18 +42,7 @@ export default function Component() {
 
   const artworkSearch = data?.artworkSearch?.edges ?? [];
   const peopleSearch = data?.peopleSearch?.edges ?? [];
-
-  const primaryMenuRef = useRef([]);
-
-  useEffect(() => {
-    if (data?.headerMenuItems) {
-      primaryMenuRef.current = data.headerMenuItems.nodes ?? [];
-    }
-  }, [data?.headerMenuItems]);
-
-  console.log(peopleSearch);
-
-  const primaryMenu = primaryMenuRef.current;
+  const primaryMenu = menus;
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -59,11 +54,15 @@ export default function Component() {
     };
   }, [searchKeyword]);
 
-  if (loadingSettings) return <p>Loading...</p>;
-  if (errorSettings || error)
-    return <p>Error: {errorSettings?.message || error?.message}</p>;
+  if (loadingSettings || loadingMenus) return <LoadingPage />;
+  if (errorSettings || errorMenus || error) {
+    console.error("Settings ERROR:", errorSettings?.message);
+    console.error("Menus ERROR:", errorMenus?.message);
+    console.error("Data ERROR:", error?.message);
+  }
 
   const handleSearch = (e) => {
+    e.preventDefault();
     setSearchKeyword(e.target.value);
   };
 
@@ -82,12 +81,13 @@ export default function Component() {
         <Container>
           <div className="Search">
             <div className="search-bar">
-              <form>
+              <form onSubmit={(e) => e.preventDefault()}>
                 <input
                   type="text"
-                  placeholder="Search"
-                  onChange={handleSearch}
+                  placeholder="search the archive"
+                  onChange={(e) => handleSearch(e)}
                   value={searchKeyword}
+                  name="searchKeyword"
                 />
               </form>
             </div>
@@ -113,7 +113,11 @@ export default function Component() {
                   </div>
                 ))
               ) : (
-                <p>No results found for "{debouncedKeyword}"</p>
+                <p>
+                  {data && loading
+                    ? "Searching..."
+                    : `No results found for "${debouncedKeyword}"`}
+                </p>
               )}
             </div>
             <br></br>
@@ -123,7 +127,6 @@ export default function Component() {
               <hr></hr>
               {peopleSearch.length > 0 ? (
                 peopleSearch.map(({ node }) => {
-                  console.log(node.personCard.personInfo[0].location);
                   return (
                     <div key={node.uri} className="person-card">
                       <img
@@ -172,13 +175,18 @@ export default function Component() {
                   );
                 })
               ) : (
-                <p>No results found for "{debouncedKeyword}"</p>
+                <p>
+                  {" "}
+                  {data && loading
+                    ? "Searching..."
+                    : `No results found for "${debouncedKeyword}"`}
+                </p>
               )}
             </div>
           </div>
         </Container>
       </Main>
-      <Footer title={generalSettings.title} menuItems={primaryMenu} />
+      <Footer title={generalSettings.title} menuItems={null} />
     </>
   );
 }

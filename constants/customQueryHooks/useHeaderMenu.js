@@ -1,22 +1,13 @@
 import { gql, useQuery } from "@apollo/client";
+import { NavigationMenu } from "../../components/NavigationMenu";
 
 // Define the GraphQL query
 const GET_HEADER_MENU = gql`
-  query getHeaderMenu {
-    menus {
-      edges {
-        node {
-          name
-          menuItems {
-            edges {
-              node {
-                id
-                uri
-                label
-              }
-            }
-          }
-        }
+  ${NavigationMenu.fragments.entry}
+  query getHeaderMenu($headerLocation: MenuLocationEnum) {
+    headerMenuItems: menuItems(where: { location: $headerLocation }) {
+      nodes {
+        ...NavigationMenuItemFragment
       }
     }
   }
@@ -26,10 +17,12 @@ const GET_HEADER_MENU = gql`
 const useHeaderMenu = () => {
   const { loading, error, data } = useQuery(GET_HEADER_MENU);
 
+  console.log(data);
+
   return {
     loading,
     error,
-    menus: data?.menus?.edges || [],
+    menus: data?.headerMenuItems?.nodes || [],
   };
 };
 
