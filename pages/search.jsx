@@ -8,7 +8,7 @@ import { useQuery } from "@apollo/client";
 import {
   useGeneralSettings,
   useHeaderMenu,
-} from "../constants/customQueryHooks"; // Assuming these hooks are correct
+} from "../constants/customQueryHooks";
 import { gql } from "@apollo/client";
 import * as MENUS from "../constants/menus";
 import { BlogInfoFragment } from "../fragments/GeneralSettings";
