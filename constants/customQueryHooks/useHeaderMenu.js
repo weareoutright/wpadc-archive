@@ -17,8 +17,6 @@ const GET_HEADER_MENU = gql`
 const useHeaderMenu = () => {
   const { loading, error, data } = useQuery(GET_HEADER_MENU);
 
-  console.log(data);
-
   return {
     loading,
     error,
