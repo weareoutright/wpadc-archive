@@ -9,6 +9,7 @@ import { useGeneralSettings } from "../constants/customQueryHooks"; // Assuming 
 import { gql } from "@apollo/client";
 import * as MENUS from "../constants/menus";
 import { BlogInfoFragment } from "../fragments/GeneralSettings";
+import { capitalizeString } from "../constants/capitalizeString";
 import {
   Header,
   Footer,
@@ -28,14 +29,13 @@ export default function Component() {
     generalSettings,
   } = useGeneralSettings();
 
-  // Fetch data with the debounced keyword
   const { loading, error, data } = useQuery(Component.query, {
     variables: Component.variables({ searchKeyword: debouncedKeyword }),
     notifyOnNetworkStatusChange: true,
   });
 
   const artworkSearch = data?.artworkSearch?.edges ?? [];
-  const headerMenuItems = data?.headerMenuItems?.nodes ?? [];
+  const peopleSearch = data?.peopleSearch?.edges ?? [];
 
   const primaryMenuRef = useRef([]);
 
@@ -45,14 +45,15 @@ export default function Component() {
     }
   }, [data?.headerMenuItems]);
 
+  console.log(peopleSearch);
+
   const primaryMenu = primaryMenuRef.current;
 
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedKeyword(searchKeyword);
-    }, 300); // 300ms debounce time
+    }, 300);
 
-    // Cleanup the timeout if the user types within the debounce period
     return () => {
       clearTimeout(handler);
     };
@@ -63,7 +64,7 @@ export default function Component() {
     return <p>Error: {errorSettings?.message || error?.message}</p>;
 
   const handleSearch = (e) => {
-    setSearchKeyword(e.target.value); // Update the search keyword without triggering a re-render immediately
+    setSearchKeyword(e.target.value);
   };
 
   return (
@@ -91,13 +92,18 @@ export default function Component() {
               </form>
             </div>
           </div>
+          <br></br>
+          <br></br>
           <div className="results">
             <div className="artwork-results">
               <h3>Artworks</h3>
+              <hr></hr>
               {artworkSearch.length > 0 ? (
                 artworkSearch.map(({ node }) => (
                   <div key={node.artwork_postId}>
-                    <h2>{node.title}</h2>
+                    <a href={node.uri} className="person-link">
+                      <h2>{node.title}</h2>
+                    </a>
                     <img
                       src={
                         node.artworkCard.artworkInfo.artwork_files?.file.node
@@ -110,20 +116,61 @@ export default function Component() {
                 <p>No results found for "{debouncedKeyword}"</p>
               )}
             </div>
+            <br></br>
+            <br></br>
             <div className="people-results">
               <h3>People</h3>
-              {artworkSearch.length > 0 ? (
-                artworkSearch.map(({ node }) => (
-                  <div key={node.artwork_postId}>
-                    <h2>{node.title}</h2>
-                    <img
-                      src={
-                        node.artworkCard.artworkInfo.artwork_files?.file.node
-                          .sourceUrl
-                      }
-                    />
-                  </div>
-                ))
+              <hr></hr>
+              {peopleSearch.length > 0 ? (
+                peopleSearch.map(({ node }) => {
+                  console.log(node.personCard.personInfo[0].location);
+                  return (
+                    <div key={node.uri} className="person-card">
+                      <img
+                        src={
+                          node.personCard.personInfo[0].headshot?.node.sourceUrl
+                        }
+                        alt={node.personCard.personInfo[0].headshot?.node.title}
+                        className="headshot"
+                      />
+
+                      <a href={node.uri} className="person-link">
+                        <h4>
+                          {node.personCard.personInfo[0].fullName ?? "N/A"}
+                        </h4>
+                      </a>
+
+                      <p>
+                        Location:{" "}
+                        {node.personCard.personInfo[0].location ?? "N/A"}
+                      </p>
+                      <p>
+                        Start Year:{" "}
+                        {node.personCard.personInfo[0].activeSinceYear ?? "N/A"}
+                      </p>
+
+                      <p>
+                        Status:{" "}
+                        {node.personCard.personInfo[0].currentlyActive
+                          ? "Currently Active"
+                          : "Not Active"}
+                      </p>
+
+                      <div>
+                        <strong>Title(s): </strong>
+                        <ul>
+                          {node.personCard.personInfo[0].roleType[0].role.edges.map(
+                            ({ node }) => (
+                              <li key={node.id}>
+                                {capitalizeString(node.roleType?.role_type)}
+                              </li>
+                            )
+                          )}
+                        </ul>
+                      </div>
+                    </div>
+                  );
+                })
               ) : (
                 <p>No results found for "{debouncedKeyword}"</p>
               )}
@@ -176,6 +223,45 @@ Component.query = gql`
                       title
                       uri
                       id
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    peopleSearch: people(where: { search: $searchKeyword }) {
+      edges {
+        node {
+          title
+          uri
+          personCard {
+            personInfo {
+              ... on PersonCardPersonInfoAcfProPersonCardLayout {
+                currentlyActive
+                fullName
+                headshot {
+                  node {
+                    sourceUrl
+                    title
+                  }
+                }
+                location
+                activeSinceYear
+                roleType {
+                  role {
+                    edges {
+                      node {
+                        ... on PersonRoleType {
+                          id
+                          roleType {
+                            role_type
+                          }
+                        }
+                      }
                     }
                   }
                 }
