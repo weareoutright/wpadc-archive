@@ -21,33 +21,55 @@ import {
   NavigationMenu,
   LoadingPage,
 } from "../components";
-import usePeopleIDsRoles from "../constants/customQueryHooks/usePeopleIDsRoles";
+import useRoleGroups from "../constants/customQueryHooks/useRoleGroups";
 
 const roleTypeOrganizer = {
-  visibleRoleTypes: ["staff", "board_member", "volunteer"],
+  /* // TODO: make visibleRoleTypes take in an array of role types set to visible via CMS
+     TODO: order matters in the array for it to show up properly on the page
+   */
+
+  visibleRoleTypes: ["staff", "volunteer", "board_member"],
   staff: (staffArr) => {
-    <div className="staff">
-      <h2>Staff</h2>
-      {staffArr.map((person) => {
-        <div className="person-card">{person.fullName}</div>;
-      })}
-    </div>;
+    return (
+      <div key="staff-group" className="staff role-group">
+        <h3>Staff</h3>
+        {staffArr?.map((person, index) => {
+          return (
+            <div key={`staff-${index}`} className="person-card">
+              {person.personCard.personInfo[0].fullName}
+            </div>
+          );
+        })}
+      </div>
+    );
   },
-  board: (boardArr) => {
-    <div className="board">
-      <h2>Board</h2>
-      {boardArr.map((person) => {
-        <div className="person-card">{person.fullName}</div>;
-      })}
-    </div>;
+  board_member: (boardArr) => {
+    return (
+      <div key="board-member-group" className="board-members role-group">
+        <h3>Board</h3>
+        {boardArr?.map((person, index) => {
+          return (
+            <div key={`board-member-${index}`} className="person-card">
+              {person.personCard.personInfo[0].fullName}
+            </div>
+          );
+        })}
+      </div>
+    );
   },
   volunteer: (volunteerArr) => {
-    <div className="board">
-      <h2>Volunteers</h2>
-      {volunteerArr.map((person) => {
-        <div className="person-card">{person.fullName}</div>;
-      })}
-    </div>;
+    return (
+      <div key="volunteer-group" className="volunteer role-group">
+        <h3>Volunteers</h3>
+        {volunteerArr?.map((person, index) => {
+          return (
+            <div key={`volunteer-${index}`} className="person-card">
+              {person.personCard.personInfo[0].fullName}
+            </div>
+          );
+        })}
+      </div>
+    );
   },
 };
 
@@ -60,18 +82,16 @@ export default function Component() {
 
   const { loading: loadingMenus, error: errorMenus, menus } = useHeaderMenu();
   const {
-    loading: loadingIDsRoles,
-    error: errorIDsRoles,
-    idsAndRoles,
-  } = usePeopleIDsRoles(roleTypeOrganizer.visibleRoleTypes);
+    loading: loadingRoleGroups,
+    error: errorRoleGroups,
+    roleGroups,
+  } = useRoleGroups(roleTypeOrganizer.visibleRoleTypes);
 
   const { loading, error, data } = useQuery(Component.query, {
     variables: Component.variables(),
   });
 
   const primaryMenu = menus;
-  const allPeopleArr = data?.allPeople.nodes;
-  console.log(idsAndRoles);
 
   if (loading || loadingSettings || loadingMenus) return <LoadingPage />;
   if (errorSettings || errorMenus || error) {
@@ -95,6 +115,12 @@ export default function Component() {
         <Container>
           <div className="People">
             <h1>People</h1>
+            {roleTypeOrganizer.visibleRoleTypes.map((role) => {
+              const roleGroupComponent = roleTypeOrganizer[role](
+                roleGroups[role]
+              );
+              return roleGroupComponent;
+            })}
           </div>
         </Container>
       </Main>
@@ -121,38 +147,6 @@ Component.query = gql`
     footerMenuItems: menuItems(where: { location: $footerLocation }) {
       nodes {
         ...NavigationMenuItemFragment
-      }
-    }
-    allPeople: people {
-      nodes {
-        personCard {
-          personInfo {
-            ... on PersonCardPersonInfoAcfProPersonCardLayout {
-              activeSinceYear
-              currentlyActive
-              fullName
-              headshot {
-                node {
-                  sourceUrl
-                  title
-                }
-              }
-              location
-              role_type {
-                role {
-                  nodes {
-                    ... on PersonRoleType {
-                      id
-                      roleType {
-                        role_type
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
       }
     }
   }

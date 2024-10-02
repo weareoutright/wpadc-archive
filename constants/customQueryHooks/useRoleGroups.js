@@ -8,11 +8,22 @@ const GET_PEOPLE_IDS_ROLES = gql`
         personCard {
           personInfo {
             ... on PersonCardPersonInfoAcfProPersonCardLayout {
+              activeSinceYear
+              currentlyActive
+              fullName
+              headshot {
+                node {
+                  sourceUrl
+                  title
+                }
+              }
+              location
               role_type {
                 role {
                   nodes {
                     ... on PersonRoleType {
                       id
+
                       roleType {
                         role_type
                       }
@@ -29,7 +40,7 @@ const GET_PEOPLE_IDS_ROLES = gql`
 `;
 
 // Custom hook to fetch the header menu data
-const usePeopleRoles = (rolesArr) => {
+const useRoleGroups = (rolesArr) => {
   const { loading, error, data } = useQuery(GET_PEOPLE_IDS_ROLES);
   const roleGroups = {};
 
@@ -40,13 +51,11 @@ const usePeopleRoles = (rolesArr) => {
     );
   });
 
-  console.log(roleGroups);
-
   return {
     loading,
     error,
-    idsAndRoles: data?.people?.nodes || [],
+    roleGroups: roleGroups || {},
   };
 };
 
-export default usePeopleRoles;
+export default useRoleGroups;
