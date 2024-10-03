@@ -94,10 +94,11 @@ export default function Component() {
   const primaryMenu = menus;
 
   if (loading || loadingSettings || loadingMenus) return <LoadingPage />;
-  if (errorSettings || errorMenus || error) {
+  if (errorSettings || errorMenus || errorRoleGroups || error) {
     console.error("Settings ERROR:", errorSettings?.message);
     console.error("Menus ERROR:", errorMenus?.message);
     console.error("Data ERROR:", error?.message);
+    console.error("Role Groups ERROR:", errorRoleGroups?.message);
   }
 
   return (
@@ -115,12 +116,14 @@ export default function Component() {
         <Container>
           <div className="People">
             <h1>People</h1>
-            {roleTypeOrganizer.visibleRoleTypes.map((role) => {
-              const roleGroupComponent = roleTypeOrganizer[role](
-                roleGroups[role]
-              );
-              return roleGroupComponent;
-            })}
+            {loadingRoleGroups
+              ? "Loading..."
+              : roleTypeOrganizer.visibleRoleTypes.map((role) => {
+                  const roleGroupComponent = roleTypeOrganizer[role](
+                    roleGroups[role]
+                  );
+                  return roleGroupComponent;
+                })}
           </div>
         </Container>
       </Main>

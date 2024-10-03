@@ -18,12 +18,11 @@ const GET_PEOPLE_IDS_ROLES = gql`
                 }
               }
               location
-              role_type {
-                role {
-                  nodes {
+              roleType {
+                edges {
+                  node {
                     ... on PersonRoleType {
                       id
-
                       roleType {
                         role_type
                       }
@@ -45,9 +44,9 @@ const useRoleGroups = (rolesArr) => {
   const roleGroups = {};
 
   rolesArr.forEach((roleType) => {
-    const hasRole = (person) => person.roleType.role_type === roleType;
-    roleGroups[roleType] = data?.people.nodes.filter((person) =>
-      person.personCard.personInfo[0].role_type[0].role.nodes.some(hasRole)
+    const hasRole = (role) => role.node.roleType.role_type === roleType;
+    roleGroups[roleType] = data?.people?.nodes.filter((person) =>
+      person.personCard.personInfo[0].roleType.edges.some(hasRole)
     );
   });
 
