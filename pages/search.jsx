@@ -162,7 +162,7 @@ export default function Component() {
                       <div>
                         <strong>Title(s): </strong>
                         <ul>
-                          {node.personCard.personInfo[0].roleType[0].role.edges.map(
+                          {node.personCard.personInfo[0].roleType.edges.map(
                             ({ node }) => (
                               <li key={node.id}>
                                 {capitalizeString(node.roleType?.role_type)}
@@ -260,14 +260,12 @@ Component.query = gql`
                 location
                 activeSinceYear
                 roleType {
-                  role {
-                    edges {
-                      node {
-                        ... on PersonRoleType {
-                          id
-                          roleType {
-                            role_type
-                          }
+                  edges {
+                    node {
+                      ... on PersonRoleType {
+                        id
+                        roleType {
+                          role_type
                         }
                       }
                     }
