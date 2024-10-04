@@ -31,10 +31,10 @@ export default function Component() {
       />
       <Main>
         <Container>
-          <Hero title={"Now We're Cookin' 🧑🏽‍🍳🔥"} />
+          <Hero title={"🚧 Dev Zone 🚧"} />
           <div className="text-center">
-            <p>This page is utilizing the "front-page" WordPress template.</p>
-            <code>wp-templates/front-page.js</code>
+            <p>🛠️ Outright Devs at work 👷🏽</p>
+            <code>Project Status: 🟢 In Progress</code>
           </div>
         </Container>
       </Main>
