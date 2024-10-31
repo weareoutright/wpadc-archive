@@ -7,11 +7,12 @@ import { useQuery } from "@apollo/client";
 import {
   useGeneralSettings,
   useHeaderMenu,
+  useRoleGroups,
 } from "../constants/customQueryHooks";
 import { gql } from "@apollo/client";
 import * as MENUS from "../constants/menus";
 import { BlogInfoFragment } from "../fragments/GeneralSettings";
-import { capitalizeString } from "../constants/capitalizeString";
+// import { capitalizeString } from "../constants/capitalizeString";
 import {
   Header,
   Footer,
@@ -21,7 +22,6 @@ import {
   NavigationMenu,
   LoadingPage,
 } from "../components";
-import useRoleGroups from "../constants/customQueryHooks/useRoleGroups";
 
 const roleTypeOrganizer = {
   /* // TODO: make visibleRoleTypes take in an array of role types set to visible via CMS

@@ -8,6 +8,7 @@ import { useQuery } from "@apollo/client";
 import {
   useGeneralSettings,
   useHeaderMenu,
+  useArtworkCount,
 } from "../constants/customQueryHooks";
 import { gql } from "@apollo/client";
 import * as MENUS from "../constants/menus";
@@ -41,6 +42,7 @@ export default function Component() {
   });
 
   const artworkSearch = data?.artworkSearch?.edges ?? [];
+  const artworkCount = artworkSearch.length || null;
   const peopleSearch = data?.peopleSearch?.edges ?? [];
   const primaryMenu = menus;
 
@@ -96,7 +98,9 @@ export default function Component() {
           <br></br>
           <div className="results">
             <div className="artwork-results">
-              <h3>Artworks</h3>
+              <h3>
+                Artworks {artworkCount > 0 && <span>({artworkCount})</span>}
+              </h3>
               <hr></hr>
               {artworkSearch.length > 0 ? (
                 artworkSearch.map(({ node }) => (
