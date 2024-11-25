@@ -1,14 +1,50 @@
 .component {
   color: var(--wpe--footer--color);
   background: var(--wpe--footer--background-color);
-  padding: 1rem 0;
-  position: absolute;
+  padding: 10rem 6rem 3rem 6rem;
   bottom: 0;
-  background: #000;
   color: #fff;
   width: 100vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-top-left-radius: 40px;
 }
 
-.copyright {
-  text-align: center;
+.left-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 4.5rem;
+  .newsletter-btn {
+    border: 1px solid #fff;
+    width: fit-content;
+    border-radius: 20px;
+    padding: 8px 18px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .footer-logo {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}
+
+.right-footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  .footer-social-icons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .copyright {
+    text-align: center;
+  }
 }
