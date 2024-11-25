@@ -1,4 +1,6 @@
 .component {
   color: var(--wpe--main--color);
   background-color: var(--wpe--main--background-color);
+  padding: var(--wpe--content-container--padding-x-y);
+  width: 100%;
 }

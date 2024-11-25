@@ -1,27 +1,78 @@
-.Search {
+.search-bar {
+  padding: var(--wpe--content-container--padding-x-y);
+  background-color: var(--wpe--main--color);
+  padding-top: 1.5rem;
+  padding-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
   width: 100%;
+
+  .search-and-icon {
+    display: flex;
+    align-items: center; /* Center input and button vertically */
+    position: relative;
+    width: 100%;
+  }
 
   form {
     width: 100%;
-    height: fit-content;
-
     input {
-      height: 5rem;
+      height: 4rem;
       width: 100%;
-      font-size: 2rem;
-      padding: 1rem 2rem;
+      font-size: 1.25rem;
+      padding: 0 4rem; /* Leave space for the button */
       border-radius: 3.25rem;
-      border: 2px solid #000;
-
-      &:focus {
-        outline: none;
-        box-shadow: none;
-      }
-
-      &:focus-visible {
-        outline: none;
-        box-shadow: none;
-      }
     }
   }
+
+  .search-btn {
+    position: absolute; /* Position it absolutely within the container */
+    right: 1rem; /* Align it to the right of the container */
+    top: 50%; /* Center vertically */
+    transform: translateY(-50%); /* Adjust for perfect vertical centering */
+    z-index: 2; /* Ensure it's above the input */
+    height: 3rem; /* Match button height to the input field */
+    width: 3rem; /* Square button */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .filter-pills {
+    display: flex;
+    flex-direction: row;
+    padding-top: 2.5rem;
+    justify-content: space-between;
+
+    .main-filters {
+      display: flex;
+      flex-direction: row;
+      gap: 0.8rem;
+    }
+    .pill-btn {
+      color: white;
+      background-color: var(--outright--color--dark-grey);
+      width: fit-content;
+      border-radius: 19.991px;
+      padding: 7.996px 17.992px;
+      font-size: 0.8rem;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .sort-btn {
+      text-decoration: none;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.25rem;
+    }
+  }
+}
+
+.Search {
+  width: 100%;
 }
