@@ -2,22 +2,31 @@ import { gql, useQuery } from "@apollo/client";
 
 // Define the GraphQL query with a single fullName variable
 const GET_ARTWORK_COUNT = gql`
-  query getArtworkCount($fullName: String!) {
-    artworksPosts(where: { search: $fullName }) {
-      nodes {
-        artworkCard {
-          artworkInfo {
-            ... on ArtworkCardArtworkInfoAcfProArtworkCardLayout {
-              title
-              art {
-                collaborator {
-                  nodes {
-                    ... on Person {
-                      id
-                      personCard {
-                        personInfo {
-                          ... on PersonCardPersonInfoAcfProPersonCardLayout {
-                            fullName
+  query getArtworkCount {
+    artworksPosts {
+      edges {
+        node {
+          artworkCard {
+            artworkInfo {
+              ... on ArtworkCardArtworkInfoAcfProArtworkCardLayout {
+                title
+                artists {
+                  primaryArtistAuthor
+                  contributors {
+                    edges {
+                      node {
+                        id
+                      }
+                    }
+                    nodes {
+                      ... on Person {
+                        id
+                        personCard {
+                          personInfo {
+                            ... on PersonCardPersonInfoAcfProPersonCardLayout {
+                              currentlyActive
+                              fullName
+                            }
                           }
                         }
                       }
