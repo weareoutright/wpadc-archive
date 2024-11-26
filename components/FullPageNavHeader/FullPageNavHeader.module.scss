@@ -18,6 +18,13 @@
   width: 100vw;
 }
 
+.full-page-nav-btns {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+}
+
 .brand {
   font-weight: var(--wpe--font-weight--bold);
   font-size: 1.6rem;

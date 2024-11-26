@@ -69,7 +69,7 @@ export default function Component() {
     };
   }, [searchKeyword]);
 
-  if (loadingSettings || loadingMenus) return <LoadingPage />;
+  if (loadingSettings || loadingMenus) return null;
   if (errorSettings || errorMenus || error) {
     console.error("Settings ERROR:", errorSettings?.message);
     console.error("Menus ERROR:", errorMenus?.message);
