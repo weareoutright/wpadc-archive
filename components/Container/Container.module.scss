@@ -5,10 +5,27 @@
   margin-left: 0;
 }
 
+// .front-page-header-container {
+//   height: 100vh;
+//   background-color: black;
+//   background-size: cover;
+//   background-repeat: no-repeat;
+//   background-image: url("../../assets/front-page/front-page-hero-bg.svg");
+// }
+
 .front-page-header-container {
-  height: 100vh;
-  background-color: black;
-  background-size: cover;
-  background-repeat: no-repeat;
+  height: 100vh; /* Adjust height as needed */
   background-image: url("../../assets/front-page/front-page-hero-bg.svg");
+  background-repeat: repeat-x; /* Repeat the image horizontally */
+  background-position: 0 0; /* Start at the top-left corner */
+  animation: scrollBackground 10s linear infinite; /* Animation setup */
+}
+
+@keyframes scrollBackground {
+  from {
+    background-position: 0 0; /* Start at the initial position */
+  }
+  to {
+    background-position: -100% 0; /* Move to the left by the full image width */
+  }
 }

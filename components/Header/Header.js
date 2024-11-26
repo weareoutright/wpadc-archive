@@ -16,8 +16,10 @@ import {
   SkipNavigationLink,
 } from "../../components";
 import styles from "./Header.module.scss";
+import containerStyles from "../Container/Container.module.scss";
 
 let cx = classNames.bind(styles);
+let containerCx = classNames.bind();
 
 export default function Header({
   title = "Washington Project of the Arts",
@@ -33,7 +35,9 @@ export default function Header({
     <header className={cx("component", isFrontPage && "front-page-component")}>
       <SkipNavigationLink />
       {isNavShown && <FullPageNav />}
-      <Container className={isFrontPage && "front-page-header-container"}>
+      <Container
+        className={isFrontPage && containerCx("front-page-header-container")}
+      >
         <div className={isFrontPage ? cx("front-page-navbar") : cx("navbar")}>
           <div className={isFrontPage ? cx("front-page-brand") : cx("brand")}>
             <Link href="/">

@@ -7,7 +7,6 @@
 <rect x="768.485" y="493" width="194.12" height="240.263" fill="url(#pattern5_364_1129)" fill-opacity="0.3"/>
 <rect x="1034" y="320" width="290.384" height="357.213" fill="url(#pattern6_364_1129)" fill-opacity="0.3"/>
 <rect x="542.542" y="345" width="159.115" height="260.153" fill="url(#pattern7_364_1129)" fill-opacity="0.3"/>
-<path d="M653.55 754.13L656.2 756.782L641.757 771.23C641.526 771.463 641.251 771.648 640.948 771.774C640.645 771.9 640.32 771.965 639.991 771.965C639.663 771.965 639.338 771.9 639.035 771.774C638.732 771.648 638.456 771.463 638.225 771.23L623.775 756.782L626.425 754.132L639.987 767.692L653.55 754.13Z" fill="white"/>
 <defs>
 <pattern id="pattern0_364_1129" patternContentUnits="objectBoundingBox" width="1" height="1">
 <use xlink:href="#image0_364_1129" transform="matrix(0.0011534 0 0 0.00152736 0 -0.492782)"/>
