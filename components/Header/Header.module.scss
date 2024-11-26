@@ -7,6 +7,11 @@
   z-index: 2; // Pull dropdown menus to the foreground to sit above <Main />.
 }
 
+.front-page-component {
+  height: 105vh;
+  background-color: black;
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -18,7 +23,24 @@
   width: 100vw;
 }
 
+.front-page-navbar {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 3rem 14.5rem 0rem 17rem;
+  color: white;
+  width: 100vw;
+}
+
 .brand {
+  font-weight: var(--wpe--font-weight--bold);
+  font-size: 1.6rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.front-page-brand {
   font-weight: var(--wpe--font-weight--bold);
   font-size: 1.6rem;
   display: flex;
@@ -33,6 +55,10 @@
   flex-direction: column;
 }
 
+.front-page-title {
+  display: none;
+}
+
 .sub-logo-title {
   padding-left: 0.25rem;
   text-decoration: none;
@@ -41,6 +67,24 @@
   justify-content: flex-end;
   align-items: flex-start;
   gap: 0.15rem;
+}
+
+.front-page-sub-logo-title {
+  padding-top: 0.65rem;
+  padding-left: 0.25rem;
+  text-decoration: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.front-page-logo {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 6rem;
 }
 
 .description {
@@ -72,6 +116,28 @@
   }
 }
 
+.front-page-nav-toggle {
+  align-items: flex-end;
+  border: 0.1rem solid var(--wpe--color--white);
+  color: var(--wpe--color--black);
+  cursor: pointer;
+  display: flex;
+  margin: 0;
+  transition: all 0.2s ease-in;
+  user-select: none;
+  font-size: 2rem;
+
+  &:hover,
+  &:focus {
+    background-color: var(--wpe--color--white);
+    color: var(--wpe--color--black);
+  }
+
+  @media (min-width: $breakpoint-small) {
+    display: none !important;
+  }
+}
+
 .primary-navigation {
   display: none;
   width: 100%;
@@ -84,4 +150,13 @@
     display: block;
     width: auto;
   }
+}
+
+.front-page-down-waypoint {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  position: relative;
+  height: 30%;
+  padding-bottom: 3rem;
 }

@@ -17,3 +17,6 @@ export { LoadingPage } from "./LoadingPage";
 export { FullPageNav } from "./FullPageNav";
 export { FullPageNavHeader } from "./FullPageNavHeader";
 export { FullPageNavFooter } from "./FullPageNavFooter";
+export { SearchBar } from "./SearchBar";
+export { FrontPageContainer } from "./FrontPageContainer";
+export { FullWidthLink } from "./FullWidthLink";
