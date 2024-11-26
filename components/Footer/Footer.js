@@ -8,14 +8,19 @@ import Image from "next/image";
 
 let cx = classNames.bind(styles);
 
-export default function Footer({ title, menuItems, currentPage }) {
+export default function Footer({ title, menuItems, currentRoute }) {
   const year = new Date().getFullYear();
+  const isFrontPage = currentRoute === "/";
 
   return (
-    <footer className={cx("component")}>
+    <footer className={cx("component", isFrontPage && "front-page-footer")}>
       {/* <NavigationMenu menuItems={menuItems} currentPage={currentPage} /> */}
       <div className={cx("left-footer")}>
-        <a className={cx("newsletter-btn")}>Join Our Newsletter</a>
+        <a
+          className={cx("newsletter-btn", isFrontPage && "newsletter-btn-dark")}
+        >
+          Join Our Newsletter
+        </a>
         <div className={cx("footer-logo")}>
           <a href="#">
             <Image src={WPA_FOOTER_LOGO} alt="Home" />

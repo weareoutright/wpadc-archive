@@ -1,0 +1,41 @@
+.component {
+  margin-right: 0;
+  margin-left: 0;
+  width: 100%;
+  padding: var(--wpe--content-container--padding-x-y);
+}
+
+.front-page-full-width-links {
+  height: fit-content;
+  min-height: 20vh;
+  display: flex;
+  flex-direction: column;
+
+  .full-width-link {
+    color: white;
+    text-decoration: none;
+    min-height: 9.5rem;
+    font-size: 6rem;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 0;
+    vertical-align: bottom;
+    margin-bottom: -1.24rem;
+
+    &:last-of-type {
+      min-height: 12rem;
+      padding-bottom: 2.2rem;
+    }
+
+    &:hover {
+      background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.7) 10%,
+          rgba(0, 0, 0, 0) 100%
+        ),
+        url("../../assets/front-page/full-width-link-bg-sample.svg");
+      background-size: cover;
+      background-position: top center;
+    }
+  }
+}

@@ -1,0 +1,49 @@
+.component {
+  margin-right: 0;
+  margin-left: 0;
+  width: 100%;
+  padding: var(--wpe--content-container--padding-x-y);
+  border-radius: 40px 0px 0px 0px;
+}
+
+.front-page-container {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: linear-gradient(to bottom, white 30%, black 30%);
+  height: fit-content;
+  min-height: 60vh;
+
+  .header-and-desc {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 3rem;
+
+    h3,
+    p {
+      width: 50%;
+    }
+
+    h3 {
+      text-transform: uppercase;
+      font-size: 2.25rem;
+    }
+  }
+
+  div.carousel,
+  div.featured-artists,
+  div.browse-by {
+    filter: invert(1);
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  div.featured-artists,
+  div.browse-by {
+    border-top: 1px solid black;
+  }
+}

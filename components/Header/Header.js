@@ -27,39 +27,24 @@ export default function Header({
 }) {
   const [isNavShown, setIsNavShown] = useState(false);
 
+  const isFrontPage = currentRoute === "/";
+
   return (
-    <header
-      className={cx(
-        "component",
-        currentRoute === "/" && "front-page-component"
-      )}
-    >
+    <header className={cx("component", isFrontPage && "front-page-component")}>
       <SkipNavigationLink />
       {isNavShown && <FullPageNav />}
-      <Container className="front-page-header-container">
-        <div
-          className={
-            currentRoute === "/" ? cx("front-page-navbar") : cx("navbar")
-          }
-        >
-          <div
-            className={
-              currentRoute === "/" ? cx("front-page-brand") : cx("brand")
-            }
-          >
+      <Container className={isFrontPage && "front-page-header-container"}>
+        <div className={isFrontPage ? cx("front-page-navbar") : cx("navbar")}>
+          <div className={isFrontPage ? cx("front-page-brand") : cx("brand")}>
             <Link href="/">
-              <a
-                className={
-                  currentRoute === "/" ? cx("front-page-title") : cx("title")
-                }
-              >
+              <a className={isFrontPage ? cx("front-page-title") : cx("title")}>
                 <Image src={LOGO} alt="Home" />
               </a>
             </Link>
             <Link href="/">
               <a
                 className={
-                  currentRoute === "/"
+                  isFrontPage
                     ? cx("front-page-sub-logo-title")
                     : cx("sub-logo-title")
                 }
@@ -74,9 +59,7 @@ export default function Header({
           <button
             type="button"
             className={
-              currentRoute === "/"
-                ? cx("front-page-nav-toggle")
-                : cx("nav-toggle")
+              isFrontPage ? cx("front-page-nav-toggle") : cx("nav-toggle")
             }
             onClick={() => setIsNavShown(!isNavShown)}
             aria-label="Toggle navigation"
@@ -89,14 +72,14 @@ export default function Header({
             className={cx([
               "primary-navigation",
               isNavShown ? "show" : undefined,
-              currentRoute === "/" ? "front-page-primary-nav" : undefined,
+              isFrontPage ? "front-page-primary-nav" : undefined,
             ])}
             menuItems={menuItems}
             isNavShown={isNavShown}
             setIsNavShown={setIsNavShown}
           />
         </div>
-        {currentRoute === "/" && (
+        {isFrontPage && (
           <div className={cx("front-page-logo")}>
             <Image
               src={FRONT_PAGE_LOGO}
@@ -104,10 +87,12 @@ export default function Header({
             />
           </div>
         )}
-        {currentRoute === "/" && <SearchBar isFrontPage={true} />}
-        <div className={cx("front-page-down-waypoint")}>
-          <Image src={DOWN_WAYPOINT} alt={"continue to next section"} />
-        </div>
+        {isFrontPage && <SearchBar isFrontPage={true} />}
+        {isFrontPage && (
+          <div className={cx("front-page-down-waypoint")}>
+            <Image src={DOWN_WAYPOINT} alt={"continue to next section"} />
+          </div>
+        )}
       </Container>
     </header>
   );

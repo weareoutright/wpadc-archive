@@ -2,6 +2,7 @@
   color: var(--wpe--footer--color);
   background: var(--wpe--footer--background-color);
   padding: 10rem 6rem 3rem 6rem;
+  height: 50vh;
   bottom: 0;
   color: #fff;
   width: 100vw;
@@ -9,6 +10,23 @@
   flex-direction: row;
   justify-content: space-between;
   border-top-left-radius: 40px;
+  position: relative;
+  z-index: 2;
+  margin-top: -2.25rem;
+}
+
+.front-page-footer {
+  background-color: white;
+  color: black;
+  height: 50vh;
+
+  img {
+    filter: invert(1);
+  }
+}
+
+.newsletter-btn-dark {
+  border: 1px solid black !important;
 }
 
 .left-footer {

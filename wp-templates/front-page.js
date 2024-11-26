@@ -9,8 +9,16 @@ import {
   NavigationMenu,
   Hero,
   SEO,
+  FrontPageContainer,
+  FullWidthLink,
 } from "../components";
 import { useRouter } from "next/router";
+import className from "classnames/bind";
+import frontPageStyles from "../components/FrontPageContainer/FrontPageContainer.module.scss";
+import FullWidthLinkStyles from "../components/FullWidthLink/FullWidthLink.module.scss";
+
+let frontPageContainerCx = className.bind(frontPageStyles);
+let FullWidthLinkCx = className.bind(FullWidthLinkStyles);
 
 export default function Component() {
   const { data } = useQuery(Component.query, {
@@ -33,13 +41,60 @@ export default function Component() {
         menuItems={primaryMenu}
         currentRoute={route}
       />
-      <Main>
-        <Container>
-          <Hero title={"Washington Project of the Arts"} />
-          <div className="text-center"></div>
-        </Container>
+      <Main className="front-page-main">
+        <FrontPageContainer bgColor="white">
+          <div className={frontPageContainerCx("header-and-desc")}>
+            <h3>
+              Featured Collections <br />
+              And Stories
+            </h3>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat.
+            </p>
+          </div>
+          <div className={frontPageContainerCx("carousel")}>
+            A Carousel will go here
+          </div>
+          <div
+            className={frontPageContainerCx(
+              "featured-artists",
+              "header-and-desc"
+            )}
+          >
+            <h3>Featured Artists</h3>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat.
+            </p>
+          </div>
+          <div className={frontPageContainerCx("browse-by", "header-and-desc")}>
+            <h3>Browse By</h3>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat.
+            </p>
+          </div>
+        </FrontPageContainer>
+        <div className={FullWidthLinkCx("front-page-full-width-links")}>
+          <FullWidthLink
+            label={"VIDEO"}
+            path={"/"}
+            bgHex={"6741f5"}
+            bgImg={"../assets/front-page/full-width-link-bg-sample.svg"}
+          />
+          <FullWidthLink label={"PRINT/EPHEMERA"} path={"/"} bgHex={"f66639"} />
+          <FullWidthLink label={"EVENTS"} path={"/"} bgHex={"f63939"} />
+          <FullWidthLink label={"1900s"} path={"/"} bgHex={"FF00D2"} />
+        </div>
       </Main>
-      <Footer title={siteTitle} menuItems={footerMenu} />
+      <Footer title={siteTitle} menuItems={footerMenu} currentRoute={route} />
     </>
   );
 }
