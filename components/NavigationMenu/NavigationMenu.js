@@ -6,11 +6,17 @@ import stylesFromWP from "./NavigationMenuClassesFromWP.module.scss";
 import { flatListToHierarchical } from "@faustwp/core";
 import Image from "next/image";
 import MENU_TOGGLE_BTN from "../../assets/header/block-menu.svg";
+import CLOSE_MENU from "../../assets/full-page-nav/close-full-page-nav.svg";
 
 let cx = classNames.bind(styles);
 let cxFromWp = classNames.bind(stylesFromWP);
 
-export default function NavigationMenu({ menuItems, className }) {
+export default function NavigationMenu({
+  menuItems,
+  className,
+  isNavShown,
+  setIsNavShown,
+}) {
   if (!menuItems) {
     return null;
   }
@@ -18,32 +24,12 @@ export default function NavigationMenu({ menuItems, className }) {
   // Based on https://www.wpgraphql.com/docs/menus/#hierarchical-data
   const hierarchicalMenuItems = flatListToHierarchical(menuItems);
 
-  const openFullMenu = (e) => {
-    e.preventDefault();
-    console.log("open full page nav");
-  };
-
   function renderMenu(items) {
     return (
       <ul className={cx("menu")}>
-        <a href="#" alt="Open Menu" onClick={(e) => openFullMenu(e)}>
+        <a href="#" alt="Open Menu" onClick={(e) => setIsNavShown(!isNavShown)}>
           <Image src={MENU_TOGGLE_BTN} alt="Open Menu" />
         </a>
-        {/* {items.map((item) => {
-          const { id, path, label, children, cssClasses } = item;
-
-          // @TODO - Remove guard clause after ghost menu items are no longer appended to array.
-          if (!item.hasOwnProperty("__typename")) {
-            return null;
-          }
-
-          return (
-            <li key={id} className={cxFromWp(cssClasses)}>
-              <Link href={path ?? ""}>{label ?? ""}</Link>
-              {children.length ? renderMenu(children) : null}
-            </li>
-          );
-        })} */}
       </ul>
     );
   }

@@ -14,3 +14,6 @@ export { Hero } from "./Hero";
 export { Post } from "./Post";
 export { SEO } from "./SEO";
 export { LoadingPage } from "./LoadingPage";
+export { FullPageNav } from "./FullPageNav";
+export { FullPageNavHeader } from "./FullPageNavHeader";
+export { FullPageNavFooter } from "./FullPageNavFooter";

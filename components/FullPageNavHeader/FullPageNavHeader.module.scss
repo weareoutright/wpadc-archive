@@ -2,7 +2,7 @@
 
 .component {
   color: var(--wpe--header--color);
-  background-color: var(--wpe--header--background-color);
+  background-color: transparent;
   position: relative;
   z-index: 2; // Pull dropdown menus to the foreground to sit above <Main />.
 }
@@ -11,9 +11,9 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  padding: 3rem 6rem 1rem 6rem;
+  padding: 3.7rem 6rem 1rem 6rem;
   gap: 1rem;
-  background-color: black;
+  background-color: transparent;
   color: white;
   width: 100vw;
 }
@@ -78,6 +78,10 @@
 
   &.show {
     display: block;
+  }
+
+  &.hide {
+    display: none;
   }
 
   @media (min-width: $breakpoint-small) {

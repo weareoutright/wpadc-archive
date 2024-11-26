@@ -3,11 +3,18 @@ import { NavigationMenu } from "../../components/NavigationMenu";
 
 // Define the GraphQL query
 const GET_HEADER_MENU = gql`
-  ${NavigationMenu.fragments.entry}
-  query getHeaderMenu($headerLocation: MenuLocationEnum) {
-    headerMenuItems: menuItems(where: { location: $headerLocation }) {
-      nodes {
-        ...NavigationMenuItemFragment
+  query getMainNav {
+    menus(where: { location: PRIMARY }) {
+      edges {
+        node {
+          menuItems {
+            nodes {
+              id
+              path
+              label
+            }
+          }
+        }
       }
     }
   }
@@ -20,7 +27,7 @@ const useHeaderMenu = () => {
   return {
     loading,
     error,
-    menus: data?.headerMenuItems?.nodes || [],
+    menus: data?.menus?.edges[0].node.menuItems.nodes || [],
   };
 };
 

@@ -1,27 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import classNames from "classnames/bind";
 import Link from "next/link";
 import Image from "next/image";
 import LOGO from "../../assets/header/wpa-archive-logo.svg";
 import WASHINGTON_PROJECT from "../../assets/header/washington-project.svg";
 import FOR_THE_ARTS from "../../assets/header/for-the-arts.svg";
-import NAV_MENU_BTN from "../../assets/header/block-menu.svg";
-import {
-  Container,
-  FullPageNav,
-  NavigationMenu,
-  SkipNavigationLink,
-} from "../../components";
-import styles from "./Header.module.scss";
+import CLOSE_MENU from "../../assets/full-page-nav/close-full-page-nav.svg";
+import { Container, FullPageNav, SkipNavigationLink, NavigationMenu } from "..";
+import styles from "./FullPageNavHeader.module.scss";
 
 let cx = classNames.bind(styles);
 
-export default function Header({
+export default function FullPageNavHeader({
   title = "Headless by WP Engine",
   description,
   menuItems,
+  setDisplay,
 }) {
   const [isNavShown, setIsNavShown] = useState(false);
+
+  useEffect(() => {
+    console.log("close");
+  }, [isNavShown]);
 
   return (
     <header className={cx("component")}>
@@ -43,25 +43,16 @@ export default function Header({
             </Link>
             {description && <p className={cx("description")}>{description}</p>}
           </div>
-          <button
-            type="button"
-            className={cx("nav-toggle")}
-            onClick={() => setIsNavShown(!isNavShown)}
+          <a
+            href="#"
+            alt="Close Menu"
             aria-label="Toggle navigation"
             aria-controls={cx("primary-navigation")}
             aria-expanded={isNavShown}
+            onClick={() => setDisplay("none")}
           >
-            <Image src={NAV_MENU_BTN} alt="open nav" />
-          </button>
-          <NavigationMenu
-            className={cx([
-              "primary-navigation",
-              isNavShown ? "show" : undefined,
-            ])}
-            menuItems={menuItems}
-            isNavShown={isNavShown}
-            setIsNavShown={setIsNavShown}
-          />
+            <Image src={CLOSE_MENU} alt="Open Menu" />
+          </a>
         </div>
       </Container>
     </header>
