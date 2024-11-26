@@ -6,6 +6,7 @@ import LOGO from "../../assets/header/wpa-archive-logo.svg";
 import WASHINGTON_PROJECT from "../../assets/header/washington-project.svg";
 import FOR_THE_ARTS from "../../assets/header/for-the-arts.svg";
 import CLOSE_MENU from "../../assets/full-page-nav/close-full-page-nav.svg";
+import SEARCH_ICON from "../../assets/full-page-nav/search-icon.svg";
 import { Container, FullPageNav, SkipNavigationLink, NavigationMenu } from "..";
 import styles from "./FullPageNavHeader.module.scss";
 
@@ -43,16 +44,21 @@ export default function FullPageNavHeader({
             </Link>
             {description && <p className={cx("description")}>{description}</p>}
           </div>
-          <a
-            href="#"
-            alt="Close Menu"
-            aria-label="Toggle navigation"
-            aria-controls={cx("primary-navigation")}
-            aria-expanded={isNavShown}
-            onClick={() => setDisplay("none")}
-          >
-            <Image src={CLOSE_MENU} alt="Open Menu" />
-          </a>
+          <div className={cx("full-page-nav-btns")}>
+            <a href="/search" alt="Go to Search">
+              <Image src={SEARCH_ICON} alt="Go to Search" />
+            </a>
+            <a
+              href="#"
+              alt="Close Menu"
+              aria-label="Toggle navigation"
+              aria-controls={cx("primary-navigation")}
+              aria-expanded={isNavShown}
+              onClick={() => setDisplay("none")}
+            >
+              <Image src={CLOSE_MENU} alt="Close Menu" />
+            </a>
+          </div>
         </div>
       </Container>
     </header>

@@ -4,6 +4,8 @@ import { useHeaderMenu } from "../../constants/customQueryHooks";
 import { FullPageNavHeader } from "../FullPageNavHeader";
 import { FullPageNavFooter } from "../FullPageNavFooter";
 import { useState } from "react";
+import ARROW_LEFT from "../../assets/full-page-nav/arrow-left.svg";
+import Image from "next/image";
 
 let cx = className.bind(styles);
 
@@ -15,11 +17,22 @@ export default function FullPageNav({ children, className }) {
     <div className={cx(["component", className])} style={{ display: display }}>
       <FullPageNavHeader display={display} setDisplay={setDisplay} />
       <div className={cx("menu-container")}>
-        {menus.map((menu) => (
-          <a className={cx("menu-item")} key={menu.id} href={menu.path}>
-            {menu.label}
-          </a>
-        ))}
+        {menus.map((menu) => {
+          if (menu.label === "Get Involved")
+            return (
+              <a className={cx("menu-item")} key={menu.id} href={menu.path}>
+                <span>
+                  {menu.label} <Image src={ARROW_LEFT} alt="" />
+                </span>
+              </a>
+            );
+          else
+            return (
+              <a className={cx("menu-item")} key={menu.id} href={menu.path}>
+                {menu.label}
+              </a>
+            );
+        })}
       </div>
       <FullPageNavFooter />
     </div>
