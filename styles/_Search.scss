@@ -30,7 +30,7 @@
     right: 1rem; /* Align it to the right of the container */
     top: 50%; /* Center vertically */
     transform: translateY(-50%); /* Adjust for perfect vertical centering */
-    z-index: 2; /* Ensure it's above the input */
+    z-index: 1; /* Ensure it's above the input */
     height: 3rem; /* Match button height to the input field */
     width: 3rem; /* Square button */
     display: flex;

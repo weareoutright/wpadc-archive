@@ -18,7 +18,25 @@
   width: 100vw;
 }
 
+.front-page-navbar {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 3rem 14.5rem 0rem 17rem;
+  background-color: black;
+  color: white;
+  width: 100vw;
+}
+
 .brand {
+  font-weight: var(--wpe--font-weight--bold);
+  font-size: 1.6rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.front-page-brand {
   font-weight: var(--wpe--font-weight--bold);
   font-size: 1.6rem;
   display: flex;
@@ -33,6 +51,10 @@
   flex-direction: column;
 }
 
+.front-page-title {
+  display: none;
+}
+
 .sub-logo-title {
   padding-left: 0.25rem;
   text-decoration: none;
@@ -41,6 +63,24 @@
   justify-content: flex-end;
   align-items: flex-start;
   gap: 0.15rem;
+}
+
+.front-page-sub-logo-title {
+  padding-left: 0.25rem;
+  text-decoration: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.front-page-logo {
+  width: 100vw;
+  background: var(--wpe--color--black);
+  display: flex;
+  justify-content: center;
+  padding-bottom: 3rem;
 }
 
 .description {
@@ -57,6 +97,28 @@
   display: flex;
   margin: 0;
   padding: 0.5rem 1rem;
+  transition: all 0.2s ease-in;
+  user-select: none;
+  font-size: 2rem;
+
+  &:hover,
+  &:focus {
+    background-color: var(--wpe--color--white);
+    color: var(--wpe--color--black);
+  }
+
+  @media (min-width: $breakpoint-small) {
+    display: none !important;
+  }
+}
+
+.front-page-nav-toggle {
+  align-items: flex-end;
+  border: 0.1rem solid var(--wpe--color--white);
+  color: var(--wpe--color--black);
+  cursor: pointer;
+  display: flex;
+  margin: 0;
   transition: all 0.2s ease-in;
   user-select: none;
   font-size: 2rem;

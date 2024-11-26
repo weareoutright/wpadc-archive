@@ -10,6 +10,7 @@ import {
   Hero,
   SEO,
 } from "../components";
+import { useRouter } from "next/router";
 
 export default function Component() {
   const { data } = useQuery(Component.query, {
@@ -21,6 +22,8 @@ export default function Component() {
   const primaryMenu = data?.headerMenuItems?.nodes ?? [];
   const footerMenu = data?.footerMenuItems?.nodes ?? [];
 
+  const { route } = useRouter();
+
   return (
     <>
       <SEO title={siteTitle} description={siteDescription} />
@@ -28,14 +31,12 @@ export default function Component() {
         title={siteTitle}
         description={siteDescription}
         menuItems={primaryMenu}
+        currentRoute={route}
       />
       <Main>
         <Container>
-          <Hero title={"🚧 Dev Zone 🚧"} />
-          <div className="text-center">
-            <p>🛠️ Outright Devs at work 👷🏽</p>
-            <code>Project Status: 🟢 In Progress</code>
-          </div>
+          <Hero title={"Washington Project of the Arts"} />
+          <div className="text-center"></div>
         </Container>
       </Main>
       <Footer title={siteTitle} menuItems={footerMenu} />
