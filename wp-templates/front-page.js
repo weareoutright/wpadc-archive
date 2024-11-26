@@ -41,7 +41,7 @@ export default function Component() {
         menuItems={primaryMenu}
         currentRoute={route}
       />
-      <Main className="front-page-main">
+      <Main className="front-page-main" id="front-page-featured">
         <FrontPageContainer bgColor="white">
           <div className={frontPageContainerCx("header-and-desc")}>
             <h3>

@@ -89,9 +89,12 @@ export default function Header({
         )}
         {isFrontPage && <SearchBar isFrontPage={true} />}
         {isFrontPage && (
-          <div className={cx("front-page-down-waypoint")}>
+          <a
+            href="#front-page-featured"
+            className={cx("front-page-down-waypoint")}
+          >
             <Image src={DOWN_WAYPOINT} alt={"continue to next section"} />
-          </div>
+          </a>
         )}
       </Container>
     </header>
