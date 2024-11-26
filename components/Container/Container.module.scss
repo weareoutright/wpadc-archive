@@ -4,3 +4,11 @@
   margin-right: 0;
   margin-left: 0;
 }
+
+.front-page-header-container {
+  height: 100vh;
+  background-color: black;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url("../../assets/front-page/front-page-hero-bg.svg");
+}

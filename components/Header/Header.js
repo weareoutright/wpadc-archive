@@ -7,10 +7,12 @@ import WASHINGTON_PROJECT from "../../assets/header/washington-project.svg";
 import FRONT_PAGE_LOGO from "../../assets/front-page/wpa-logo-xl.svg";
 import FOR_THE_ARTS from "../../assets/header/for-the-arts.svg";
 import NAV_MENU_BTN from "../../assets/header/block-menu.svg";
+import DOWN_WAYPOINT from "../../assets/front-page/down-waypoint.svg";
 import {
   Container,
   FullPageNav,
   NavigationMenu,
+  SearchBar,
   SkipNavigationLink,
 } from "../../components";
 import styles from "./Header.module.scss";
@@ -18,7 +20,7 @@ import styles from "./Header.module.scss";
 let cx = classNames.bind(styles);
 
 export default function Header({
-  title = "Headless by WP Engine",
+  title = "Washington Project of the Arts",
   description,
   menuItems,
   currentRoute,
@@ -26,10 +28,15 @@ export default function Header({
   const [isNavShown, setIsNavShown] = useState(false);
 
   return (
-    <header className={cx("component")}>
+    <header
+      className={cx(
+        "component",
+        currentRoute === "/" && "front-page-component"
+      )}
+    >
       <SkipNavigationLink />
       {isNavShown && <FullPageNav />}
-      <Container>
+      <Container className="front-page-header-container">
         <div
           className={
             currentRoute === "/" ? cx("front-page-navbar") : cx("navbar")
@@ -97,6 +104,10 @@ export default function Header({
             />
           </div>
         )}
+        {currentRoute === "/" && <SearchBar isFrontPage={true} />}
+        <div className={cx("front-page-down-waypoint")}>
+          <Image src={DOWN_WAYPOINT} alt={"continue to next section"} />
+        </div>
       </Container>
     </header>
   );

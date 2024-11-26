@@ -5,13 +5,15 @@
   padding-bottom: 3rem;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   width: 100%;
 
   .search-and-icon {
     display: flex;
     align-items: center; /* Center input and button vertically */
     position: relative;
-    width: 100%;
+    width: 70%;
+    margin: 0 auto;
   }
 
   form {
@@ -22,6 +24,14 @@
       font-size: 1.25rem;
       padding: 0 4rem; /* Leave space for the button */
       border-radius: 3.25rem;
+      margin: 0 auto;
+    }
+  }
+
+  &.front-page-search-bar {
+    background-color: transparent;
+    .filter-pills {
+      display: none;
     }
   }
 
