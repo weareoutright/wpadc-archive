@@ -5,6 +5,7 @@
 
 import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
+import { useRouter } from "next/router";
 import {
   useGeneralSettings,
   useHeaderMenu,
@@ -26,6 +27,8 @@ import {
 } from "../components";
 
 export default function Component() {
+  const router = useRouter();
+  const { query } = router;
   const [searchKeyword, setSearchKeyword] = useState("");
   const [debouncedKeyword, setDebouncedKeyword] = useState(searchKeyword);
 
@@ -56,6 +59,11 @@ export default function Component() {
       clearTimeout(handler);
     };
   }, [searchKeyword]);
+
+  useEffect(() => {
+    setSearchKeyword(query.keyword);
+    setDebouncedKeyword(query.keyword);
+  });
 
   if (loadingSettings || loadingMenus) return null;
   if (errorSettings || errorMenus || error) {
@@ -277,6 +285,6 @@ Component.variables = ({ searchKeyword }) => {
   return {
     headerLocation: MENUS.PRIMARY_LOCATION,
     footerLocation: MENUS.FOOTER_LOCATION,
-    searchKeyword: searchKeyword.trim() === "" ? "_none_" : searchKeyword, // Dynamically update searchKeyword
+    searchKeyword: searchKeyword?.trim() === "" ? "_none_" : searchKeyword, // Dynamically update searchKeyword
   };
 };

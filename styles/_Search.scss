@@ -12,8 +12,11 @@
     display: flex;
     align-items: center; /* Center input and button vertically */
     position: relative;
-    width: 70%;
+    width: 100%;
     margin: 0 auto;
+    &.front-page-search-and-icon {
+      width: 70% !important;
+    }
   }
 
   form {
@@ -48,6 +51,8 @@
     align-items: center;
     border-radius: 50%;
     cursor: pointer;
+    border: none;
+    background: none;
   }
 
   .filter-pills {

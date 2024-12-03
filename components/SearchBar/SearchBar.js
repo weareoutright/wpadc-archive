@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useRouter } from "next/router"; // Import the useRouter hook
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import SEARCH_BTN from "../../assets/search-bar/search-icon.svg";
 import SORT_DOWN_ARROW from "../../assets/search-bar/sort-down-arrow.svg";
@@ -16,12 +17,19 @@ const FILTER_PILL_BTNS_DUMMY = [
 export default function SearchBar({
   searchKeyword,
   setSearchKeyword,
-  debouncedKeyword,
   isFrontPage,
 }) {
+  const router = useRouter(); // Initialize the router
+  const [frontPageSearchKeyword, setFrontPageSearchKeyword] = useState("");
+
   const handleSearch = (e) => {
     e.preventDefault();
-    setSearchKeyword(e.target.value);
+
+    if (isFrontPage) {
+      setFrontPageSearchKeyword(e.target.value);
+    } else {
+      setSearchKeyword(e.target.value);
+    }
   };
 
   const openSortMenu = (e) => {
@@ -34,14 +42,25 @@ export default function SearchBar({
     console.log(filter);
   };
 
-  const performSearch = (e, keyword) => {
-    e.preventDefault();
-    console.log(keyword);
+  const performSearch = () => {
+    if (isFrontPage && frontPageSearchKeyword) {
+      router.push(
+        `/search?keyword=${encodeURIComponent(frontPageSearchKeyword)}`
+      ); // Navigate to the search page with query
+    }
   };
 
+  useEffect(() => {
+    console.log(frontPageSearchKeyword);
+  }, [frontPageSearchKeyword]);
+
   return (
-    <div className={`search-bar ${isFrontPage && "front-page-search-bar"}`}>
-      <div className="search-and-icon">
+    <div className={`search-bar ${isFrontPage ? "front-page-search-bar" : ""}`}>
+      <div
+        className={`search-and-icon ${
+          isFrontPage ? "front-page-search-and-icon" : ""
+        }`}
+      >
         <form onSubmit={(e) => e.preventDefault()}>
           <input
             type="text"
@@ -50,14 +69,15 @@ export default function SearchBar({
             value={searchKeyword}
             name="searchKeyword"
           />
+          <button
+            className="search-btn"
+            href="#"
+            onClick={() => performSearch()}
+            type="submit"
+          >
+            <Image src={SEARCH_BTN} alt="search the archive" />
+          </button>
         </form>
-        <a
-          className="search-btn"
-          href="#"
-          onClick={(e) => performSearch(e, debouncedKeyword)}
-        >
-          <Image src={SEARCH_BTN} alt="search the archive" />
-        </a>
       </div>
       <div className="filter-pills">
         <div className="main-filters">

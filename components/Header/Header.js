@@ -93,7 +93,7 @@ export default function Header({
             />
           </div>
         )}
-        {isFrontPage && <SearchBar isFrontPage={true} />}
+        {isFrontPage && <SearchBar isFrontPage={isFrontPage} />}
         {isFrontPage && (
           <a
             href="#front-page-featured"
