@@ -21,10 +21,15 @@
       text-decoration: none;
       text-transform: uppercase;
       font-size: 2.5rem;
+      font-family: "Flaviotte";
       span {
         display: flex;
         flex-direction: row;
         align-items: center;
+
+        img {
+          padding-bottom: 6px;
+        }
       }
 
       &:hover {

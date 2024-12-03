@@ -1,0 +1,52 @@
+@font-face {
+  font-family: "Flaviotte";
+  src: url("/fonts/Flaviotte.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Gotham";
+  src: url("/fonts/Gotham-Black.otf") format("opentype");
+  font-weight: 900; // Black
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Gotham";
+  src: url("/fonts/Gotham-Bold.otf") format("opentype");
+  font-weight: 700; // Bold
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Gotham";
+  src: url("/fonts/Gotham-Book.otf") format("opentype");
+  font-weight: 400; // Book (Regular)
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Gotham";
+  src: url("/fonts/Gotham-BookItalic.otf") format("opentype");
+  font-weight: 400; // Book Italic
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Gotham";
+  src: url("/fonts/Gotham-Light.otf") format("opentype");
+  font-weight: 300; // Light
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Gotham";
+  src: url("/fonts/Gotham-LightItalic.otf") format("opentype");
+  font-weight: 300; // Light Italic
+  font-style: italic;
+}
+
+body {
+  font-family: "Gotham", sans-serif; // Set Gotham as the default font
+}

@@ -10,6 +10,7 @@
   min-height: 20vh;
   display: flex;
   flex-direction: column;
+  font-family: "Flaviotte";
 
   .full-width-link {
     color: white;
@@ -20,7 +21,7 @@
     align-items: flex-end;
     padding-bottom: 0;
     vertical-align: bottom;
-    margin-bottom: -1.24rem;
+    margin-bottom: -1.85rem;
 
     &:last-of-type {
       min-height: 12rem;

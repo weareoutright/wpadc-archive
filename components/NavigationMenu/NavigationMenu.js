@@ -27,9 +27,14 @@ export default function NavigationMenu({
   function renderMenu(items) {
     return (
       <ul className={cx("menu")}>
-        <a href="#" alt="Open Menu" onClick={(e) => setIsNavShown(!isNavShown)}>
-          <Image src={MENU_TOGGLE_BTN} alt="Open Menu" />
-        </a>
+        <Image
+          src={MENU_TOGGLE_BTN}
+          alt="Open Menu"
+          onClick={(e) => {
+            e.preventDefault();
+            setIsNavShown(!isNavShown);
+          }}
+        />
       </ul>
     );
   }

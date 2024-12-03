@@ -9,15 +9,25 @@ import Image from "next/image";
 
 let cx = className.bind(styles);
 
-export default function FullPageNav({ children, className }) {
+export default function FullPageNav({
+  children,
+  className,
+  setIsNavShown,
+  isNavShown,
+}) {
   const { loading: loadingMenus, error: errorMenus, menus } = useHeaderMenu();
   const [display, setDisplay] = useState("block");
 
   return (
     <div className={cx(["component", className])} style={{ display: display }}>
-      <FullPageNavHeader display={display} setDisplay={setDisplay} />
+      <FullPageNavHeader
+        display={display}
+        setDisplay={setDisplay}
+        setIsNavShown={setIsNavShown}
+        isNavShown={isNavShown}
+      />
       <div className={cx("menu-container")}>
-        {menus.map((menu) => {
+        {menus?.map((menu) => {
           if (menu.label === "Get Involved")
             return (
               <a className={cx("menu-item")} key={menu.id} href={menu.path}>

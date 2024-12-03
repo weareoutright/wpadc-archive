@@ -34,7 +34,9 @@ export default function Header({
   return (
     <header className={cx("component", isFrontPage && "front-page-component")}>
       <SkipNavigationLink />
-      {isNavShown && <FullPageNav />}
+      {isNavShown && (
+        <FullPageNav setIsNavShown={setIsNavShown} isNavShown={isNavShown} />
+      )}
       <Container
         className={isFrontPage && containerCx("front-page-header-container")}
       >

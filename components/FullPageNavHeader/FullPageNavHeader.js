@@ -13,21 +13,19 @@ import styles from "./FullPageNavHeader.module.scss";
 let cx = classNames.bind(styles);
 
 export default function FullPageNavHeader({
-  title = "Headless by WP Engine",
+  title = "",
   description,
   menuItems,
   setDisplay,
+  setIsNavShown,
+  isNavShown,
 }) {
-  const [isNavShown, setIsNavShown] = useState(false);
-
-  useEffect(() => {
-    console.log("close");
-  }, [isNavShown]);
-
   return (
     <header className={cx("component")}>
       <SkipNavigationLink />
-      {isNavShown && <FullPageNav />}
+      {isNavShown && (
+        <FullPageNav isNavShown={isNavShown} setIsNavShown={setIsNavShown} />
+      )}
       <Container>
         <div className={cx("navbar")}>
           <div className={cx("brand")}>
@@ -54,7 +52,10 @@ export default function FullPageNavHeader({
               aria-label="Toggle navigation"
               aria-controls={cx("primary-navigation")}
               aria-expanded={isNavShown}
-              onClick={() => setDisplay("none")}
+              onClick={() => {
+                setDisplay("none");
+                setIsNavShown(false);
+              }}
             >
               <Image src={CLOSE_MENU} alt="Close Menu" />
             </a>
