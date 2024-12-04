@@ -20,3 +20,5 @@ export { FullPageNavFooter } from "./FullPageNavFooter";
 export { SearchBar } from "./SearchBar";
 export { FrontPageContainer } from "./FrontPageContainer";
 export { FullWidthLink } from "./FullWidthLink";
+export { AssetSearchResultCard } from "./AssetSearchResultCard";
+export { PersonSearchResultCard } from "./PersonSearchResultCard";

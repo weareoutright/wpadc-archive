@@ -14,7 +14,6 @@ import {
 import { gql } from "@apollo/client";
 import * as MENUS from "../constants/menus";
 import { BlogInfoFragment } from "../fragments/GeneralSettings";
-import { capitalizeString } from "../constants/capitalizeString";
 import {
   Header,
   Footer,
@@ -22,15 +21,18 @@ import {
   Container,
   SEO,
   NavigationMenu,
-  LoadingPage,
   SearchBar,
 } from "../components";
+import { AssetSearchResultCard } from "../components/AssetSearchResultCard";
+import { PersonSearchResultCard } from "../components";
 
 export default function Component() {
   const router = useRouter();
   const { query } = router;
-  const [searchKeyword, setSearchKeyword] = useState("");
+
+  const [searchKeyword, setSearchKeyword] = useState(null);
   const [debouncedKeyword, setDebouncedKeyword] = useState(searchKeyword);
+  const [results, setResults] = useState([]);
 
   const {
     loading: loadingSettings,
@@ -41,12 +43,14 @@ export default function Component() {
   const { loading: loadingMenus, error: errorMenus, menus } = useHeaderMenu();
 
   const { loading, error, data } = useQuery(Component.query, {
-    variables: Component.variables({ searchKeyword: debouncedKeyword }),
+    variables: Component.variables({
+      searchKeyword: searchKeyword?.trim() || "_none_",
+    }),
     notifyOnNetworkStatusChange: true,
+    skip: !searchKeyword,
   });
 
   const artworkSearch = data?.artworkSearch?.edges ?? [];
-  const artworkCount = artworkSearch.length || null;
   const peopleSearch = data?.peopleSearch?.edges ?? [];
   const primaryMenu = menus;
 
@@ -62,8 +66,11 @@ export default function Component() {
 
   useEffect(() => {
     setSearchKeyword(query.keyword);
-    setDebouncedKeyword(query.keyword);
-  });
+  }, []);
+
+  useEffect(() => {
+    setResults([...artworkSearch, ...peopleSearch]);
+  }, [searchKeyword]);
 
   if (loadingSettings || loadingMenus) return null;
   if (errorSettings || errorMenus || error) {
@@ -71,6 +78,7 @@ export default function Component() {
     console.error("Menus ERROR:", errorMenus?.message);
     console.error("Data ERROR:", error?.message);
   }
+  console.log(results);
 
   return (
     <>
@@ -87,102 +95,40 @@ export default function Component() {
         searchKeyword={searchKeyword}
         setSearchKeyword={setSearchKeyword}
         debouncedKeyword={debouncedKeyword}
+        setResults={setResults}
+        results={results}
       />
       <Main>
         <Container>
-          <div className="Search"></div>
-          <br></br>
-          <br></br>
-          <div className="results">
-            <div className="artwork-results">
-              <h3>
-                Artworks {artworkCount > 0 && <span>({artworkCount})</span>}
-              </h3>
-              <hr></hr>
-              {artworkSearch.length > 0 ? (
-                artworkSearch.map(({ node }) => (
-                  <div key={node.artwork_postId}>
-                    <a href={node.uri} className="person-link">
-                      <h2>{node.title}</h2>
-                    </a>
-                    <img
-                      src={
-                        node.artworkCard.artworkInfo.artwork_files?.file.node
-                          .sourceUrl
-                      }
-                    />
-                  </div>
-                ))
-              ) : (
-                <p>
-                  {data && loading
-                    ? "Searching..."
-                    : `No results found for "${debouncedKeyword}"`}
-                </p>
-              )}
-            </div>
-            <br></br>
-            <br></br>
-            <div className="people-results">
-              <h3>People</h3>
-              <hr></hr>
-              {peopleSearch.length > 0 ? (
-                peopleSearch.map(({ node }) => {
-                  return (
-                    <div key={node.uri} className="person-card">
-                      <img
-                        src={
-                          node.personCard.personInfo[0].headshot?.node.sourceUrl
-                        }
-                        alt={node.personCard.personInfo[0].headshot?.node.title}
-                        className="headshot"
-                      />
-
-                      <a href={node.uri} className="person-link">
-                        <h4>
-                          {node.personCard.personInfo[0].fullName ?? "N/A"}
-                        </h4>
-                      </a>
-
-                      <p>
-                        Location:{" "}
-                        {node.personCard.personInfo[0].location ?? "N/A"}
-                      </p>
-                      <p>
-                        Start Year:{" "}
-                        {node.personCard.personInfo[0].activeSinceYear ?? "N/A"}
-                      </p>
-
-                      <p>
-                        Status:{" "}
-                        {node.personCard.personInfo[0].currentlyActive
-                          ? "Currently Active"
-                          : "Not Active"}
-                      </p>
-
-                      <div>
-                        <strong>Title(s): </strong>
-                        <ul>
-                          {node.personCard.personInfo[0].roleType.edges.map(
-                            ({ node }) => (
-                              <li key={node.id}>
-                                {capitalizeString(node.roleType?.role_type)}
-                              </li>
-                            )
-                          )}
-                        </ul>
-                      </div>
-                    </div>
-                  );
-                })
-              ) : (
-                <p>
-                  {" "}
-                  {data && loading
-                    ? "Searching..."
-                    : `No results found for "${debouncedKeyword}"`}
-                </p>
-              )}
+          <div className="Search">
+            <div className="results">
+              <h1>
+                Results for "{searchKeyword ? searchKeyword : ""}"{" "}
+                <small>{results.length} results</small>
+              </h1>
+              <hr />
+              {results.length > 0 && searchKeyword !== "" ? (
+                <>
+                  {results?.map((result, index) => {
+                    if (result.node.__typename === "Artwork_post") {
+                      return (
+                        <AssetSearchResultCard
+                          key={`asset-card-${index}`}
+                          node={result.node}
+                        />
+                      );
+                    }
+                    if (result.node.__typename === "Person") {
+                      return (
+                        <PersonSearchResultCard
+                          key={`person-card-${index}`}
+                          node={result.node}
+                        />
+                      );
+                    }
+                  })}
+                </>
+              ) : null}
             </div>
           </div>
         </Container>
@@ -285,6 +231,6 @@ Component.variables = ({ searchKeyword }) => {
   return {
     headerLocation: MENUS.PRIMARY_LOCATION,
     footerLocation: MENUS.FOOTER_LOCATION,
-    searchKeyword: searchKeyword?.trim() === "" ? "_none_" : searchKeyword, // Dynamically update searchKeyword
+    searchKeyword: searchKeyword, // Dynamically update searchKeyword
   };
 };

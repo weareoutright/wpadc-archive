@@ -1,8 +1,9 @@
-import { useRouter } from "next/router"; // Import the useRouter hook
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import SEARCH_BTN from "../../assets/search-bar/search-icon.svg";
 import SORT_DOWN_ARROW from "../../assets/search-bar/sort-down-arrow.svg";
+import { validate } from "graphql";
 
 const FILTER_PILL_BTNS_DUMMY = [
   "Year",
@@ -18,41 +19,25 @@ export default function SearchBar({
   searchKeyword,
   setSearchKeyword,
   isFrontPage,
+  setResults,
+  results,
 }) {
-  const router = useRouter(); // Initialize the router
-  const [frontPageSearchKeyword, setFrontPageSearchKeyword] = useState("");
+  const router = useRouter();
+  const [localKeyword, setLocalKeyword] = useState("");
 
   const handleSearch = (e) => {
     e.preventDefault();
-
-    if (isFrontPage) {
-      setFrontPageSearchKeyword(e.target.value);
-    } else {
-      setSearchKeyword(e.target.value);
-    }
+    if (isFrontPage) setLocalKeyword(e.target.value);
+    else setSearchKeyword(e.target.value);
   };
 
-  const openSortMenu = (e) => {
+  const performSearch = (e) => {
     e.preventDefault();
-    console.log("open sort menu");
+    if (results.length > 0) setResults([]);
+    if (isFrontPage && localKeyword)
+      router.push(`/search?keyword=${encodeURIComponent(localKeyword)}`);
+    else router.push(`/search?keyword=${encodeURIComponent(searchKeyword)}`);
   };
-
-  const applyFilter = (e, filter) => {
-    e.preventDefault();
-    console.log(filter);
-  };
-
-  const performSearch = () => {
-    if (isFrontPage && frontPageSearchKeyword) {
-      router.push(
-        `/search?keyword=${encodeURIComponent(frontPageSearchKeyword)}`
-      ); // Navigate to the search page with query
-    }
-  };
-
-  useEffect(() => {
-    console.log(frontPageSearchKeyword);
-  }, [frontPageSearchKeyword]);
 
   return (
     <div className={`search-bar ${isFrontPage ? "front-page-search-bar" : ""}`}>
@@ -61,43 +46,42 @@ export default function SearchBar({
           isFrontPage ? "front-page-search-and-icon" : ""
         }`}
       >
-        <form onSubmit={(e) => e.preventDefault()}>
+        <form onSubmit={performSearch}>
           <input
             type="text"
             placeholder="Exhibits in the 1980s..."
-            onChange={(e) => handleSearch(e)}
+            onChange={handleSearch}
             value={searchKeyword}
             name="searchKeyword"
           />
-          <button
-            className="search-btn"
-            href="#"
-            onClick={() => performSearch()}
-            type="submit"
-          >
+          <button className="search-btn" type="submit">
             <Image src={SEARCH_BTN} alt="search the archive" />
           </button>
         </form>
       </div>
       <div className="filter-pills">
         <div className="main-filters">
-          {FILTER_PILL_BTNS_DUMMY.map((pill_btn) => {
-            return (
-              <a
-                onClick={(e) => applyFilter(e, pill_btn)}
-                className="pill-btn"
-                key={pill_btn}
-              >
-                {pill_btn}
-              </a>
-            );
-          })}
+          {FILTER_PILL_BTNS_DUMMY.map((pill_btn) => (
+            <a
+              onClick={(e) => {
+                e.preventDefault();
+                console.log(`Applied filter: ${pill_btn}`);
+              }}
+              className="pill-btn"
+              key={pill_btn}
+            >
+              {pill_btn}
+            </a>
+          ))}
         </div>
         <a
           className="pill-btn sort-btn"
           href="#"
           alt="sort results"
-          onClick={(e) => openSortMenu(e)}
+          onClick={(e) => {
+            e.preventDefault();
+            console.log("Sort menu opened");
+          }}
         >
           Sort <Image src={SORT_DOWN_ARROW} alt="sort results" />
         </a>
