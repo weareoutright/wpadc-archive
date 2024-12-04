@@ -89,5 +89,16 @@
 }
 
 .Search {
+  padding: 3rem 0rem;
   width: 100%;
+  height: fit-content;
+  min-height: 80vh;
+
+  .results {
+    small {
+      font-family: "Gotham", sans-serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+    }
+  }
 }
