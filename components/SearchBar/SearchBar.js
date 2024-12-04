@@ -33,7 +33,7 @@ export default function SearchBar({
 
   const performSearch = (e) => {
     e.preventDefault();
-    if (results.length > 0) setResults([]);
+    if (results?.length > 0) setResults([]);
     if (isFrontPage && localKeyword)
       router.push(`/search?keyword=${encodeURIComponent(localKeyword)}`);
     else router.push(`/search?keyword=${encodeURIComponent(searchKeyword)}`);
@@ -51,7 +51,7 @@ export default function SearchBar({
             type="text"
             placeholder="Exhibits in the 1980s..."
             onChange={handleSearch}
-            value={searchKeyword}
+            value={searchKeyword === "undefined" ? "" : searchKeyword}
             name="searchKeyword"
           />
           <button className="search-btn" type="submit">

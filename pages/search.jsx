@@ -30,7 +30,7 @@ export default function Component() {
   const router = useRouter();
   const { query } = router;
 
-  const [searchKeyword, setSearchKeyword] = useState(null);
+  const [searchKeyword, setSearchKeyword] = useState("");
   const [debouncedKeyword, setDebouncedKeyword] = useState(searchKeyword);
   const [results, setResults] = useState([]);
 
@@ -44,7 +44,7 @@ export default function Component() {
 
   const { loading, error, data } = useQuery(Component.query, {
     variables: Component.variables({
-      searchKeyword: searchKeyword?.trim() || "_none_",
+      searchKeyword: searchKeyword || "_none_",
     }),
     notifyOnNetworkStatusChange: true,
     skip: !searchKeyword,
@@ -78,7 +78,6 @@ export default function Component() {
     console.error("Menus ERROR:", errorMenus?.message);
     console.error("Data ERROR:", error?.message);
   }
-  console.log(results);
 
   return (
     <>
@@ -103,7 +102,8 @@ export default function Component() {
           <div className="Search">
             <div className="results">
               <h1>
-                Results for "{searchKeyword ? searchKeyword : ""}"{" "}
+                Results for "
+                {searchKeyword === "undefined" ? "" : searchKeyword}"{" "}
                 <small>{results.length} results</small>
               </h1>
               <hr />
