@@ -108,14 +108,40 @@ export default function Component() {
               </h1>
               <hr />
               {results.length > 0 && searchKeyword !== "" ? (
-                <>
+                <div className="results-container">
                   {results?.map((result, index) => {
                     if (result.node.__typename === "Artwork_post") {
                       return (
-                        <AssetSearchResultCard
-                          key={`asset-card-${index}`}
-                          node={result.node}
-                        />
+                        <>
+                          <AssetSearchResultCard
+                            key={`asset-card-${index}`}
+                            node={result.node}
+                          />
+                          <AssetSearchResultCard
+                            key={`asset-card-${index}`}
+                            node={result.node}
+                          />
+                          <AssetSearchResultCard
+                            key={`asset-card-${index}`}
+                            node={result.node}
+                          />
+                          <AssetSearchResultCard
+                            key={`asset-card-${index}`}
+                            node={result.node}
+                          />
+                          <AssetSearchResultCard
+                            key={`asset-card-${index}`}
+                            node={result.node}
+                          />
+                          <AssetSearchResultCard
+                            key={`asset-card-${index}`}
+                            node={result.node}
+                          />
+                          <AssetSearchResultCard
+                            key={`asset-card-${index}`}
+                            node={result.node}
+                          />
+                        </>
                       );
                     }
                     if (result.node.__typename === "Person") {
@@ -127,7 +153,7 @@ export default function Component() {
                       );
                     }
                   })}
-                </>
+                </div>
               ) : null}
             </div>
           </div>
