@@ -1,3 +1,38 @@
 .AssetCard {
-  background: red;
+  height: 25rem;
+  width: 15.313rem;
+  max-width: 15.313rem;
+  box-sizing: border-box; /* Ensures padding and borders are included in the width */
+  margin-bottom: 2rem;
+
+  img,
+  svg {
+    height: 20.3rem !important;
+    border-radius: 0.688rem;
+    margin-bottom: 0.25rem !important;
+    border: 1px solid red !important;
+    inset: auto !important;
+  }
+
+  a {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    h2 {
+      margin-bottom: 0.25rem;
+    }
+  }
+
+  small {
+    font-family: "Gotham", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    color: var(--mid-gray);
+    display: block;
+  }
 }

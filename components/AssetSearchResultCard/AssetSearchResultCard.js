@@ -1,13 +1,22 @@
+import styles from "./AssetSearchResultCard.module.scss";
+import className from "classnames/bind";
+import SAMPLE_IMG from "../../assets/sample-img.png";
+
+let cx = className.bind(styles);
+
 const AssetSearchResultCard = ({ node }) => {
+  const { title, artwork_postId, uri, author } = node;
   return (
-    <div key={node.artwork_postId} className="AssetCard">
-      <a href={node.uri} className="artwork-link">
-        <h2>{node.title}</h2>
-      </a>
+    <div key={`${title}-${artwork_postId}`} className={cx("AssetCard")}>
       <img
-        src={node.artworkCard.artworkInfo.artwork_files?.file.node.sourceUrl}
-        alt={node.title}
+        // src={node.artworkCard.artworkInfo.artwork_files?.file.node.sourceUrl}
+        alt={title}
+        src={SAMPLE_IMG}
       />
+      <a href={uri} className={cx("artwork-link")}>
+        <h2>{title}</h2>
+      </a>
+      <small>{author ? author : "Author Name"}</small>
     </div>
   );
 };

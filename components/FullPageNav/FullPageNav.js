@@ -6,6 +6,7 @@ import { FullPageNavFooter } from "../FullPageNavFooter";
 import { useState } from "react";
 import ARROW_LEFT from "../../assets/full-page-nav/arrow-left.svg";
 import Image from "next/image";
+import LOADING_ICON from "../../assets/full-page-nav/loading-icon.svg";
 
 let cx = className.bind(styles);
 
@@ -39,7 +40,7 @@ export default function FullPageNav({
           else
             return (
               <a className={cx("menu-item")} key={menu.id} href={menu.path}>
-                {menu.label}
+                {menu.label ? menu.label : <LOADING_ICON />}
               </a>
             );
         })}
