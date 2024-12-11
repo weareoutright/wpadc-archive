@@ -4,13 +4,14 @@
   max-width: 15.313rem;
   box-sizing: border-box; /* Ensures padding and borders are included in the width */
   margin-bottom: 2rem;
+  margin-top: 1rem;
 
   img,
   svg {
     height: 20.3rem !important;
     border-radius: 0.688rem;
     margin-bottom: 0.25rem !important;
-    border: 1px solid red !important;
+    border: 1px solid gray !important;
     inset: auto !important;
   }
 

@@ -105,10 +105,10 @@
 
     .results-container {
       width: fit-content;
-      margin: 0 auto;
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
+      align-items: flex-start;
       flex-wrap: wrap; /* Allows items to wrap to the next row */
       gap: 1rem; /* Adjust spacing between items */
     }
