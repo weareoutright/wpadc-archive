@@ -56,7 +56,7 @@ export default function Component() {
             </p>
           </div>
           <div className={frontPageContainerCx("carousel")}>
-            A Carousel will go here
+            {/* A Carousel will go here */}
           </div>
           <div
             className={frontPageContainerCx(
