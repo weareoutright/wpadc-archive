@@ -14,9 +14,10 @@
 
 .navbar {
   display: flex;
+  position: relative;
   justify-content: space-between;
   flex-wrap: wrap;
-  padding: 3rem 6rem 1rem 6rem;
+  padding: 3rem 6rem 5rem 6rem;
   gap: 1rem;
   background-color: black;
   color: white;
