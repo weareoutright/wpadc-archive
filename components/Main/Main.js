@@ -12,6 +12,12 @@ export default function Main({ children, className, ...props }) {
       className={cx(["component", className])}
       {...props}
     >
+      <div className={cx("main-top-padding-bg")}>
+        <span></span>
+      </div>
+      <div className={cx("main-top-padding-fg")}>
+        <span></span>
+      </div>
       {children}
     </main>
   );

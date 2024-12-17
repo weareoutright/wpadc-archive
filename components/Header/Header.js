@@ -19,7 +19,7 @@ import styles from "./Header.module.scss";
 import containerStyles from "../Container/Container.module.scss";
 
 let cx = classNames.bind(styles);
-let containerCx = classNames.bind();
+let containerCx = classNames.bind(containerStyles);
 
 export default function Header({
   title = "Washington Project of the Arts",
