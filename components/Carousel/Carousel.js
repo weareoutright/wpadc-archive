@@ -1,5 +1,8 @@
 import styles from "./Carousel.module.scss";
 import className from "classnames/bind";
+import PREV_BTN from "../../assets/icons/previous-btn.svg";
+import NEXT_BTN from "../../assets/icons/next-btn.svg";
+import Image from "next/image";
 
 let cx = className.bind(styles);
 
@@ -27,8 +30,12 @@ const Carousel = ({ cards }) => {
       }}
     >
       <div className={cx("carousel-controls")}>
-        <button onClick={prevSlide}>Prev</button>
-        <button onClick={nextSlide}>Next</button>
+        <button onClick={prevSlide}>
+          <Image src={PREV_BTN} />
+        </button>
+        <button onClick={nextSlide}>
+          <Image src={NEXT_BTN} />
+        </button>
       </div>
       <div
         className={cx("carousel-items")}
