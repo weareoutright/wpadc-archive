@@ -9,7 +9,6 @@ import { useRouter } from "next/router";
 import {
   useGeneralSettings,
   useHeaderMenu,
-  useArtworkCount,
 } from "../constants/customQueryHooks";
 import { gql } from "@apollo/client";
 import * as MENUS from "../constants/menus";
@@ -50,9 +49,11 @@ export default function Component() {
     skip: !searchKeyword,
   });
 
-  const artworkSearch = data?.artworkSearch?.edges ?? [];
+  const assetSearch = data?.assetSearch?.edges ?? [];
   const peopleSearch = data?.peopleSearch?.edges ?? [];
   const primaryMenu = menus;
+
+  console.log(assetSearch);
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -69,7 +70,7 @@ export default function Component() {
   }, []);
 
   useEffect(() => {
-    setResults([...artworkSearch, ...peopleSearch]);
+    setResults([...assetSearch, ...peopleSearch]);
   }, [searchKeyword]);
 
   if (loadingSettings || loadingMenus) return null;
@@ -110,7 +111,8 @@ export default function Component() {
               {results.length > 0 && searchKeyword !== "" ? (
                 <div className="results-container">
                   {results?.map((result, index) => {
-                    if (result.node.__typename === "Artwork_post") {
+                    console.log(result);
+                    if (result.node.__typename === "Asset_post") {
                       return (
                         <AssetSearchResultCard
                           key={`asset-card-${index}`}
@@ -160,24 +162,35 @@ Component.query = gql`
       }
     }
 
-    artworkSearch: artworksPosts(where: { search: $searchKeyword }) {
+    assetSearch: assetsPosts(where: { search: $searchKeyword }) {
       edges {
         node {
-          artwork_postId
-          title
           uri
-          artworkCard {
-            artworkInfo {
-              ... on ArtworkCardArtworkInfoAcfProArtworkCardLayout {
+          id
+          title
+          slug
+          assetCard {
+            assetInfo {
+              ... on AssetCardAssetInfoAcfProAssetCardLayout {
+                fieldGroupName
                 title
                 year
-                artwork_files {
-                  file {
-                    node {
-                      sourceUrl
-                      title
-                      uri
-                      id
+                artists {
+                  contributors {
+                    nodes {
+                      ... on Person {
+                        id
+                        personCard {
+                          personInfo {
+                            ... on PersonCardPersonInfoAcfProPersonCardLayout {
+                              activeSinceYear
+                              currentlyActive
+                              fullName
+                              location
+                            }
+                          }
+                        }
+                      }
                     }
                   }
                 }

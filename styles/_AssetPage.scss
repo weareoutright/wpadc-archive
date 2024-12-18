@@ -1,5 +1,5 @@
 .AssetPage {
-  min-height: 50vh;
+  min-height: 70vh;
   width: 100%;
 
   h1 {
@@ -81,5 +81,36 @@
         }
       }
     }
+  }
+
+  .in-this-project {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    border-bottom: 1px solid black;
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: none;
+    height: 30rem;
+    overflow-x: scroll;
+    overflow-y: hidden;
+
+    .in-this-project-carousel {
+      width: 100%;
+    }
+  }
+
+  .related {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    width: 100%;
+    border-bottom: 1px solid black;
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
   }
 }
