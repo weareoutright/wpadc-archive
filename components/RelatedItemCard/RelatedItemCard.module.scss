@@ -1,11 +1,13 @@
-.AssetCard {
-  height: 25rem;
-  width: 15.313rem;
-  max-width: 15.313rem;
+.RelatedItemCard {
+  height: fit-content;
+  width: 33%;
+  max-width: 332px;
   box-sizing: border-box; /* Ensures padding and borders are included in the width */
   margin-bottom: 2rem;
   margin-top: 1rem;
   z-index: 10;
+  display: flex;
+  flex-direction: row;
 
   img,
   svg {
@@ -36,5 +38,10 @@
     line-height: normal;
     color: var(--mid-gray);
     display: block;
+  }
+
+  .card-info {
+    width: 66%;
+    padding-left: 1rem;
   }
 }

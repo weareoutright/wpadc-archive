@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
-export const ArtworkSearchFragment = gql`
-  fragment ArtworkSearchFragment on GeneralSettings {
+export const AssetSearchFragment = gql`
+  fragment AssetSearchFragment on GeneralSettings {
     title
     description
   }

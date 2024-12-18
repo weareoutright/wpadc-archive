@@ -1,0 +1,22 @@
+.Carousel {
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  overflow-y: none;
+
+  .carousel-controls {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .carousel-items {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+
+    gap: 1rem;
+  }
+}

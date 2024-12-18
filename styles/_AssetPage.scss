@@ -1,0 +1,116 @@
+.AssetPage {
+  min-height: 70vh;
+  width: 100%;
+
+  h1 {
+    padding-bottom: 0.75rem;
+  }
+
+  .container-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    border-bottom: 1px solid black;
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+
+    .left-column,
+    .right-column {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .left-column {
+      width: 60%;
+
+      .description {
+        padding-bottom: 3rem;
+      }
+
+      .tags {
+        small {
+          font-family: "Gotham", sans-serif;
+          font-weight: 600;
+        }
+
+        .tag-container {
+          padding-top: 1.25rem;
+          display: flex;
+          flex-wrap: wrap;
+          flex-direction: row;
+          align-items: center;
+          gap: 1rem;
+
+          a {
+            background-color: var(--light-grey);
+            padding: 8px 12px;
+            border-radius: 20px;
+            text-decoration: none;
+          }
+        }
+      }
+    }
+
+    .right-column {
+      width: 30%;
+
+      .meta-data {
+        padding-bottom: 1rem;
+        small {
+          font-family: "Gotham", sans-serif;
+          font-weight: 600;
+          text-transform: uppercase;
+        }
+      }
+
+      .external-links {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 1rem;
+
+        a {
+          padding: 8px 12px;
+          border-radius: 20px;
+          text-decoration: none;
+          border: 1px solid black;
+        }
+      }
+    }
+  }
+
+  .in-this-project {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    border-bottom: 1px solid black;
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: none;
+    height: 30rem;
+    overflow-x: scroll;
+    overflow-y: hidden;
+
+    .in-this-project-carousel {
+      width: 100%;
+    }
+  }
+
+  .related {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    width: 100%;
+    border-bottom: 1px solid black;
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+  }
+}

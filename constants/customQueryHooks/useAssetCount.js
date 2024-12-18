@@ -1,14 +1,14 @@
 import { gql, useQuery } from "@apollo/client";
 
 // Define the GraphQL query with a single fullName variable
-const GET_ARTWORK_COUNT = gql`
-  query getArtworkCount {
-    artworksPosts {
+const GET_ASSET_COUNT = gql`
+  query getAssetCount {
+    assetsPosts {
       edges {
         node {
-          artworkCard {
-            artworkInfo {
-              ... on ArtworkCardArtworkInfoAcfProArtworkCardLayout {
+          assetCard {
+            assetInfo {
+              ... on AssetCardAssetInfoAcfProAssetCardLayout {
                 title
                 artists {
                   primaryArtistAuthor
@@ -43,17 +43,17 @@ const GET_ARTWORK_COUNT = gql`
 `;
 
 // Custom hook to fetch the header menu data
-const useArtworkCount = (fullName) => {
-  const { loading, error, data } = useQuery(GET_ARTWORK_COUNT, {
+const useAssetCount = (fullName) => {
+  const { loading, error, data } = useQuery(GET_ASSET_COUNT, {
     variables: { fullName },
   });
 
   return {
     loading,
     error,
-    artworksPosts: data?.artworksPosts || {},
-    artworkCount: data?.artworksPosts?.nodes?.length || 0,
+    assetsPosts: data?.assetsPosts || {},
+    assetCount: data?.assetsPosts?.nodes?.length || 0,
   };
 };
 
-export default useArtworkCount;
+export default useAssetCount;

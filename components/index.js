@@ -22,3 +22,4 @@ export { FrontPageContainer } from "./FrontPageContainer";
 export { FullWidthLink } from "./FullWidthLink";
 export { AssetSearchResultCard } from "./AssetSearchResultCard";
 export { PersonSearchResultCard } from "./PersonSearchResultCard";
+export { Carousel } from "./Carousel";
