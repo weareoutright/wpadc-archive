@@ -5,7 +5,7 @@ import Image from "next/image";
 let cx = className.bind(styles);
 
 const RelatedItemCard = ({ node }) => {
-  const { title, asset_postId, uri, author, slug } = node;
+  const { title, asset_postId, author, slug } = node;
   return (
     <div key={`${title}-${asset_postId}`} className={cx("RelatedItemCard")}>
       <Image
@@ -18,7 +18,7 @@ const RelatedItemCard = ({ node }) => {
       />
       <div className={cx("card-info")}>
         <a href={`/assets/${slug}`} className={cx("asset-link")}>
-          <h2>{title}</h2>
+          <h3>{title}</h3>
         </a>
         <small>{author ? author : "Author Name"}</small>
       </div>

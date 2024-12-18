@@ -6,6 +6,19 @@
     padding-bottom: 0.75rem;
   }
 
+  h1,
+  h2 {
+    font-size: 2.25rem;
+
+    small {
+      color: var(--mid-grey);
+      font-family: Gotham;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 345;
+    }
+  }
+
   .container-header {
     display: flex;
     flex-direction: row;
