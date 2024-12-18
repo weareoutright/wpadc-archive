@@ -8,6 +8,11 @@
     width: 100%;
     display: flex;
     justify-content: flex-end;
+
+    button {
+      background: none;
+      border: none;
+    }
   }
 
   .carousel-items {

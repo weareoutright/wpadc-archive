@@ -112,7 +112,9 @@ const AssetPage = () => {
                 </div>
               </div>
             </div>
-            <h2>In This Project</h2>
+            <h2>
+              In This Project <small>(0 items)</small>
+            </h2>
             <div className="in-this-project">
               <div className="in-this-project-carousel">
                 <Carousel cards={null} />

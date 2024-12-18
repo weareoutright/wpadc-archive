@@ -17,7 +17,7 @@ const AssetSearchResultCard = ({ node }) => {
         layout="fixed"
       />
       <a href={`/assets/${slug}`} className={cx("asset-link")}>
-        <h2>{title}</h2>
+        <h3>{title}</h3>
       </a>
       <small>{author ? author : "Author Name"}</small>
     </div>
