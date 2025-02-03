@@ -40,7 +40,7 @@ npx create-next-app \
 3. Navigate back to the site in your Local app and take note of Site domain. Copy and paste this domain into your `.env.local` file for:
 
 ```
-NEXT_PULIC_WORDPRESS_URL={Site domain from Local}
+NEXT_PUBLIC_WORDPRESS_URL={Site domain from Local}
 ```
 
 4. Once you have all your .env variables in your `.env.local`, run:
