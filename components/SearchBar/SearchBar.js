@@ -26,17 +26,15 @@ export default function SearchBar({
   const [localKeyword, setLocalKeyword] = useState("");
 
   const handleSearch = (e) => {
-    e.preventDefault();
     if (isFrontPage) setLocalKeyword(e.target.value);
     else setSearchKeyword(e.target.value);
   };
 
-  const performSearch = (e) => {
-    e.preventDefault();
+  const performSearch = () => {
     if (results?.length > 0) setResults([]);
-    if (isFrontPage && localKeyword)
+    if (isFrontPage & localKeyword)
       router.push(`/search?keyword=${encodeURIComponent(localKeyword)}`);
-    else router.push(`/search?keyword=${encodeURIComponent(searchKeyword)}`);
+    // else router.push(`/search?keyword=${encodeURIComponent(searchKeyword)}`);
   };
 
   return (
@@ -46,11 +44,19 @@ export default function SearchBar({
           isFrontPage ? "front-page-search-and-icon" : ""
         }`}
       >
-        <form onSubmit={performSearch}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            performSearch();
+          }}
+        >
           <input
             type="text"
             placeholder="Exhibits in the 1980s..."
-            onChange={handleSearch}
+            onChange={(e) => {
+              e.preventDefault();
+              handleSearch(e);
+            }}
             value={searchKeyword === "undefined" ? "" : searchKeyword}
             name="searchKeyword"
           />

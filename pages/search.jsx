@@ -1,8 +1,3 @@
-/**
- *? What kind of search results do we want to be able to search for? Anything and everything within the archive (People, art, media, etc) ? or only specific types of content (e.g. People and Art?)
- *
- */
-
 import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
@@ -41,37 +36,37 @@ export default function Component() {
 
   const { loading: loadingMenus, error: errorMenus, menus } = useHeaderMenu();
 
-  const { loading, error, data } = useQuery(Component.query, {
+  const { loading, error, data, refetch } = useQuery(Component.query, {
     variables: Component.variables({
-      searchKeyword: searchKeyword || "_none_",
+      searchKeyword: debouncedKeyword || "_none_",
     }),
     notifyOnNetworkStatusChange: true,
-    skip: !searchKeyword,
+    skip: searchKeyword?.trim().length < 1,
   });
 
   const assetSearch = data?.assetSearch?.edges ?? [];
   const peopleSearch = data?.peopleSearch?.edges ?? [];
   const primaryMenu = menus;
 
-  console.log(assetSearch);
+  useEffect(() => {
+    if (searchKeyword?.trim() !== debouncedKeyword) {
+      setDebouncedKeyword(searchKeyword);
+    }
+  }, [searchKeyword]);
 
   useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedKeyword(searchKeyword);
-    }, 300);
+    setResults([...assetSearch, ...peopleSearch]);
+  }, [data]);
 
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [searchKeyword]);
+  useEffect(() => {
+    if (searchKeyword?.trim() !== "") {
+      refetch();
+    }
+  }, [debouncedKeyword, refetch]);
 
   useEffect(() => {
     setSearchKeyword(query.keyword);
   }, []);
-
-  useEffect(() => {
-    setResults([...assetSearch, ...peopleSearch]);
-  }, [searchKeyword]);
 
   if (loadingSettings || loadingMenus) return null;
   if (errorSettings || errorMenus || error) {
@@ -103,15 +98,14 @@ export default function Component() {
           <div className="Search">
             <div className="results">
               <h1>
-                Results for "
-                {searchKeyword === "undefined" ? "" : searchKeyword}"{" "}
+                Results for "{searchKeyword === undefined ? "" : searchKeyword}"
                 <small>{results.length} results</small>
               </h1>
               <hr />
               {results.length > 0 && searchKeyword !== "" ? (
                 <div className="results-container">
                   {results?.map((result, index) => {
-                    console.log(result);
+                    console.log("RESULT", result);
                     if (result.node.__typename === "Asset_post") {
                       return (
                         <AssetSearchResultCard
@@ -162,38 +156,15 @@ Component.query = gql`
       }
     }
 
-    assetSearch: assetsPosts(where: { search: $searchKeyword }) {
+    assetSearch: assetPosts(where: { search: $searchKeyword }) {
       edges {
         node {
-          uri
           id
-          title
-          slug
           assetCard {
             assetInfo {
-              ... on AssetCardAssetInfoAcfProAssetCardLayout {
+              ... on AssetCardAssetInfoAssetCardLayout {
                 fieldGroupName
                 title
-                year
-                artists {
-                  contributors {
-                    nodes {
-                      ... on Person {
-                        id
-                        personCard {
-                          personInfo {
-                            ... on PersonCardPersonInfoAcfProPersonCardLayout {
-                              activeSinceYear
-                              currentlyActive
-                              fullName
-                              location
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
               }
             }
           }
@@ -244,6 +215,6 @@ Component.variables = ({ searchKeyword }) => {
   return {
     headerLocation: MENUS.PRIMARY_LOCATION,
     footerLocation: MENUS.FOOTER_LOCATION,
-    searchKeyword: searchKeyword, // Dynamically update searchKeyword
+    searchKeyword: searchKeyword,
   };
 };
