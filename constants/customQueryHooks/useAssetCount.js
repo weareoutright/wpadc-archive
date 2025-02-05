@@ -3,7 +3,7 @@ import { gql, useQuery } from "@apollo/client";
 // Define the GraphQL query with a single fullName variable
 const GET_ASSET_COUNT = gql`
   query getAssetCount {
-    assetsPosts {
+    assetPosts {
       edges {
         node {
           assetCard {
@@ -51,8 +51,8 @@ const useAssetCount = (fullName) => {
   return {
     loading,
     error,
-    assetsPosts: data?.assetsPosts || {},
-    assetCount: data?.assetsPosts?.nodes?.length || 0,
+    assets: data?.assetPosts || {},
+    assetCount: data?.assetPosts?.nodes?.length || 0,
   };
 };
 
