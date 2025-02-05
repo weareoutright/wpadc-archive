@@ -1,18 +1,16 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import SEARCH_BTN from "../../assets/search-bar/search-icon.svg";
 import SORT_DOWN_ARROW from "../../assets/search-bar/sort-down-arrow.svg";
-import { validate } from "graphql";
 
 const FILTER_PILL_BTNS_DUMMY = [
   "Year",
-  "Artist",
-  "Curator",
-  "Location",
-  "Medium",
-  "Program Type",
+  "People",
+  "Role",
   "Document Type",
+  "Project Type",
+  "Location",
 ];
 
 export default function SearchBar({
@@ -32,9 +30,9 @@ export default function SearchBar({
 
   const performSearch = () => {
     if (results?.length > 0) setResults([]);
-    if (isFrontPage & localKeyword)
+    if (isFrontPage && localKeyword)
       router.push(`/search?keyword=${encodeURIComponent(localKeyword)}`);
-    // else router.push(`/search?keyword=${encodeURIComponent(searchKeyword)}`);
+    else router.push(`/search?keyword=${encodeURIComponent(searchKeyword)}`);
   };
 
   return (
@@ -60,7 +58,7 @@ export default function SearchBar({
             value={searchKeyword === "undefined" ? "" : searchKeyword}
             name="searchKeyword"
           />
-          <button className="search-btn" type="submit">
+          <button className="search-btn" onClick={performSearch}>
             <Image src={SEARCH_BTN} alt="search the archive" />
           </button>
         </form>
