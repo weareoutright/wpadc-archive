@@ -16,6 +16,9 @@
   position: relative;
   height: 100vh; /* Adjust height as needed */
   overflow: hidden; /* Prevent pseudo-element overflow */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .front-page-header-container::before {

@@ -114,3 +114,18 @@
     }
   }
 }
+
+@media (max-width: $breakpoint-small) {
+  .search-bar {
+    .search-and-icon {
+      &.front-page-search-and-icon {
+        width: 100% !important;
+      }
+    }
+    form {
+      input {
+        font-size: 1rem;
+      }
+    }
+  }
+}

@@ -82,7 +82,7 @@
 }
 
 .front-page-logo {
-  width: 100vw;
+  width: 90vw;
   display: flex;
   justify-content: center;
   padding-bottom: 6rem;
@@ -162,4 +162,10 @@
   position: relative;
   height: 30%;
   padding-bottom: 3rem;
+}
+
+@media (max-width: $breakpoint-medium) {
+  .front-page-navbar {
+    padding: 4rem;
+  }
 }
