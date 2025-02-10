@@ -165,6 +165,9 @@
 }
 
 @media (max-width: $breakpoint-medium) {
+  .navbar {
+    padding: 3rem !important;
+  }
   .front-page-navbar {
     padding: 4rem;
   }
