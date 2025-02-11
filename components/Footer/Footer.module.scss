@@ -1,3 +1,5 @@
+@import "styles/breakpoints";
+
 .component {
   color: var(--wpe--footer--color);
   background: var(--wpe--footer--background-color);
@@ -65,5 +67,11 @@
 
   .copyright {
     text-align: center;
+  }
+}
+
+@media (max-width: $breakpoint-xx-small) {
+  .component {
+    padding: 10rem 1.25rem 3rem 1.25rem;
   }
 }

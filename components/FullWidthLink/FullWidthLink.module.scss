@@ -1,3 +1,5 @@
+@import "styles/breakpoints";
+
 .component {
   margin-right: 0;
   margin-left: 0;
@@ -40,3 +42,24 @@
     }
   }
 }
+
+@media (max-width: $breakpoint-extra-small) {
+  .front-page-full-width-links {
+    .full-width-link {
+      font-size: 4em;
+      margin-bottom: -0.3em;
+    }
+  }
+}
+
+@media (max-width: $breakpoint-xx-small) {
+  .component {
+    padding: .5em;
+  }
+  .front-page-full-width-links {
+    .full-width-link {
+      font-size: 3em;
+    }
+  }
+}
+

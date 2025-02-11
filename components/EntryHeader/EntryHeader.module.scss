@@ -4,10 +4,10 @@
   color: var(--wpe--color--white);
   position: relative;
   overflow: hidden;
-  margin-bottom: 2rem;
+  //margin-bottom: 2rem;
 
   @media (min-width: $breakpoint-small) {
-    margin-bottom: 5rem;
+    //margin-bottom: 5rem;
   }
 }
 
@@ -23,7 +23,7 @@
 
 .text {
   width: 100%;
-  max-width: 72rem;
+  //max-width: 72rem;
   padding: 3rem 0;
   position: relative;
   z-index: 1; // Pull text to the foreground to sit above <FeaturedImage />.

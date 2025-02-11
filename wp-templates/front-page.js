@@ -89,7 +89,7 @@ export default function Component() {
             bgHex={"6741f5"}
             bgImg={"../assets/front-page/full-width-link-bg-sample.svg"}
           />
-          <FullWidthLink label={"PRINT/EPHEMERA"} path={"/"} bgHex={"f66639"} />
+          <FullWidthLink label={"PRINT / EPHEMERA"} path={"/"} bgHex={"f66639"} />
           <FullWidthLink label={"EVENTS"} path={"/"} bgHex={"f63939"} />
           <FullWidthLink label={"1900s"} path={"/"} bgHex={"FF00D2"} />
         </div>

@@ -47,3 +47,19 @@
     border-top: 1px solid black;
   }
 }
+
+@media (max-width: 650px) {
+  .front-page-container {
+    padding: 3rem;
+    .header-and-desc {
+      flex-direction: column;
+      //padding-top: 2em;
+      h3{
+        width: 100%;
+      }
+      p {
+        width: 100%;
+      }
+    }
+  }
+}
