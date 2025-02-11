@@ -129,3 +129,10 @@
     }
   }
 }
+
+@media (max-width: $breakpoint-xx-small) {
+  .search-bar {
+    padding: 0;
+    width: 90%;
+  }
+}
