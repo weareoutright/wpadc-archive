@@ -64,6 +64,7 @@
     .main-filters {
       display: flex;
       flex-direction: row;
+      flex-wrap: wrap;
       gap: 0.8rem;
     }
     .pill-btn {
@@ -115,6 +116,17 @@
   }
 }
 
+@media (max-width: $breakpoint-medium) {
+  .search-bar {
+    .filter-pills {
+      flex-direction: column;
+      .sort-btn {
+        margin-top: 3rem;
+      }
+    }
+  }
+}
+
 @media (max-width: $breakpoint-small) {
   .search-bar {
     .search-and-icon {
@@ -132,7 +144,10 @@
 
 @media (max-width: $breakpoint-xx-small) {
   .search-bar {
-    padding: 0;
-    width: 90%;
+    padding: 1rem;
+    width: 100%;
+    .filter-pills {
+      padding: 2.5rem 0;
+    }
   }
 }
