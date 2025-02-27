@@ -53,11 +53,8 @@ const Carousel = ({ slides }) => {
         }}
       >
         {slides.map((slide, index) => (
-          <div
-            key={index}
-            className={cx("carousel-item")}
-            style={{ minWidth: "300px" }}
-          >
+          <div key={index} className={cx("carousel-item")}>
+            {/** dummy data */}
             <AssetSearchResultCard
               node={{
                 title: "sample",

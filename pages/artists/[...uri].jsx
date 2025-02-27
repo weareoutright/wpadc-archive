@@ -1,5 +1,4 @@
 import React from "react";
-import useAssetsBySlug from "../../constants/customQueryHooks/useAssetsBySlug";
 import { useRouter } from "next/router";
 import {
   SEO,
@@ -7,7 +6,6 @@ import {
   Main,
   Container,
   Footer,
-  Carousel,
   RelatedSection,
   ContainerHeader,
   InThisProjectSection,
@@ -16,10 +14,6 @@ import {
   useGeneralSettings,
   useHeaderMenu,
 } from "../../constants/customQueryHooks";
-import Link from "next/link";
-import RIGHT_ARROW from "../../assets/icons/right-arrow.svg";
-import Image from "next/image";
-import { RelatedItemCard } from "../../components/RelatedItemCard";
 
 const DUMMY_ITEMS = [
   {
@@ -70,7 +64,10 @@ const ArtistPage = () => {
   const router = useRouter();
   const { uri } = router.query;
 
-  //   const { loading, error, assetPostBySlug } = useAssetsBySlug(uri?.join("/"));
+  //   const { loading, error, assetPostBySlug } = useArtistBySlug(uri?.join("/"));
+
+  // TODO - create a query that gets artist info by slug/uri
+  // TODO - artistPostBySlug = useArtistBySlug(uri?.join("/"))
 
   const {
     loading: loadingSettings,
@@ -88,7 +85,7 @@ const ArtistPage = () => {
   //     return <div className="ArtistPage">Error: {error.message}</div>;
   //   }
 
-  //   if (!assetPostBySlug) {
+  //   if (!artistPostBySlug) {
   //     return <div className="ArtistPage">No asset found for this URI.</div>;
   //   }
 

@@ -1,6 +1,5 @@
-import styles from "./InThisPrrojectSection.module.scss";
+import styles from "./InThisProjectSection.module.scss";
 import className from "classnames/bind";
-import { Carousel2 } from "../Carousel2";
 import { Carousel } from "../Carousel";
 
 let cx = className.bind(styles);

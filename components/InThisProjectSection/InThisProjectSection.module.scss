@@ -1,4 +1,16 @@
 .InThisProjectSection {
+  h2 {
+    margin-bottom: 1rem;
+
+    small {
+      color: var(--light-grey-small-text);
+      text-align: right;
+
+      font-family: Gotham;
+      font-size: 14px;
+      font-weight: 325;
+    }
+  }
   .in-this-project {
     display: flex;
     flex-direction: row;

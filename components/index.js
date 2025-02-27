@@ -1,6 +1,3 @@
-import Carousel from "./Carousel2/Carousel2";
-import { GeneralContainerLayout } from "./GeneralContainerLayout";
-
 export { Container } from "./Container";
 export { ContentWrapper } from "./ContentWrapper";
 export { EntryHeader } from "./EntryHeader";
@@ -31,4 +28,3 @@ export { GeneralContainerLayout } from "./GeneralContainerLayout";
 export { ContainerHeader } from "./ContainerHeader";
 export { RelatedItemCard } from "./RelatedItemCard";
 export { InThisProjectSection } from "./InThisProjectSection";
-export { Carousel2 } from "./Carousel2/Carousel2";
