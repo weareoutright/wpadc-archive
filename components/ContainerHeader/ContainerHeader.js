@@ -1,0 +1,78 @@
+import styles from "./ContainerHeader.module.scss";
+import className from "classnames/bind";
+import Link from "next/link";
+import RIGHT_ARROW from "../../assets/icons/right-arrow.svg";
+import Image from "next/image";
+
+let cx = className.bind(styles);
+
+const ContainerHeader = ({
+  artistName = "Artist Name",
+  assetName = "Asset Name",
+  description = "laboris magna qui aute nulla cupidatat officia sit in cupidatat elit, aliquip in sed labore incididunt elit, magna officia eu pariatur. et proident, Excepteur ex minim anim dolore consequat. ipsum culpa minim aute ut velit aute culpa incididunt proident, ipsum dolor ut laborum. est magna eu anim anim dolor laborum. anim esse dolore in mollit nostrud.",
+  tagsArr = [
+    { name: "tag1", href: "#" },
+    { name: "tag2", href: "#" },
+    { name: "tag3", href: "#" },
+  ],
+  dateBegin = "October 1, 2021",
+  dateEnd = "December 1, 2021",
+  type = "Type",
+  location = "location",
+  externalLinksArr = [
+    { name: "external-link1", href: "#" },
+    { name: "external-link2", href: "#" },
+  ],
+}) => {
+  return (
+    <div className={cx("ContainerHeader")}>
+      <h2>
+        {artistName}: {assetName}
+      </h2>
+      <div className={cx("container-header")}>
+        <div className={cx("left-column")}>
+          <div className={cx("description")}>{description}</div>
+          <div className={cx("tags")}>
+            <small>Tags</small>
+            <div className={cx("tag-container")}>
+              {tagsArr.map((tag) => (
+                <Link href={tag.href}>{tag.name}</Link>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className={cx("right-column")}>
+          <div className={cx("meta-data")}>
+            <small>Date</small>
+            <p>
+              {dateBegin} – {dateEnd}
+            </p>
+
+            <small>Type</small>
+            <p>{type}</p>
+
+            <small>Artist</small>
+            <p>{artistName}</p>
+
+            <small>Location</small>
+            <p>{location}</p>
+          </div>
+          <div className={cx("external-links")}>
+            {externalLinksArr.map((link) => (
+              <a href={link.href} target="_blank" rel="noreferrer">
+                <span>{link.name} </span>
+                <Image
+                  className={cx("right-arrow")}
+                  src={RIGHT_ARROW}
+                  alt="right arrow"
+                />
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ContainerHeader;
