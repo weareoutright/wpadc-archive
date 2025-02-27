@@ -1,0 +1,61 @@
+.ArtistContainerHeader {
+  border-bottom: 1px solid var(--wpe--color--black);
+  padding-bottom: 2rem;
+
+  .container-header {
+    margin-bottom: 1rem;
+    small {
+      color: #000;
+      font-size: 0.85rem;
+      font-style: italic;
+      font-weight: 300;
+    }
+  }
+
+  .artist-container-header-content {
+    display: grid;
+    grid-template-columns: 1fr 0.75fr;
+
+    .left-column {
+      margin-right: 7rem;
+
+      .description {
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 325;
+        line-height: 18.8px;
+      }
+
+      .block-quote {
+        padding: 0 0 0 1rem;
+        border-left: 3px solid var(--light-grey);
+
+        blockquote,
+        cite {
+          color: var(--dark-grey);
+          font-size: 12px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: 18.8px; /* 156.667% */
+          text-transform: uppercase;
+        }
+
+        blockquote {
+          margin: 0;
+        }
+      }
+    }
+
+    .right-column {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2rem;
+      .artist-headshot {
+        width: 100%;
+        height: auto;
+        min-width: 245px;
+      }
+    }
+  }
+}

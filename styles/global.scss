@@ -39,3 +39,18 @@ body,
 input[type="text"] {
   font-family: "Gotham", sans-serif;
 }
+
+.external-links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 1rem;
+
+  a {
+    padding: 8px 12px;
+    border-radius: 20px;
+    text-decoration: none;
+    border: 1px solid black;
+  }
+}

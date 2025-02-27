@@ -4,11 +4,11 @@ import { Carousel } from "../Carousel";
 
 let cx = className.bind(styles);
 
-const InThisProjectSection = ({ itemsArr }) => {
+const InThisProjectSection = ({ headerText, itemsArr }) => {
   return (
     <div className={cx("InThisProjectSection")}>
       <h2>
-        In This Project <small>({itemsArr.length} items)</small>
+        {headerText} <small>({itemsArr.length} items)</small>
       </h2>
       <div className={cx("in-this-project")}>
         <div className={cx("in-this-project-carousel")}>

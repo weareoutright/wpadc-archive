@@ -7,13 +7,14 @@ import {
   Container,
   Footer,
   RelatedSection,
-  ContainerHeader,
   InThisProjectSection,
+  ArtistContainerHeader,
 } from "../../components";
 import {
   useGeneralSettings,
   useHeaderMenu,
 } from "../../constants/customQueryHooks";
+import SAMPLE_IMG from "../../assets/sample-artist.png";
 
 const DUMMY_ITEMS = [
   {
@@ -60,6 +61,46 @@ const DUMMY_ITEMS = [
   },
 ];
 
+const DUMMY_ARTIST = {
+  artistName: "Artist Name",
+  content: (
+    <>
+      <p>
+        "laboris magna qui aute nulla cupidatat officia sit in cupidatat elit,
+        aliquip in sed labore incididunt elit, magna officia eu pariatur. et
+        proident, Excepteur ex minim anim dolore consequat. ipsum culpa minim
+        aute ut velit aute culpa incididunt proident, ipsum dolor ut laborum.
+        est magna eu anim anim dolor laborum. anim esse dolore in mollit
+        nostrud.",
+      </p>
+      <p>
+        "laboris magna qui aute nulla cupidatat officia sit in cupidatat elit,
+        aliquip in sed labore incididunt elit, magna officia eu pariatur. et
+        proident, Excepteur ex minim anim dolore consequat. ipsum culpa minim
+        aute ut velit aute culpa incididunt proident, ipsum dolor ut laborum.
+        est magna eu anim anim dolor laborum. anim esse dolore in mollit
+        nostrud.",
+      </p>
+      <p>
+        "laboris magna qui aute nulla cupidatat officia sit in cupidatat elit,
+        aliquip in sed labore incididunt elit, magna officia eu pariatur. et
+        proident, Excepteur ex minim anim dolore consequat. ipsum culpa minim
+        aute ut velit aute culpa incididunt proident, ipsum dolor ut laborum.
+        est magna eu anim anim dolor laborum. anim esse dolore in mollit
+        nostrud.",
+      </p>
+    </>
+  ),
+  quote:
+    "laboris magna qui aute nulla cupidatat officia sit in cupidatat elit, aliquip in sed labore incididunt elit, magna officia eu pariatur. et proident, Excepteur ex minim anim dolore consequat. ipsum culpa minim aute ut velit aute culpa incididunt proident, ipsum dolor ut laborum.",
+  quote_author: "Misha Ilin",
+  img: SAMPLE_IMG,
+  externalLinksArr: [
+    { name: "external-link1", href: "#" },
+    { name: "external-link2", href: "#" },
+  ],
+};
+
 const ArtistPage = () => {
   const router = useRouter();
   const { uri } = router.query;
@@ -102,8 +143,11 @@ const ArtistPage = () => {
       />
       <Main>
         <Container>
-          <ContainerHeader />
-          <InThisProjectSection itemsArr={DUMMY_ITEMS} />
+          <ArtistContainerHeader artistObj={DUMMY_ARTIST} />
+          <InThisProjectSection
+            headerText="By This Artist"
+            itemsArr={DUMMY_ITEMS}
+          />
           <RelatedSection itemsArr={DUMMY_ITEMS} />
         </Container>
       </Main>
