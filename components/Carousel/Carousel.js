@@ -3,138 +3,72 @@ import className from "classnames/bind";
 import PREV_BTN from "../../assets/icons/previous-btn.svg";
 import NEXT_BTN from "../../assets/icons/next-btn.svg";
 import Image from "next/image";
+import { useRef } from "react";
+import { AssetSearchResultCard } from "../AssetSearchResultCard";
 
 let cx = className.bind(styles);
 
-import { useState } from "react";
-import { AssetSearchResultCard } from "../AssetSearchResultCard";
+const Carousel = ({ slides }) => {
+  const carouselRef = useRef(null);
 
-const Carousel = ({ cards }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const scrollAmount = 300; // Adjust scroll amount based on item width
 
   const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % cards.length);
+    if (carouselRef.current) {
+      carouselRef.current.scrollLeft += scrollAmount;
+    }
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 + cards.length) % cards.length);
+    if (carouselRef.current) {
+      carouselRef.current.scrollLeft -= scrollAmount;
+    }
   };
 
   return (
     <div
       className={cx("Carousel")}
-      style={{
-        position: "relative",
-        width: "100%",
-        height: "100%",
-      }}
+      style={{ position: "relative", width: "100%" }}
     >
+      {/* Controls */}
       <div className={cx("carousel-controls")}>
         <button onClick={prevSlide}>
-          <Image src={PREV_BTN} />
+          <Image src={PREV_BTN} alt="Previous" />
         </button>
         <button onClick={nextSlide}>
-          <Image src={NEXT_BTN} />
+          <Image src={NEXT_BTN} alt="Next" />
         </button>
       </div>
+
+      {/* Scrollable Container */}
       <div
+        ref={carouselRef}
         className={cx("carousel-items")}
         style={{
           display: "flex",
-          transform: `translateX(-${currentIndex * 100}%)`,
-          transition: "transform 0.5s ease",
+          overflowX: "auto",
+          scrollBehavior: "smooth",
+          scrollbarWidth: "none",
+          gap: "10px",
         }}
       >
-        {/* {slides.map((slide, index) => (
-          <div key={index} style={{ minWidth: "100%", height: "300px" }}>
-            <img
-              src={slide}
-              alt={`Slide ${index}`}
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+        {slides.map((slide, index) => (
+          <div
+            key={index}
+            className={cx("carousel-item")}
+            style={{ minWidth: "300px" }}
+          >
+            <AssetSearchResultCard
+              node={{
+                title: "sample",
+                asset_postId: "hello",
+                uri: "hello",
+                author: "sample",
+                slug: "letting-go-documentation",
+              }}
             />
           </div>
-        ))} */}
-        <AssetSearchResultCard
-          node={{
-            title: "sample",
-            asset_postId: "hello",
-            uri: "hello",
-            author: "sample",
-            slug: "letting-go-documentation",
-          }}
-        />
-        <AssetSearchResultCard
-          node={{
-            title: "sample",
-            asset_postId: "hello",
-            uri: "hello",
-            author: "sample",
-            slug: "letting-go-documentation",
-          }}
-        />
-        <AssetSearchResultCard
-          node={{
-            title: "sample",
-            asset_postId: "hello",
-            uri: "hello",
-            author: "sample",
-            slug: "letting-go-documentation",
-          }}
-        />
-        <AssetSearchResultCard
-          node={{
-            title: "sample",
-            asset_postId: "hello",
-            uri: "hello",
-            author: "sample",
-            slug: "letting-go-documentation",
-          }}
-        />
-        <AssetSearchResultCard
-          node={{
-            title: "sample",
-            asset_postId: "hello",
-            uri: "hello",
-            author: "sample",
-            slug: "letting-go-documentation",
-          }}
-        />
-        <AssetSearchResultCard
-          node={{
-            title: "sample",
-            asset_postId: "hello",
-            uri: "hello",
-            author: "sample",
-            slug: "letting-go-documentation",
-          }}
-        />
-        <AssetSearchResultCard
-          node={{
-            title: "sample",
-            asset_postId: "hello",
-            uri: "hello",
-            author: "sample",
-            slug: "letting-go-documentation",
-          }}
-        />
-        <AssetSearchResultCard
-          node={{
-            title: "sample",
-            asset_postId: "hello",
-            uri: "hello",
-            author: "sample",
-            slug: "letting-go-documentation",
-          }}
-        />
-        <AssetSearchResultCard
-          node={{
-            title: "sample",
-            asset_postId: "hello",
-            uri: "hello",
-            author: "sample",
-            slug: "letting-go-documentation",
-          }}
-        />
+        ))}
       </div>
     </div>
   );
