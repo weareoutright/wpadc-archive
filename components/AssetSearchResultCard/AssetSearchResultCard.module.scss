@@ -16,8 +16,9 @@
     display: block;
   }
 
-  a {
+  a.asset-link {
     text-decoration: none;
+    width: fit-content;
 
     &:hover {
       text-decoration: underline;
@@ -29,7 +30,7 @@
     }
   }
 
-  small {
+  small.asset-link {
     font-family: "Gotham", sans-serif;
     font-size: 14px;
     font-style: normal;
