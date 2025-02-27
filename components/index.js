@@ -23,3 +23,4 @@ export { FullWidthLink } from "./FullWidthLink";
 export { AssetSearchResultCard } from "./AssetSearchResultCard";
 export { PersonSearchResultCard } from "./PersonSearchResultCard";
 export { Carousel } from "./Carousel";
+export { RelatedSection } from "./RelatedSection";
