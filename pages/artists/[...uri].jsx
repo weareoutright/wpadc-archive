@@ -66,28 +66,28 @@ const DUMMY_ARTIST = {
   content: (
     <>
       <p>
-        "laboris magna qui aute nulla cupidatat officia sit in cupidatat elit,
+        laboris magna qui aute nulla cupidatat officia sit in cupidatat elit,
         aliquip in sed labore incididunt elit, magna officia eu pariatur. et
         proident, Excepteur ex minim anim dolore consequat. ipsum culpa minim
         aute ut velit aute culpa incididunt proident, ipsum dolor ut laborum.
         est magna eu anim anim dolor laborum. anim esse dolore in mollit
-        nostrud.",
+        nostrud.,
       </p>
       <p>
-        "laboris magna qui aute nulla cupidatat officia sit in cupidatat elit,
+        laboris magna qui aute nulla cupidatat officia sit in cupidatat elit,
         aliquip in sed labore incididunt elit, magna officia eu pariatur. et
         proident, Excepteur ex minim anim dolore consequat. ipsum culpa minim
         aute ut velit aute culpa incididunt proident, ipsum dolor ut laborum.
         est magna eu anim anim dolor laborum. anim esse dolore in mollit
-        nostrud.",
+        nostrud.,
       </p>
       <p>
-        "laboris magna qui aute nulla cupidatat officia sit in cupidatat elit,
+        laboris magna qui aute nulla cupidatat officia sit in cupidatat elit,
         aliquip in sed labore incididunt elit, magna officia eu pariatur. et
         proident, Excepteur ex minim anim dolore consequat. ipsum culpa minim
         aute ut velit aute culpa incididunt proident, ipsum dolor ut laborum.
         est magna eu anim anim dolor laborum. anim esse dolore in mollit
-        nostrud.",
+        nostrud.,
       </p>
     </>
   ),

@@ -1,6 +1,7 @@
 .ArtistContainerHeader {
   border-bottom: 1px solid var(--wpe--color--black);
   padding-bottom: 2rem;
+  margin-bottom: 2rem;
 
   .container-header {
     margin-bottom: 1rem;
@@ -14,7 +15,7 @@
 
   .artist-container-header-content {
     display: grid;
-    grid-template-columns: 1fr 0.75fr;
+    grid-template-columns: 1.25fr 0.75fr;
 
     .left-column {
       margin-right: 7rem;
@@ -24,6 +25,7 @@
         font-style: normal;
         font-weight: 325;
         line-height: 18.8px;
+        padding-bottom: 1.5rem;
       }
 
       .block-quote {

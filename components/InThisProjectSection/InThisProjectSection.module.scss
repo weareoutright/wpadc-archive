@@ -19,16 +19,16 @@
     align-items: flex-start;
     width: 100%;
     border-bottom: 1px solid black;
-    padding-bottom: 2rem;
     margin-bottom: 2rem;
     flex-wrap: none;
-    height: 30rem;
+    height: fit-content;
     overflow-x: scroll;
     overflow-y: hidden;
     margin-top: -3.5rem;
 
     .in-this-project-carousel {
       width: 100%;
+      height: auto;
     }
   }
 }
