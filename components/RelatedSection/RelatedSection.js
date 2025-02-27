@@ -1,15 +1,18 @@
 import styles from "./RelatedSection.module.scss";
 import className from "classnames/bind";
-import Image from "next/image";
+import { RelatedItemCard } from "../RelatedItemCard";
 
 let cx = className.bind(styles);
 
-const RelatedSection = ({ itemArr }) => {
+const RelatedSection = ({ itemsArr }) => {
   return (
     <div className={cx("RelatedSection")}>
-      {itemArr.map((node) => (
-        <RelatedItemCard key={node.asset_postId} node={node} />
-      ))}
+      <h2>Related</h2>
+      <div className={cx("RelatedSectionItems")}>
+        {itemsArr.map((node) => (
+          <RelatedItemCard key={node.asset_postId} node={node} />
+        ))}
+      </div>
     </div>
   );
 };
