@@ -87,6 +87,49 @@ const DUMMY_ITEMS = [
   },
 ];
 
+const DUMMY_ARTISTS = [
+  {
+    people_postId: "hello",
+    author: "sample",
+    slug: "test",
+  },
+  {
+    people_postId: "hello",
+    author: "sample",
+    slug: "test",
+  },
+  {
+    people_postId: "hello",
+    author: "sample",
+    slug: "test",
+  },
+  {
+    people_postId: "hello",
+    author: "sample",
+    slug: "test",
+  },
+  {
+    people_postId: "hello",
+    author: "sample",
+    slug: "test",
+  },
+  {
+    people_postId: "hello",
+    author: "sample",
+    slug: "test",
+  },
+  {
+    people_postId: "hello",
+    author: "sample",
+    slug: "test",
+  },
+  {
+    people_postId: "hello",
+    author: "sample",
+    slug: "test",
+  },
+];
+
 export default function Component() {
   const { data } = useQuery(Component.query, {
     variables: Component.variables(),
@@ -127,7 +170,11 @@ export default function Component() {
             </p>
           </div>
 
-          <Carousel slides={DUMMY_ITEMS} className="front-page-carousel" />
+          <Carousel
+            slides={DUMMY_ITEMS}
+            cardType="asset"
+            className="front-page-carousel"
+          />
 
           <div
             className={frontPageContainerCx(
@@ -143,6 +190,12 @@ export default function Component() {
               nisi ut aliquip ex ea commodo consequat.
             </p>
           </div>
+          <Carousel
+            slides={DUMMY_ARTISTS}
+            cardType="artist"
+            className="front-page-carousel"
+          />
+
           <div className={frontPageContainerCx("browse-by", "header-and-desc")}>
             <h3>Browse By</h3>
             <p>
