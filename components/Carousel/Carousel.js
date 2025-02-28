@@ -56,15 +56,7 @@ const Carousel = ({ slides, className }) => {
           slides.map((slide, index) => (
             <div key={index} className={cx("carousel-item")}>
               {/** dummy data */}
-              <AssetSearchResultCard
-                node={{
-                  title: "sample",
-                  asset_postId: "hello",
-                  uri: "hello",
-                  author: "sample",
-                  slug: "letting-go-documentation",
-                }}
-              />
+              <AssetSearchResultCard node={slide} />
             </div>
           ))
         ) : (
