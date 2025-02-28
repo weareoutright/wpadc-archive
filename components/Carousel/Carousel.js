@@ -54,7 +54,6 @@ const Carousel = ({ slides, cardType, className }) => {
           overflowX: "auto",
           scrollBehavior: "smooth",
           scrollbarWidth: "none",
-          gap: "10px",
         }}
       >
         {slides ? (
