@@ -47,7 +47,8 @@ export default function Component(props) {
 
   const primaryMenu = menus;
 
-  if (loading || loadingSettings || loadingMenus) return <LoadingPage />;
+  if (loading || loadingSettings || loadingMenus)
+    return <LoadingPage stroke="#f66639" />;
   if (errorSettings || errorMenus || error) {
     console.error("Settings ERROR:", errorSettings?.message);
     console.error("Menus ERROR:", errorMenus?.message);

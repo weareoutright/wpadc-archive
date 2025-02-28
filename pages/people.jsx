@@ -93,7 +93,8 @@ export default function Component() {
 
   const primaryMenu = menus;
 
-  if (loading || loadingSettings || loadingMenus) return <LoadingPage />;
+  if (loading || loadingSettings || loadingMenus)
+    return <LoadingPage stroke="#6741f5" />;
   if (errorSettings || errorMenus || errorRoleGroups || error) {
     console.error("Settings ERROR:", errorSettings?.message);
     console.error("Menus ERROR:", errorMenus?.message);

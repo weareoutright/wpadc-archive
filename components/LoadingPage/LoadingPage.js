@@ -5,7 +5,7 @@ import LoadingIcons from "react-loading-icons";
 
 let cx = classNames.bind(styles);
 
-export default function LoadingPage({ children, className, ...props }) {
+export default function LoadingPage({ children, className, stroke, ...props }) {
   return (
     <div
       id={SELECTORS.LOADING_PAGE_CONTENT}
@@ -14,7 +14,12 @@ export default function LoadingPage({ children, className, ...props }) {
       {...props}
     >
       <span>
-        <LoadingIcons.Grid />
+        <LoadingIcons.Grid
+          stroke={stroke}
+          strokeOpacity={1}
+          fill={stroke}
+          fillOpacity={1}
+        />
       </span>
     </div>
   );
