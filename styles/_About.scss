@@ -1,0 +1,30 @@
+.main-about-container {
+  background: black;
+  margin-top: 1.5rem;
+  color: white;
+  padding-bottom: 0;
+
+  .about-container {
+    .About {
+      .page-description {
+        border-bottom: 1px solid white;
+        padding: 2rem 0 4rem 0;
+      }
+
+      .page-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        padding: 4rem 0;
+
+        .about-featured-image {
+          display: block;
+          padding-right: 5rem;
+        }
+
+        .text-content {
+          padding-left: 7rem;
+        }
+      }
+    }
+  }
+}

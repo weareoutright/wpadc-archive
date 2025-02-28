@@ -30,6 +30,8 @@ export default function Header({
   const [isNavShown, setIsNavShown] = useState(false);
 
   const isFrontPage = currentRoute === "/";
+  const isAboutPage = currentRoute === "/about";
+  const isPeoplePage = currentRoute === "/people";
 
   return (
     <header className={cx("component", isFrontPage && "front-page-component")}>
@@ -101,6 +103,16 @@ export default function Header({
           </a>
         )}
       </Container>
+      {isAboutPage && (
+        <h1 className={cx(["full-width-page-header", "vermillion-bg"])}>
+          <span>About The Archive</span>
+        </h1>
+      )}
+      {isPeoplePage && (
+        <h1 className={cx(["full-width-page-header", "indigo-bg"])}>
+          <span>People</span>
+        </h1>
+      )}
     </header>
   );
 }

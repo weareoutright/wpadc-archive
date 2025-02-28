@@ -13,7 +13,6 @@
   display: flex;
   flex-direction: column;
   font-family: "Flaviotte";
-
   .full-width-link {
     color: white;
     text-decoration: none;
@@ -43,6 +42,54 @@
   }
 }
 
+.full-width-link {
+  color: white;
+  text-decoration: none;
+  min-height: 12.5rem;
+  font-size: 6rem;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 0;
+  vertical-align: bottom;
+  margin-bottom: -2rem;
+  font-family: "Flaviotte";
+  text-transform: uppercase;
+
+  &:last-of-type {
+    min-height: 12rem;
+    padding-bottom: 2.2rem;
+  }
+
+  &:hover {
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.7) 10%,
+        rgba(0, 0, 0, 0) 100%
+      ),
+      url("../../assets/front-page/full-width-link-bg-sample.svg");
+    background-size: cover;
+    background-position: top center;
+  }
+
+  .label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .link-text {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-right: 1.5rem;
+      margin-bottom: -1.95rem;
+    }
+
+    .arrow-icon {
+      padding: 5px;
+    }
+  }
+}
+
 @media (max-width: $breakpoint-extra-small) {
   .front-page-full-width-links {
     .full-width-link {
@@ -54,7 +101,7 @@
 
 @media (max-width: $breakpoint-xx-small) {
   .component {
-    padding: .5em;
+    padding: 0.5em;
   }
   .front-page-full-width-links {
     .full-width-link {
@@ -62,4 +109,3 @@
     }
   }
 }
-

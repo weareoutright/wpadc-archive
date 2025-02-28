@@ -172,3 +172,29 @@
     padding: 4rem;
   }
 }
+
+.full-width-page-header {
+  padding: 1rem 6rem;
+  color: white;
+  text-decoration: none;
+  min-height: 8rem;
+  font-size: 6rem;
+  display: flex;
+  align-items: flex-end;
+  vertical-align: bottom;
+  margin-bottom: -1.5rem;
+  font-size: 96px;
+  font-weight: 400;
+  text-transform: uppercase;
+  span {
+    margin-bottom: -2.95rem;
+  }
+}
+
+.vermillion-bg {
+  background-color: var(--vermillion);
+}
+
+.indigo-bg {
+  background-color: var(--indigo);
+}

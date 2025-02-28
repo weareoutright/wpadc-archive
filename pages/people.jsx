@@ -111,6 +111,7 @@ export default function Component() {
         title={generalSettings.title}
         description={generalSettings.description}
         menuItems={primaryMenu}
+        currentRoute={"/people"}
       />
       <Main>
         <Container>

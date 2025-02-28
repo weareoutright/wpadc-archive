@@ -29,3 +29,4 @@ export { ContainerHeader } from "./ContainerHeader";
 export { RelatedItemCard } from "./RelatedItemCard";
 export { InThisProjectSection } from "./InThisProjectSection";
 export { ArtistContainerHeader } from "./ArtistContainerHeader";
+export { PageContentWrapper } from "./PageContentWrapper";

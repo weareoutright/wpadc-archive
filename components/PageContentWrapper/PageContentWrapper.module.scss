@@ -4,8 +4,39 @@
   padding: var(--wpe--content-container--padding-x-y);
   width: 100%;
   position: relative;
-  padding-top: 2.5rem;
+  padding-top: 5rem;
   padding-bottom: 2.5rem;
+}
+
+.how-to-use-the-archive-container {
+  margin-bottom: 2rem;
+  .text-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+
+    .how-to-use-the-archive {
+      padding: 0;
+      margin: 0;
+    }
+
+    .submission-btns {
+      padding-left: 12rem;
+      display: flex;
+      flex-direction: column;
+
+      .submission-btn {
+        text-decoration: none;
+        border-bottom: 1px solid black;
+        width: 100%;
+        padding: 1rem 0;
+        text-transform: uppercase;
+
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  }
 }
 
 .main-top-padding-bg {
@@ -18,10 +49,6 @@
   width: 100%;
 }
 
-.main-top-padding-bg-light {
-  background-color: white !important;
-}
-
 .main-top-padding-fg {
   background-color: white;
   z-index: 1;
@@ -31,10 +58,6 @@
   left: 0;
   top: 0;
   height: 2.5rem;
-}
-
-.main-top-padding-fg-dark {
-  background-color: black !important;
 }
 
 .front-page-main {

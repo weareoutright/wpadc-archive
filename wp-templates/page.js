@@ -1,6 +1,6 @@
-import { gql } from '@apollo/client';
-import * as MENUS from '../constants/menus';
-import { BlogInfoFragment } from '../fragments/GeneralSettings';
+import { gql } from "@apollo/client";
+import * as MENUS from "../constants/menus";
+import { BlogInfoFragment } from "../fragments/GeneralSettings";
 import {
   Header,
   Footer,
@@ -11,7 +11,7 @@ import {
   NavigationMenu,
   FeaturedImage,
   SEO,
-} from '../components';
+} from "../components";
 
 export default function Component(props) {
   // Loading state for previews
@@ -23,7 +23,7 @@ export default function Component(props) {
     props?.data?.generalSettings;
   const primaryMenu = props?.data?.headerMenuItems?.nodes ?? [];
   const footerMenu = props?.data?.footerMenuItems?.nodes ?? [];
-  const { title, content, featuredImage } = props?.data?.page ?? { title: '' };
+  const { title, content, featuredImage } = props?.data?.page ?? { title: "" };
 
   return (
     <>

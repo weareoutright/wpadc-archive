@@ -13,6 +13,7 @@
 @import "Search";
 @import "People";
 @import "AssetPage";
+@import "About";
 
 html {
   scroll-behavior: smooth;
@@ -52,5 +53,16 @@ input[type="text"] {
     border-radius: 20px;
     text-decoration: none;
     border: 1px solid black;
+  }
+}
+
+.external-links-light {
+  a {
+    border: 1px solid white;
+  }
+
+  img,
+  svg {
+    filter: invert(1);
   }
 }
