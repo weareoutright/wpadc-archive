@@ -1,4 +1,25 @@
 .ContainerHeader {
+  a.eyebrow-link {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    /* Body Header */
+    font-family: Gotham;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 18.8px; /* 156.667% */
+    text-transform: uppercase;
+    text-decoration: none;
+
+    margin-bottom: 1rem;
+
+    span {
+      margin-left: 1rem;
+    }
+  }
+
   .container-header {
     display: flex;
     flex-direction: row;

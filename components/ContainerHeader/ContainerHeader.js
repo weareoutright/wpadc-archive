@@ -2,13 +2,16 @@ import styles from "./ContainerHeader.module.scss";
 import className from "classnames/bind";
 import Link from "next/link";
 import RIGHT_ARROW from "../../assets/icons/right-arrow.svg";
+import LEFT_ARROW from "../../assets/icons/left-arrow.svg";
 import Image from "next/image";
 
 let cx = className.bind(styles);
 
 const ContainerHeader = ({
+  programName = "Public Programs",
   artistName = "Artist Name",
   assetName = "Asset Name",
+  eventName = "Event Name",
   description = "laboris magna qui aute nulla cupidatat officia sit in cupidatat elit, aliquip in sed labore incididunt elit, magna officia eu pariatur. et proident, Excepteur ex minim anim dolore consequat. ipsum culpa minim aute ut velit aute culpa incididunt proident, ipsum dolor ut laborum. est magna eu anim anim dolor laborum. anim esse dolore in mollit nostrud.",
   tagsArr = [
     { name: "tag1", href: "#" },
@@ -23,12 +26,28 @@ const ContainerHeader = ({
     { name: "external-link1", href: "#" },
     { name: "external-link2", href: "#" },
   ],
+  pageType,
+  parentLink = { title: "Parent Link", href: "#" },
 }) => {
   return (
     <div className={cx("ContainerHeader")}>
-      <h2>
-        {artistName}: {assetName}
-      </h2>
+      {pageType === "public-programs" ||
+        pageType === "content" ||
+        (pageType === "event" && (
+          <a href={parentLink.href} className={cx("eyebrow-link")}>
+            <Image src={LEFT_ARROW} alt="left arrow" />{" "}
+            <span>{parentLink.title}</span>
+          </a>
+        ))}
+      {pageType === "public-programs" && <h2>{programName}</h2>}
+      {pageType === "event" && <h2>{eventName}</h2>}
+      {pageType === "asset" && (
+        <h2>
+          {artistName} : {assetName}
+        </h2>
+      )}
+      {pageType === "artist" && <h2>{artistName}</h2>}
+      {pageType === "content" && <h2>{assetName}</h2>}
       <div className={cx("container-header")}>
         <div className={cx("left-column")}>
           <div className={cx("description")}>{description}</div>
@@ -59,12 +78,13 @@ const ContainerHeader = ({
               </>
             )}
 
-            {artistName && (
-              <>
-                <small>Artist</small>
-                <p>{artistName}</p>
-              </>
-            )}
+            {pageType === "artist" ||
+              (pageType === "event" && (
+                <>
+                  <small>Artist</small>
+                  <p>{artistName}</p>
+                </>
+              ))}
 
             {location && (
               <>

@@ -9,7 +9,7 @@ import { FeaturedArtistCard } from "../FeaturedArtistCard";
 
 let cx = className.bind(styles);
 
-const Carousel = ({ slides, cardType, className }) => {
+const Carousel = ({ slides, cardType = "asset", className }) => {
   const carouselRef = useRef(null);
 
   const scrollAmount = 300; // Adjust scroll amount based on item width
