@@ -53,12 +53,29 @@ input[type="text"] {
     border-radius: 20px;
     text-decoration: none;
     border: 1px solid black;
+    transition: all 0.25s cubic-bezier(0.075, 0.82, 0.165, 1);
+
+    &:hover {
+      border: 1px solid white;
+      color: white;
+      background: black;
+
+      img,
+      svg {
+        filter: invert(1);
+      }
+    }
   }
 }
 
 .external-links-light {
   a {
     border: 1px solid white;
+
+    &:hover {
+      border: 1px solid black;
+      color: black;
+    }
   }
 
   img,

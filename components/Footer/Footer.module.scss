@@ -13,7 +13,7 @@
   justify-content: space-between;
   border-top-left-radius: 40px;
   position: relative;
-  z-index: 2;
+  z-index: 1;
   margin-top: -2.25rem;
 }
 
@@ -21,6 +21,7 @@
   background-color: white;
   color: black;
   height: 50vh;
+  z-index: 2;
 
   img {
     filter: invert(1);

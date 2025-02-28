@@ -27,16 +27,6 @@ export default function Main({
           <span></span>
         </div>
       )}
-      {!isFrontPage && (
-        <div className={cx("main-top-padding-bg")}>
-          <span></span>
-        </div>
-      )}
-      {!isFrontPage && (
-        <div className={cx("main-top-padding-fg-dark")}>
-          <span></span>
-        </div>
-      )}
       {children}
     </main>
   );

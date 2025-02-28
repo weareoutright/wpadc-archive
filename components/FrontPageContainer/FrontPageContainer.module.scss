@@ -21,7 +21,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
-    padding-bottom: 3rem;
+    padding-bottom: 1rem;
 
     h3,
     p {
@@ -54,7 +54,7 @@
     .header-and-desc {
       flex-direction: column;
       //padding-top: 2em;
-      h3{
+      h3 {
         width: 100%;
       }
       p {

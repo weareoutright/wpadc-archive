@@ -11,6 +11,7 @@ import {
   SEO,
   FrontPageContainer,
   FullWidthLink,
+  Carousel,
 } from "../components";
 import { useRouter } from "next/router";
 import className from "classnames/bind";
@@ -19,6 +20,51 @@ import FullWidthLinkStyles from "../components/FullWidthLink/FullWidthLink.modul
 
 let frontPageContainerCx = className.bind(frontPageStyles);
 let FullWidthLinkCx = className.bind(FullWidthLinkStyles);
+
+const DUMMY_ITEMS = [
+  {
+    title: "sample",
+    asset_postId: "hello",
+    uri: "hello",
+    author: "sample",
+    slug: "letting-go-documentation",
+  },
+  {
+    title: "sample",
+    asset_postId: "hello",
+    uri: "hello",
+    author: "sample",
+    slug: "letting-go-documentation",
+  },
+  {
+    title: "sample",
+    asset_postId: "hello",
+    uri: "hello",
+    author: "sample",
+    slug: "letting-go-documentation",
+  },
+  {
+    title: "sample",
+    asset_postId: "hello",
+    uri: "hello",
+    author: "sample",
+    slug: "letting-go-documentation",
+  },
+  {
+    title: "sample",
+    asset_postId: "hello",
+    uri: "hello",
+    author: "sample",
+    slug: "letting-go-documentation",
+  },
+  {
+    title: "sample",
+    asset_postId: "hello",
+    uri: "hello",
+    author: "sample",
+    slug: "letting-go-documentation",
+  },
+];
 
 export default function Component() {
   const { data } = useQuery(Component.query, {
@@ -41,7 +87,11 @@ export default function Component() {
         menuItems={primaryMenu}
         currentRoute={route}
       />
-      <Main className="front-page-main" id="front-page-featured">
+      <Main
+        className="front-page-main"
+        isFrontPage={true}
+        id="front-page-featured"
+      >
         <FrontPageContainer bgColor="white">
           <div className={frontPageContainerCx("header-and-desc")}>
             <h3>
@@ -55,9 +105,9 @@ export default function Component() {
               nisi ut aliquip ex ea commodo consequat.
             </p>
           </div>
-          <div className={frontPageContainerCx("carousel")}>
-            {/* A Carousel will go here */}
-          </div>
+
+          <Carousel slides={DUMMY_ITEMS} className="front-page-carousel" />
+
           <div
             className={frontPageContainerCx(
               "featured-artists",
@@ -89,7 +139,11 @@ export default function Component() {
             bgHex={"6741f5"}
             bgImg={"../assets/front-page/full-width-link-bg-sample.svg"}
           />
-          <FullWidthLink label={"PRINT / EPHEMERA"} path={"/"} bgHex={"f66639"} />
+          <FullWidthLink
+            label={"PRINT / EPHEMERA"}
+            path={"/"}
+            bgHex={"f66639"}
+          />
           <FullWidthLink label={"EVENTS"} path={"/"} bgHex={"f63939"} />
           <FullWidthLink label={"1900s"} path={"/"} bgHex={"FF00D2"} />
         </div>

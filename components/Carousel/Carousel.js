@@ -5,11 +5,10 @@ import NEXT_BTN from "../../assets/icons/next-btn.svg";
 import Image from "next/image";
 import { useRef } from "react";
 import { AssetSearchResultCard } from "../AssetSearchResultCard";
-import DEFAULT_IMAGE from "../../assets/checked-bg-minimal-content.png";
 
 let cx = className.bind(styles);
 
-const Carousel = ({ slides }) => {
+const Carousel = ({ slides, className }) => {
   const carouselRef = useRef(null);
 
   const scrollAmount = 300; // Adjust scroll amount based on item width
@@ -28,7 +27,7 @@ const Carousel = ({ slides }) => {
 
   return (
     <div
-      className={cx("Carousel")}
+      className={cx(["Carousel", className])}
       style={{ position: "relative", width: "100%" }}
     >
       {/* Controls */}

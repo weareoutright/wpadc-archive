@@ -4,7 +4,7 @@
   color: var(--wpe--header--color);
   background-color: var(--wpe--header--background-color);
   position: relative;
-  z-index: 2; // Pull dropdown menus to the foreground to sit above <Main />.
+  z-index: 5; // Pull dropdown menus to the foreground to sit above <Main />.
 }
 
 .front-page-component {
