@@ -12,7 +12,7 @@ const InThisProjectSection = ({ headerText, itemsArr }) => {
       </h2>
       <div className={cx("in-this-project")}>
         <div className={cx("in-this-project-carousel")}>
-          <Carousel slides={itemsArr} />
+          <Carousel slides={null} />
         </div>
       </div>
     </div>

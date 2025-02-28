@@ -93,7 +93,7 @@ const DUMMY_ARTIST = {
   ),
   quote:
     "laboris magna qui aute nulla cupidatat officia sit in cupidatat elit, aliquip in sed labore incididunt elit, magna officia eu pariatur. et proident, Excepteur ex minim anim dolore consequat. ipsum culpa minim aute ut velit aute culpa incididunt proident, ipsum dolor ut laborum.",
-  quote_author: "Misha Ilin",
+  quote_author: "Artist Name",
   img: SAMPLE_IMG,
   externalLinksArr: [
     { name: "external-link1", href: "#" },

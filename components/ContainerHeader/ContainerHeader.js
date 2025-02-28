@@ -43,22 +43,38 @@ const ContainerHeader = ({
         </div>
         <div className={cx("right-column")}>
           <div className={cx("meta-data")}>
-            <small>Date</small>
-            <p>
-              {dateBegin} – {dateEnd}
-            </p>
+            {dateBegin && dateEnd && (
+              <>
+                <small>Date</small>
+                <p>
+                  {dateBegin} – {dateEnd}
+                </p>
+              </>
+            )}
 
-            <small>Type</small>
-            <p>{type}</p>
+            {type && (
+              <>
+                <small>Type</small>
+                <p>{type}</p>
+              </>
+            )}
 
-            <small>Artist</small>
-            <p>{artistName}</p>
+            {artistName && (
+              <>
+                <small>Artist</small>
+                <p>{artistName}</p>
+              </>
+            )}
 
-            <small>Location</small>
-            <p>{location}</p>
+            {location && (
+              <>
+                <small>Location</small>
+                <p>{location}</p>
+              </>
+            )}
           </div>
           <div className={cx("external-links")}>
-            {externalLinksArr.map((link) => (
+            {externalLinksArr?.map((link) => (
               <a href={link.href} target="_blank" rel="noreferrer">
                 <span>{link.name} </span>
                 <Image

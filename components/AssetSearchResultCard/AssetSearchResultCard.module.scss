@@ -3,7 +3,7 @@
   width: 15.313rem;
   max-width: 15.313rem;
   box-sizing: border-box; /* Ensures padding and borders are included in the width */
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   margin-top: 1rem;
   z-index: 10;
 
@@ -16,7 +16,8 @@
     display: block;
   }
 
-  a.asset-link {
+  a.asset-link,
+  .asset-link {
     text-decoration: none;
     width: fit-content;
 
@@ -27,10 +28,11 @@
     h3 {
       margin-bottom: 0.25rem;
       font-size: 1.5rem;
+      padding-top: 1rem;
     }
   }
 
-  small.asset-link {
+  small {
     font-family: "Gotham", sans-serif;
     font-size: 14px;
     font-style: normal;

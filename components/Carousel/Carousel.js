@@ -5,6 +5,7 @@ import NEXT_BTN from "../../assets/icons/next-btn.svg";
 import Image from "next/image";
 import { useRef } from "react";
 import { AssetSearchResultCard } from "../AssetSearchResultCard";
+import DEFAULT_IMAGE from "../../assets/checked-bg-minimal-content.png";
 
 let cx = className.bind(styles);
 
@@ -52,20 +53,24 @@ const Carousel = ({ slides }) => {
           gap: "10px",
         }}
       >
-        {slides.map((slide, index) => (
-          <div key={index} className={cx("carousel-item")}>
-            {/** dummy data */}
-            <AssetSearchResultCard
-              node={{
-                title: "sample",
-                asset_postId: "hello",
-                uri: "hello",
-                author: "sample",
-                slug: "letting-go-documentation",
-              }}
-            />
-          </div>
-        ))}
+        {slides ? (
+          slides.map((slide, index) => (
+            <div key={index} className={cx("carousel-item")}>
+              {/** dummy data */}
+              <AssetSearchResultCard
+                node={{
+                  title: "sample",
+                  asset_postId: "hello",
+                  uri: "hello",
+                  author: "sample",
+                  slug: "letting-go-documentation",
+                }}
+              />
+            </div>
+          ))
+        ) : (
+          <AssetSearchResultCard node={null} />
+        )}
       </div>
     </div>
   );
