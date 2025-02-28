@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import ARROW_LEFT from "../../assets/full-page-nav/arrow-left.svg";
 import Image from "next/image";
 import LOADING_ICON from "../../assets/full-page-nav/loading-icon.svg";
+import LoadingIcons from "react-loading-icons";
 
 let cx = className.bind(styles);
 
@@ -58,24 +59,30 @@ export default function FullPageNav({
         setIsNavShown={setIsNavShown}
         isNavShown={isNavShown}
       />
-      <div className={cx("menu-container")}>
-        {menus?.map((menu) => {
-          if (menu.label === "Get Involved")
-            return (
-              <a className={cx("menu-item")} key={menu.id} href={menu.path}>
-                <span>
-                  {menu.label} <Image src={ARROW_LEFT} alt="" />
-                </span>
-              </a>
-            );
-          else
-            return (
-              <a className={cx("menu-item")} key={menu.id} href={menu.path}>
-                {menu.label ? menu.label : <LOADING_ICON />}
-              </a>
-            );
-        })}
-      </div>
+      {menus ? (
+        <div className={cx("menu-container")}>
+          {menus?.map((menu) => {
+            if (menu.label === "Get Involved")
+              return (
+                <a className={cx("menu-item")} key={menu.id} href={menu.path}>
+                  <span>
+                    {menu.label} <Image src={ARROW_LEFT} alt="" />
+                  </span>
+                </a>
+              );
+            else
+              return (
+                <a className={cx("menu-item")} key={menu.id} href={menu.path}>
+                  {menu.label ? menu.label : <LOADING_ICON />}
+                </a>
+              );
+          })}
+        </div>
+      ) : (
+        <div className={cx("menu-container")}>
+          <LoadingIcons.Grid />
+        </div>
+      )}
       <FullPageNavFooter />
     </div>
   );

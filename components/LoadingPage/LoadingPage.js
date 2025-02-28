@@ -14,7 +14,7 @@ export default function LoadingPage({ children, className, ...props }) {
       {...props}
     >
       <span>
-        <LoadingIcons.Puff />
+        <LoadingIcons.Grid />
       </span>
     </div>
   );
