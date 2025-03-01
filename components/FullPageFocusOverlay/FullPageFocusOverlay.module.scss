@@ -1,0 +1,117 @@
+.component {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  overflow: hidden; /* Prevent scrolling within the div itself */
+
+  .overlay-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3rem;
+    align-items: center;
+    overflow: hidden; /* Prevent scrolling within the div itself */
+    position: relative;
+
+    .overlay-bg {
+      background: rgba(0, 0, 0, 0.75);
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .overlay-fg {
+      background: white;
+      width: 60vw;
+      height: 75vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 2rem;
+      position: absolute;
+      z-index: 2;
+
+      .overlay-close-btn {
+        padding: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        .overlay-close-btn-link {
+          text-align: right;
+          padding: 0.75rem 1rem;
+        }
+      }
+
+      .overlay-inner-controls {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 0 1rem;
+      }
+
+      .overlay-inner-text {
+        padding-top: 1rem;
+        h2 {
+          text-align: center;
+
+          /* Body Header */
+          font-family: "Gotham";
+          font-size: 12px;
+          font-style: normal;
+          font-weight: 700;
+          line-height: 18.8px; /* 156.667% */
+          text-transform: uppercase;
+        }
+
+        p {
+          text-align: center;
+          padding: 0 10rem;
+
+          /* Body 14 */
+          font-family: Gotham;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 325;
+          line-height: 18.8px; /* 134.286% */
+        }
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out forwards;
+}
+
+.fade-out {
+  animation: fadeOut 0.3s ease-in-out forwards;
+}

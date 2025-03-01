@@ -9,7 +9,12 @@ import { FeaturedArtistCard } from "../FeaturedArtistCard";
 
 let cx = className.bind(styles);
 
-const Carousel = ({ slides, cardType = "asset", className }) => {
+const Carousel = ({
+  slides,
+  cardType = "asset",
+  className,
+  setIsOverlayShown,
+}) => {
   const carouselRef = useRef(null);
 
   const scrollAmount = 300; // Adjust scroll amount based on item width
@@ -62,6 +67,13 @@ const Carousel = ({ slides, cardType = "asset", className }) => {
               {/** dummy data */}
               {cardType === "asset" && <AssetSearchResultCard node={slide} />}
               {cardType === "artist" && <FeaturedArtistCard node={slide} />}
+              {cardType === "image" && (
+                <AssetSearchResultCard
+                  node={null}
+                  isImageOnly={true}
+                  setIsOverlayShown={setIsOverlayShown}
+                />
+              )}
             </div>
           ))
         ) : (

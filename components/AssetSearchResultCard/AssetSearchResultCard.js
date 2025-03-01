@@ -4,7 +4,11 @@ import Image from "next/image";
 
 let cx = className.bind(styles);
 
-const AssetSearchResultCard = ({ node = null }) => {
+const AssetSearchResultCard = ({
+  node = null,
+  isImageOnly = false,
+  setIsOverlayShown = null,
+}) => {
   if (node) {
     const { title, asset_postId, uri, author, slug } = node;
     return (
@@ -29,16 +33,33 @@ const AssetSearchResultCard = ({ node = null }) => {
     return (
       <div className={cx("AssetCard")}>
         <div className={cx("asset-link")}>
-          <Image
-            alt=""
-            src="/checked-bg-minimal-content.png"
-            width={244}
-            height={326}
-            layout="fixed"
-          />
-          <h3>Title</h3>
+          {!isImageOnly && (
+            <Image
+              alt=""
+              src="/checked-bg-minimal-content.png"
+              width={244}
+              height={326}
+              layout="fixed"
+            />
+          )}
+          {isImageOnly && (
+            <a
+              href="#"
+              onClick={() => setIsOverlayShown(true)}
+              alt="Take a closer look"
+            >
+              <Image
+                alt=""
+                src="/checked-bg-minimal-content.png"
+                width={244}
+                height={326}
+                layout="fixed"
+              />
+            </a>
+          )}
+          {!isImageOnly && <h3>Title</h3>}
         </div>
-        <small>Author Name</small>
+        {!isImageOnly && <small>Author Name</small>}
       </div>
     );
   }

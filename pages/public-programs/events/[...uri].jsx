@@ -8,7 +8,6 @@ import {
   Container,
   Footer,
   ContainerHeader,
-  InThisProjectSection,
   RelatedSection,
 } from "../../../components";
 import {
