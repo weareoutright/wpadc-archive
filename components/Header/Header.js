@@ -103,16 +103,16 @@ export default function Header({
           </a>
         )}
       </Container>
-      {isAboutPage && (
-        <h1 className={cx(["full-width-page-header", "vermillion-bg"])}>
-          <span>About The Archive</span>
-        </h1>
-      )}
-      {isPeoplePage && (
-        <h1 className={cx(["full-width-page-header", "indigo-bg"])}>
-          <span>People</span>
-        </h1>
-      )}
+      {/*{isAboutPage && (*/}
+      {/*  <h1 className={cx(["full-width-page-header", "vermillion-bg"])}>*/}
+      {/*    <span>About The Archive</span>*/}
+      {/*  </h1>*/}
+      {/*)}*/}
+      {/*{isPeoplePage && (*/}
+      {/*  <h1 className={cx(["full-width-page-header", "indigo-bg"])}>*/}
+      {/*    <span>People</span>*/}
+      {/*  </h1>*/}
+      {/*)}*/}
     </header>
   );
 }

@@ -84,13 +84,13 @@ export default function Component(props) {
       <Main>
         <>
           <EntryHeader
-            title={title}
-            image={featuredImage?.node}
-            date={date}
-            author={author?.node?.name}
+              title={title}
+              image={featuredImage?.node}
+              date={date}
+              author={author?.node?.name}
           />
           <Container>
-            <ContentWrapper content={content} />
+            <ContentWrapper content={content}/>
           </Container>
         </>
       </Main>

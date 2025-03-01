@@ -83,3 +83,25 @@ input[type="text"] {
     filter: invert(1);
   }
 }
+
+.color-title {
+  color: white;
+  font-family: "Flaviotte", sans-serif;
+  padding-left: 6.5rem;
+  text-transform: uppercase;
+  h1 {
+    font-size: 6rem;
+    margin-bottom: -30px;
+    padding-top: 2rem;
+    font-weight: 400;
+  }
+}
+
+@media (max-width: $breakpoint-xx-small) {
+  .color-title {
+    h1 {
+      font-size: 3rem;
+      margin-bottom: -15px;
+    }
+  }
+}

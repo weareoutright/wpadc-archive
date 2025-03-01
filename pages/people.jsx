@@ -16,12 +16,22 @@ import { BlogInfoFragment } from "../fragments/GeneralSettings";
 import {
   Header,
   Footer,
+  FullWidthHeader,
   Main,
   Container,
   SEO,
   NavigationMenu,
   LoadingPage,
 } from "../components";
+
+const DECADE_PILL_BTNS_DUMMY = [
+  "1970s",
+  "1980s",
+  "1990s",
+  "2000s",
+  "2010s",
+  "2020s",
+];
 
 const roleTypeOrganizer = {
   /* // TODO: make visibleRoleTypes take in an array of role types set to visible via CMS
@@ -114,15 +124,37 @@ export default function Component() {
         menuItems={primaryMenu}
         currentRoute={"/people"}
       />
+      <FullWidthHeader className={"people-title"} title={"people"} />
+      <div className={"outer-pill-container"}>
+        <div className={"decade-pills"}>
+          <div className="main-filters">
+          <span className={"filter-note"}>Jump to decade</span>
+            {DECADE_PILL_BTNS_DUMMY.map((pill_btn) => (
+                <a
+                    onClick={(e) => {
+                      e.preventDefault();
+                      console.log(`Applied filter: ${pill_btn}`);
+                    }}
+                    className="pill-btn"
+                    key={pill_btn}
+                >
+                  {pill_btn}
+                </a>
+            ))}
+          </div>
+        </div>
+        <div className={"note"}>
+          <span>*New addition or role</span>
+        </div>
+      </div>
       <Main>
         <Container>
           <div className="People">
-            <h1>People</h1>
             {loadingRoleGroups
-              ? "Loading..."
-              : roleTypeOrganizer.visibleRoleTypes.map((role) => {
+                ? "Loading..."
+                : roleTypeOrganizer.visibleRoleTypes.map((role) => {
                   const roleGroupComponent = roleTypeOrganizer[role](
-                    roleGroups[role]
+                      roleGroups[role]
                   );
                   return roleGroupComponent;
                 })}

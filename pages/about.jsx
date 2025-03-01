@@ -16,6 +16,7 @@ import {
   Header,
   Footer,
   Main,
+  FullWidthHeader,
   Container,
   SEO,
   NavigationMenu,
@@ -67,6 +68,8 @@ export default function Component(props) {
         menuItems={primaryMenu}
         currentRoute={"/about"}
       />
+      {/*<FullWidthHeader className={`${generalSettings.title}-title`} title={"about"}/>*/}
+      <FullWidthHeader className={"about-title"} title={"about the archive"}/>
       <Main className="main-about-container" isFrontPage={false}>
         <Container className="about-container">
           <div className="About">

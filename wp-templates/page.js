@@ -4,6 +4,7 @@ import { BlogInfoFragment } from "../fragments/GeneralSettings";
 import {
   Header,
   Footer,
+  ColorTitle,
   Main,
   Container,
   ContentWrapper,
@@ -36,6 +37,10 @@ export default function Component(props) {
         title={siteTitle}
         description={siteDescription}
         menuItems={primaryMenu}
+      />
+      <ColorTitle
+        title={title}
+        className={`${title}-title`}
       />
       <Main>
         <>
