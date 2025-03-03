@@ -1,7 +1,6 @@
 import classNames from "classnames/bind";
 import { gql } from "@apollo/client";
 import styles from "./NavigationMenu.module.scss";
-import stylesFromWP from "./NavigationMenuClassesFromWP.module.scss";
 import { flatListToHierarchical } from "@faustwp/core";
 import Image from "next/image";
 import MENU_TOGGLE_BTN from "../../assets/header/block-menu.svg";
