@@ -10,7 +10,7 @@ let cx = className.bind(styles);
 const ContainerHeader = ({
   programName = "Public Programs",
   artistName = "Artist Name",
-  assetName = "Asset Name",
+  assetName = "Asset Title",
   eventName = "Event Name",
   description = "laboris magna qui aute nulla cupidatat officia sit in cupidatat elit, aliquip in sed labore incididunt elit, magna officia eu pariatur. et proident, Excepteur ex minim anim dolore consequat. ipsum culpa minim aute ut velit aute culpa incididunt proident, ipsum dolor ut laborum. est magna eu anim anim dolor laborum. anim esse dolore in mollit nostrud.",
   tagsArr = [
@@ -26,7 +26,7 @@ const ContainerHeader = ({
     { name: "external-link1", href: "#" },
     { name: "external-link2", href: "#" },
   ],
-  pageType,
+  pageType = "asset",
   parentLink = { title: "Parent Link", href: "#" },
 }) => {
   return (
@@ -41,11 +41,7 @@ const ContainerHeader = ({
         ))}
       {pageType === "public-programs" && <h2>{programName}</h2>}
       {pageType === "event" && <h2>{eventName}</h2>}
-      {pageType === "asset" && (
-        <h2>
-          {artistName} : {assetName}
-        </h2>
-      )}
+      {pageType === "asset" && <h2>{assetName}</h2>}
       {pageType === "artist" && <h2>{artistName}</h2>}
       {pageType === "content" && <h2>{assetName}</h2>}
       <div className={cx("container-header")}>
