@@ -20,13 +20,11 @@ const FeaturedArtistCard = ({ node = null }) => {
             width={254}
             height={254}
             layout="fixed"
+            className={cx("asset-image")}
           />
-          <h3>
-            {" "}
-            <a href={`/artists/${author}`} className={cx("asset-link")}>
-              {author}
-            </a>
-          </h3>
+        </a>
+        <a href={`/artists/${author}`} className={cx("asset-link")}>
+          <h3> {author}</h3>
         </a>
 
         <small># pieces archived</small>

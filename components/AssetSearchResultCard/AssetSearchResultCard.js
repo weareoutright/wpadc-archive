@@ -19,9 +19,12 @@ const AssetSearchResultCard = ({
             alt={title}
             src="/sample-img.png"
             width={244}
-            height={326}
+            height={320}
             layout="fixed"
+            className={cx("asset-image")}
           />
+        </a>
+        <a href={`/assets/${slug}`} className={cx("asset-link")}>
           <h3>{title}</h3>
         </a>
         <a href={`/artists/${author}`} className={cx("asset-link")}>
