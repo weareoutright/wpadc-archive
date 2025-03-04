@@ -58,12 +58,20 @@
           flex-direction: row;
           align-items: center;
           gap: 1rem;
+          transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
 
-          a {
+          .tag {
             background-color: var(--light-grey);
             padding: 8px 12px;
             border-radius: 20px;
             text-decoration: none;
+            border: 1px solid var(--light-grey);
+
+            &:hover {
+              border: 1px solid var(--light-grey);
+              background-color: var(--dark-grey);
+              color: var(--light-grey);
+            }
           }
         }
       }

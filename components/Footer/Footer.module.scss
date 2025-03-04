@@ -32,18 +32,32 @@
   border: 1px solid black !important;
 }
 
+.newsletter-btn-light {
+  border: 1px solid white;
+  background-color: black;
+  color: white;
+
+  &:hover {
+    background-color: white !important;
+    color: black !important;
+  }
+}
+
 .left-footer {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   gap: 4.5rem;
   .newsletter-btn {
-    border: 1px solid #fff;
     width: fit-content;
     border-radius: 20px;
     padding: 8px 18px;
+    transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
     &:hover {
       cursor: pointer;
+      background-color: black;
+      color: white;
+      border: 1px solid black;
     }
   }
   .footer-logo {

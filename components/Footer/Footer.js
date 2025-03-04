@@ -17,7 +17,11 @@ export default function Footer({ title, menuItems, currentRoute }) {
       {/* <NavigationMenu menuItems={menuItems} currentPage={currentPage} /> */}
       <div className={cx("left-footer")}>
         <a
-          className={cx("newsletter-btn", isFrontPage && "newsletter-btn-dark")}
+          className={cx(
+            "newsletter-btn",
+            !isFrontPage && "newsletter-btn-light",
+            isFrontPage && "newsletter-btn-dark"
+          )}
         >
           Join Our Newsletter
         </a>
