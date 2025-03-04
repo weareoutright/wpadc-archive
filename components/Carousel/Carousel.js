@@ -1,9 +1,11 @@
 import styles from "./Carousel.module.scss";
 import className from "classnames/bind";
 import PREV_BTN from "../../assets/icons/previous-btn.svg";
+import PREV_BTN_DARK from "../../assets/icons/previous-btn-dark.svg";
 import NEXT_BTN from "../../assets/icons/next-btn.svg";
+import NEXT_BTN_LIGHT from "../../assets/icons/next-btn-light.svg";
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { AssetSearchResultCard } from "../AssetSearchResultCard";
 import { FeaturedArtistCard } from "../FeaturedArtistCard";
 
@@ -16,6 +18,8 @@ const Carousel = ({
   setIsOverlayShown,
 }) => {
   const carouselRef = useRef(null);
+  const [isFirstVisible, setIsFirstVisible] = useState(true);
+  const [isLastVisible, setIsLastVisible] = useState(false);
 
   const scrollAmount = 300; // Adjust scroll amount based on item width
 
@@ -31,6 +35,35 @@ const Carousel = ({
     }
   };
 
+  useEffect(() => {
+    if (!carouselRef.current || slides.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.target.dataset.index === "0") {
+            setIsFirstVisible(entry.isIntersecting);
+          }
+          if (entry.target.dataset.index === `${slides.length - 1}`) {
+            setIsLastVisible(entry.isIntersecting);
+          }
+        });
+      },
+      {
+        root: carouselRef.current,
+        threshold: 0.8, // Adjust as needed to trigger when most of the item is in view
+      }
+    );
+
+    const items = carouselRef.current.children;
+    if (items.length > 0) {
+      observer.observe(items[0]); // Observe the first item
+      observer.observe(items[items.length - 1]); // Observe the last item
+    }
+
+    return () => observer.disconnect();
+  }, [slides]);
+
   return (
     <div
       className={cx(["Carousel", className])}
@@ -38,14 +71,17 @@ const Carousel = ({
     >
       {/* Controls */}
       <div className={cx("carousel-controls")}>
-        <button onClick={prevSlide}>
-          <Image src={PREV_BTN} alt="Previous" />
-        </button>
-        <button onClick={nextSlide}>
+        <button onClick={prevSlide} disabled={isFirstVisible}>
           <Image
-            src={NEXT_BTN}
+            src={isFirstVisible ? PREV_BTN : PREV_BTN_DARK}
+            alt="Previous"
+          />
+        </button>
+        <button onClick={nextSlide} disabled={isLastVisible}>
+          <Image
+            src={isLastVisible ? NEXT_BTN_LIGHT : NEXT_BTN}
             alt="Next"
-            style={cardType === "artist" && { filter: "invert(1)" }}
+            style={cardType === "artist" ? { filter: "invert(1)" } : {}}
           />
         </button>
       </div>
@@ -63,8 +99,11 @@ const Carousel = ({
       >
         {slides ? (
           slides.map((slide, index) => (
-            <div key={index} className={cx("carousel-item")}>
-              {/** dummy data */}
+            <div
+              key={index}
+              className={cx("carousel-item")}
+              data-index={index} // Assign index for reference in observer
+            >
               {cardType === "asset" && <AssetSearchResultCard node={slide} />}
               {cardType === "artist" && <FeaturedArtistCard node={slide} />}
               {cardType === "image" && (
