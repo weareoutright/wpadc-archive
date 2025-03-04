@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import classNames from "classnames/bind";
 import Link from "next/link";
 import Image from "next/image";
@@ -7,7 +6,7 @@ import WASHINGTON_PROJECT from "../../assets/header/washington-project.svg";
 import FOR_THE_ARTS from "../../assets/header/for-the-arts.svg";
 import CLOSE_MENU from "../../assets/full-page-nav/close-full-page-nav.svg";
 import SEARCH_ICON from "../../assets/full-page-nav/search-icon.svg";
-import { Container, FullPageNav, SkipNavigationLink, NavigationMenu } from "..";
+import { Container, FullPageNav, SkipNavigationLink } from "..";
 import styles from "./FullPageNavHeader.module.scss";
 
 let cx = classNames.bind(styles);
