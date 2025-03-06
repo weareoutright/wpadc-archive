@@ -75,6 +75,7 @@ const Carousel = ({
           <Image
             src={isFirstVisible ? PREV_BTN : PREV_BTN_DARK}
             alt="Previous"
+            style={cardType === "artist" ? { filter: "invert(1)" } : {}}
           />
         </button>
         <button onClick={nextSlide} disabled={isLastVisible}>
