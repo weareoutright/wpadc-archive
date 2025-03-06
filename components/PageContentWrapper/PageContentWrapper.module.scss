@@ -1,3 +1,5 @@
+@import '../styles/_breakpoints.scss';
+
 .component {
   color: var(--wpe--main--color);
   background-color: var(--wpe--main--background-color);
@@ -58,4 +60,26 @@
   left: 0;
   top: 0;
   height: 2.5rem;
+}
+
+@media (max-width: $breakpoint-medium) {
+  .how-to-use-the-archive-container {
+    .text-content {
+      .submission-btns {
+        padding-left: 3rem;
+      }
+    }
+  }
+}
+
+@media (max-width: $breakpoint-small) {
+  .how-to-use-the-archive-container {
+    padding: 5rem 3rem 0;
+    .text-content {
+      grid-template-columns: 1fr;
+      .submission-btns {
+        padding-left: 0;
+      }
+    }
+  }
 }

@@ -77,11 +77,13 @@ export default function Component(props) {
               vitae mattis tellus. Nullam quis imperdiet augue.
             </div>
             <div className="page-content">
-              <Image
-                className="about-featured-image"
-                src={ABOUT_FEATURED_IMAGE}
-                alt="About The Archive"
-              />
+              <div className={"img-container"}>
+                <Image
+                  className="about-featured-image"
+                  src={ABOUT_FEATURED_IMAGE}
+                  alt="About The Archive"
+                />
+              </div>
               <div className="text-content">
                 <h2>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
