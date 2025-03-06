@@ -11,7 +11,7 @@
   height: 103vh;
   background-color: black;
   position: relative;
-  z-index: 1;
+  z-index: 0;
 }
 
 .navbar {
@@ -19,7 +19,7 @@
   position: relative;
   justify-content: space-between;
   flex-wrap: wrap;
-  padding: 3rem 6rem 4.2rem 6rem;
+  padding: 3rem 6rem 4rem 6rem;
   gap: 1rem;
   background-color: black;
   color: white;
