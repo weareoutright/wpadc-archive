@@ -16,13 +16,31 @@
         grid-template-columns: 1fr 1fr;
         padding: 4rem 0;
 
-        .about-featured-image {
-          display: block;
-          padding-right: 5rem;
+        .img-container {
+          margin: 0 auto;
+            .about-featured-image {
+              display: block;
+              padding-right: 5rem;
+            }
         }
 
         .text-content {
-          padding-left: 7rem;
+          padding-left: 1rem;
+        }
+      }
+    }
+  }
+
+  @media (max-width: $breakpoint-small) {
+    padding: 2.5rem 3rem;
+    .about-container {
+      .About {
+        .page-content {
+          grid-template-columns: 1fr;
+          .text-content {
+            padding-top: 4rem;
+            padding-left: 0;
+          }
         }
       }
     }

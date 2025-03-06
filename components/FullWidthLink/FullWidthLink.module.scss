@@ -90,6 +90,20 @@
   }
 }
 
+@media (max-width: $breakpoint-small) {
+  .component {
+    padding: 0 3rem;
+  }
+  .full-width-link {
+    .label {
+      .link-text {
+        font-size: 4rem;
+        margin-bottom: -1.25rem;
+      }
+    }
+  }
+}
+
 @media (max-width: $breakpoint-extra-small) {
   .front-page-full-width-links {
     .full-width-link {

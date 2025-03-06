@@ -215,3 +215,15 @@
 .indigo-bg {
   background-color: var(--indigo);
 }
+
+@media (max-width: $breakpoint-small) {
+  .full-width-page-header {
+    font-size: 3.5rem;
+    padding: 1rem 3rem 2.5rem;
+  }
+  .full-width-link {
+    .link-text {
+      font-size: 3rem;
+    }
+  }
+}
