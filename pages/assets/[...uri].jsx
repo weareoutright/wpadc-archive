@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import useAssetsBySlug from "../../constants/customQueryHooks/useAssetsBySlug";
 import { useRouter } from "next/router";
 import {
@@ -64,6 +64,7 @@ const DUMMY_ITEMS = [
 const AssetPage = () => {
   const router = useRouter();
   const { uri } = router.query;
+  const [isNavShown, setIsNavShown] = useState(false);
 
   const { loading, error, assetPostBySlug } = useAssetsBySlug(uri?.join("/"));
 
@@ -97,6 +98,8 @@ const AssetPage = () => {
         title={generalSettings?.title}
         description={generalSettings?.description}
         menuItems={menus}
+        isNavShown={isNavShown}
+        setIsNavShown={setIsNavShown}
       />
       <Main>
         <Container>

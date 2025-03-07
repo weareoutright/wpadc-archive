@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import {
   SEO,
@@ -104,6 +104,7 @@ const DUMMY_ARTIST = {
 const ArtistPage = () => {
   const router = useRouter();
   const { uri } = router.query;
+  const [isNavShown, setIsNavShown] = useState(false);
 
   //   const { loading, error, assetPostBySlug } = useArtistBySlug(uri?.join("/"));
 
@@ -140,19 +141,25 @@ const ArtistPage = () => {
         title={generalSettings?.title}
         description={generalSettings?.description}
         menuItems={menus}
+        isNavShown={isNavShown}
+        setIsNavShown={setIsNavShown}
       />
-      <Main>
-        <Container>
-          <ArtistContainerHeader artistObj={DUMMY_ARTIST} />
-          <InThisProjectSection
-            headerText="By This Artist"
-            itemsArr={DUMMY_ITEMS}
-            frontPageCarousel={false}
-          />
-          <RelatedSection itemsArr={DUMMY_ITEMS} />
-        </Container>
-      </Main>
-      <Footer title={generalSettings?.title} menuItems={null} />
+      {!isNavShown && (
+        <>
+          <Main>
+            <Container>
+              <ArtistContainerHeader artistObj={DUMMY_ARTIST} />
+              <InThisProjectSection
+                headerText="By This Artist"
+                itemsArr={DUMMY_ITEMS}
+                frontPageCarousel={false}
+              />
+              <RelatedSection itemsArr={DUMMY_ITEMS} />
+            </Container>
+          </Main>
+          <Footer title={generalSettings?.title} menuItems={null} />
+        </>
+      )}
     </>
   );
 };

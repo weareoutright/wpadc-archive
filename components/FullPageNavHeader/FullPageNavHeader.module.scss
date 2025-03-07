@@ -7,11 +7,15 @@
   z-index: 2; // Pull dropdown menus to the foreground to sit above <Main />.
 }
 
+.full-page-nav-header {
+  padding: 0rem 21rem 4.2rem 9rem;
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  padding: 3rem 6rem 4.2rem 6rem;
+  padding: 3rem 24rem 0rem 6rem;
   gap: 1rem;
   background-color: transparent;
   color: white;

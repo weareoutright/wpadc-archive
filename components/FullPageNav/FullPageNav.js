@@ -1,3 +1,4 @@
+import { useRouter } from "next/router"; // Import useRouter
 import styles from "./FullPageNav.module.scss";
 import className from "classnames/bind";
 import { useHeaderMenu } from "../../constants/customQueryHooks";
@@ -17,6 +18,9 @@ export default function FullPageNav({
   setIsNavShown,
   isNavShown,
 }) {
+  const router = useRouter(); // Get the current route
+  const isFrontPage = router.pathname === "/"; // Check if the route is "/"
+
   const { loading: loadingMenus, error: errorMenus, menus } = useHeaderMenu();
   const [display, setDisplay] = useState("block");
 
@@ -52,12 +56,16 @@ export default function FullPageNav({
   }, [isNavShown]);
 
   return (
-    <div className={cx(["component", className])} style={{ display: display }}>
+    <div
+      className={cx(["component", className, { "front-page": isFrontPage }])}
+      style={{ display: display }}
+    >
       <FullPageNavHeader
         display={display}
         setDisplay={setDisplay}
         setIsNavShown={setIsNavShown}
         isNavShown={isNavShown}
+        isFrontPage={isFrontPage} // Pass it to the header if needed
       />
       {menus ? (
         <div className={cx("menu-container")}>

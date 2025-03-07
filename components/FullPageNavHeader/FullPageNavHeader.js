@@ -18,15 +18,16 @@ export default function FullPageNavHeader({
   setDisplay,
   setIsNavShown,
   isNavShown,
+  isFrontPage,
 }) {
   return (
-    <header className={cx("component")}>
+    <header className={cx(["component", "full-page-nav-header"])}>
       <SkipNavigationLink />
       {isNavShown && (
         <FullPageNav isNavShown={isNavShown} setIsNavShown={setIsNavShown} />
       )}
       <Container>
-        <div className={cx("navbar")}>
+        <div className={cx(["navbar", isFrontPage && "front-page-navbar"])}>
           <div className={cx("brand")}>
             <Link href="/">
               <a className={cx("title")}>
