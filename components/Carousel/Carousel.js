@@ -76,9 +76,14 @@ const Carousel = ({
             src={isFirstVisible ? PREV_BTN : PREV_BTN_DARK}
             alt="Previous"
             style={cardType === "artist" ? { filter: "invert(1)" } : {}}
+            className={isFirstVisible && "disabled"}
           />
         </button>
-        <button onClick={nextSlide} disabled={isLastVisible}>
+        <button
+          onClick={nextSlide}
+          disabled={isLastVisible}
+          className={isLastVisible && "disabled"}
+        >
           <Image
             src={isLastVisible ? NEXT_BTN_LIGHT : NEXT_BTN}
             alt="Next"
