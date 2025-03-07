@@ -1,12 +1,12 @@
 .component {
   background: linear-gradient(180deg, #6741f5 0%, #f66639 100%);
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  z-index: 100;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  z-index: 2;
   top: 0;
   left: 0;
-  overflow: hidden; /* Prevent scrolling within the div itself */
+  overflow-y: hidden;
 
   .menu-container {
     width: 100%;

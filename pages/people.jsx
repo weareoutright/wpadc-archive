@@ -22,6 +22,7 @@ import {
   NavigationMenu,
   LoadingPage,
 } from "../components";
+import { useState } from "react";
 
 const roleTypeOrganizer = {
   /* // TODO: make visibleRoleTypes take in an array of role types set to visible via CMS
@@ -74,6 +75,7 @@ const roleTypeOrganizer = {
 };
 
 export default function Component() {
+  const [isNavShown, setIsNavShown] = useState(false);
   const {
     loading: loadingSettings,
     error: errorSettings,
@@ -113,23 +115,29 @@ export default function Component() {
         description={generalSettings.description}
         menuItems={primaryMenu}
         currentRoute={"/people"}
+        isNavShown={isNavShown}
+        setIsNavShown={setIsNavShown}
       />
-      <Main>
-        <Container>
-          <div className="People">
-            <h1>People</h1>
-            {loadingRoleGroups
-              ? "Loading..."
-              : roleTypeOrganizer.visibleRoleTypes.map((role) => {
-                  const roleGroupComponent = roleTypeOrganizer[role](
-                    roleGroups[role]
-                  );
-                  return roleGroupComponent;
-                })}
-          </div>
-        </Container>
-      </Main>
-      <Footer title={generalSettings.title} menuItems={null} />
+      {!isNavShown && (
+        <>
+          <Main>
+            <Container>
+              <div className="People">
+                <h1>People</h1>
+                {loadingRoleGroups
+                  ? "Loading..."
+                  : roleTypeOrganizer.visibleRoleTypes.map((role) => {
+                      const roleGroupComponent = roleTypeOrganizer[role](
+                        roleGroups[role]
+                      );
+                      return roleGroupComponent;
+                    })}
+              </div>
+            </Container>
+          </Main>
+          <Footer title={generalSettings.title} menuItems={null} />
+        </>
+      )}
     </>
   );
 }

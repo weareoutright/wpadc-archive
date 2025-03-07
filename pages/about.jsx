@@ -3,6 +3,7 @@
  *
  */
 import Image from "next/image";
+import { useState } from "react";
 import { useQuery } from "@apollo/client";
 import {
   useGeneralSettings,
@@ -33,6 +34,7 @@ let cx = classNames.bind(styles);
 let FullWidthLinkCx = classNames.bind(FullWidthLinkStyles);
 
 export default function Component(props) {
+  const [isNavShown, setIsNavShown] = useState(false);
   const {
     loading: loadingSettings,
     error: errorSettings,
@@ -66,28 +68,62 @@ export default function Component(props) {
         description={generalSettings.description}
         menuItems={primaryMenu}
         currentRoute={"/about"}
+        isNavShown={isNavShown}
+        setIsNavShown={setIsNavShown}
       />
-      <Main className="main-about-container" isFrontPage={false}>
-        <Container className="about-container">
-          <div className="About">
-            <div className="page-description">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et
-              massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien
-              fringilla, mattis ligula consectetur, ultrices mauris. Maecenas
-              vitae mattis tellus. Nullam quis imperdiet augue.
-            </div>
-            <div className="page-content">
-              <div className={"img-container"}>
-                <Image
-                  className="about-featured-image"
-                  src={ABOUT_FEATURED_IMAGE}
-                  alt="About The Archive"
-                />
+      {!isNavShown && (
+        <>
+          <Main className="main-about-container" isFrontPage={false}>
+            <Container className="about-container">
+              <div className="About">
+                <div className="page-description">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et
+                  massa mi. Aliquam in hendrerit urna. Pellentesque sit amet
+                  sapien fringilla, mattis ligula consectetur, ultrices mauris.
+                  Maecenas vitae mattis tellus. Nullam quis imperdiet augue.
+                </div>
+                <div className="page-content">
+                  <div className={"img-container"}>
+                    <Image
+                      className="about-featured-image"
+                      src={ABOUT_FEATURED_IMAGE}
+                      alt="About The Archive"
+                    />
+                  </div>
+                  <div className="text-content">
+                    <h2>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    </h2>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      Ut et massa mi. Aliquam in hendrerit urna. Pellentesque
+                      sit amet sapien fringilla, mattis ligula consectetur,
+                      ultrices mauris. Maecenas vitae mattis tellus. Nullam quis
+                      imperdiet augue. Vestibulum auctor ornare leo, non
+                      suscipit magna interdum eu. Curabitur pellentesque nibh
+                      nibh, at maximus ante fermentum sit amet. Pellentesque
+                      commodo lacus at sodales sodales.
+                    </p>
+                    <div className="external-links external-links-light">
+                      {" "}
+                      <a href="#">
+                        Washington Project for the Arts{" "}
+                        <Image
+                          className="right-arrow"
+                          src={RIGHT_ARROW}
+                          alt="right arrow"
+                        />
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="text-content">
-                <h2>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </h2>
+            </Container>
+          </Main>
+          <PageContentWrapper className="how-to-use-the-archive-container">
+            <h2>How to Use the Archive</h2>
+            <div className={cx("text-content")}>
+              <div className={cx("how-to-use-the-archive")}>
                 <p>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et
                   massa mi. Aliquam in hendrerit urna. Pellentesque sit amet
@@ -97,62 +133,35 @@ export default function Component(props) {
                   Curabitur pellentesque nibh nibh, at maximus ante fermentum
                   sit amet. Pellentesque commodo lacus at sodales sodales.
                 </p>
-                <div className="external-links external-links-light">
-                  {" "}
-                  <a href="#">
-                    Washington Project for the Arts{" "}
-                    <Image
-                      className="right-arrow"
-                      src={RIGHT_ARROW}
-                      alt="right arrow"
-                    />
-                  </a>
-                </div>
+              </div>
+              <div className={cx("submission-btns")}>
+                <a href="#" className={cx("submission-btn")}>
+                  Submit Feedback <Image src={RIGHT_ARROW} alt="right arrow" />
+                </a>
+                <a href="#" className={cx("submission-btn")}>
+                  Submit Content <Image src={RIGHT_ARROW} alt="right arrow" />
+                </a>
               </div>
             </div>
-          </div>
-        </Container>
-      </Main>
-      <PageContentWrapper className="how-to-use-the-archive-container">
-        <h2>How to Use the Archive</h2>
-        <div className={cx("text-content")}>
-          <div className={cx("how-to-use-the-archive")}>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et
-              massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien
-              fringilla, mattis ligula consectetur, ultrices mauris. Maecenas
-              vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum
-              auctor ornare leo, non suscipit magna interdum eu. Curabitur
-              pellentesque nibh nibh, at maximus ante fermentum sit amet.
-              Pellentesque commodo lacus at sodales sodales.
-            </p>
-          </div>
-          <div className={cx("submission-btns")}>
-            <a href="#" className={cx("submission-btn")}>
-              Submit Feedback <Image src={RIGHT_ARROW} alt="right arrow" />
-            </a>
-            <a href="#" className={cx("submission-btn")}>
-              Submit Content <Image src={RIGHT_ARROW} alt="right arrow" />
-            </a>
-          </div>
-        </div>
-      </PageContentWrapper>
-      <FullWidthLink
-        label={
-          <span className={FullWidthLinkCx("label")}>
-            <span className={FullWidthLinkCx("link-text")}>PEOPLE</span>{" "}
-            <Image
-              className={FullWidthLinkCx("arrow-icon")}
-              src={RIGHT_ARROW_WHITE}
-              alt="right arrow"
-            />
-          </span>
-        }
-        path="/people"
-        bgHex="6741f5"
-        bgImg="../assets/front-page/full-width-link-bg-sample.svg"
-      />
-      <Footer title={generalSettings.title} menuItems={null} />
+          </PageContentWrapper>
+          <FullWidthLink
+            label={
+              <span className={FullWidthLinkCx("label")}>
+                <span className={FullWidthLinkCx("link-text")}>PEOPLE</span>{" "}
+                <Image
+                  className={FullWidthLinkCx("arrow-icon")}
+                  src={RIGHT_ARROW_WHITE}
+                  alt="right arrow"
+                />
+              </span>
+            }
+            path="/people"
+            bgHex="6741f5"
+            bgImg="../assets/front-page/full-width-link-bg-sample.svg"
+          />
+          <Footer title={generalSettings.title} menuItems={null} />
+        </>
+      )}
     </>
   );
 }

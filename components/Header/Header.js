@@ -26,9 +26,9 @@ export default function Header({
   description,
   menuItems,
   currentRoute,
+  isNavShown,
+  setIsNavShown,
 }) {
-  const [isNavShown, setIsNavShown] = useState(false);
-
   const isFrontPage = currentRoute === "/";
   const isAboutPage = currentRoute === "/about";
   const isPeoplePage = currentRoute === "/people";
@@ -36,7 +36,11 @@ export default function Header({
   return (
     <>
       <header
-        className={cx("component", isFrontPage && "front-page-component")}
+        className={cx(
+          "component",
+          isFrontPage && "front-page-component",
+          isNavShown && "nav-shown"
+        )}
       >
         <SkipNavigationLink />
         {isNavShown && <FullPageNav setIsNavShown={setIsNavShown} />}

@@ -21,6 +21,7 @@ import { AssetSearchResultCard } from "../components/AssetSearchResultCard";
 import { PersonSearchResultCard } from "../components";
 
 export default function Component() {
+  const [isNavShown, setIsNavShown] = useState(false);
   const router = useRouter();
   const { query } = router;
 
@@ -85,51 +86,59 @@ export default function Component() {
         title={generalSettings.title}
         description={generalSettings.description}
         menuItems={primaryMenu}
+        currentRoute={"/search"}
+        isNavShown={isNavShown}
+        setIsNavShown={setIsNavShown}
       />
-      <SearchBar
-        searchKeyword={searchKeyword}
-        setSearchKeyword={setSearchKeyword}
-        debouncedKeyword={debouncedKeyword}
-        setResults={setResults}
-        results={results}
-      />
-      <Main>
-        <Container>
-          <div className="Search">
-            <div className="results">
-              <h1>
-                Results for "{searchKeyword === undefined ? "" : searchKeyword}"
-                <small>{results.length} results</small>
-              </h1>
-              <hr />
-              {results.length > 0 && searchKeyword !== "" ? (
-                <div className="results-container">
-                  {results?.map((result, index) => {
-                    console.log("RESULT", result);
-                    if (result.node.__typename === "Asset_post") {
-                      return (
-                        <AssetSearchResultCard
-                          key={`asset-card-${index}`}
-                          node={result.node}
-                        />
-                      );
-                    }
-                    if (result.node.__typename === "Person") {
-                      return (
-                        <PersonSearchResultCard
-                          key={`person-card-${index}`}
-                          node={result.node}
-                        />
-                      );
-                    }
-                  })}
+      {!isNavShown && (
+        <>
+          <SearchBar
+            searchKeyword={searchKeyword}
+            setSearchKeyword={setSearchKeyword}
+            debouncedKeyword={debouncedKeyword}
+            setResults={setResults}
+            results={results}
+          />
+          <Main>
+            <Container>
+              <div className="Search">
+                <div className="results">
+                  <h1>
+                    Results for "
+                    {searchKeyword === undefined ? "" : searchKeyword}"
+                    <small>{results.length} results</small>
+                  </h1>
+                  <hr />
+                  {results.length > 0 && searchKeyword !== "" ? (
+                    <div className="results-container">
+                      {results?.map((result, index) => {
+                        console.log("RESULT", result);
+                        if (result.node.__typename === "Asset_post") {
+                          return (
+                            <AssetSearchResultCard
+                              key={`asset-card-${index}`}
+                              node={result.node}
+                            />
+                          );
+                        }
+                        if (result.node.__typename === "Person") {
+                          return (
+                            <PersonSearchResultCard
+                              key={`person-card-${index}`}
+                              node={result.node}
+                            />
+                          );
+                        }
+                      })}
+                    </div>
+                  ) : null}
                 </div>
-              ) : null}
-            </div>
-          </div>
-        </Container>
-      </Main>
-      <Footer title={generalSettings.title} menuItems={null} />
+              </div>
+            </Container>
+          </Main>
+          <Footer title={generalSettings.title} menuItems={null} />
+        </>
+      )}
     </>
   );
 }
