@@ -105,6 +105,7 @@ const PublicProgramsPage = () => {
             <InThisProjectSection
               headerText="In This Series"
               itemsArr={DUMMY_ITEMS}
+              frontPageCarousel={false}
             />
             <RelatedSection itemsArr={DUMMY_ITEMS} />
           </div>

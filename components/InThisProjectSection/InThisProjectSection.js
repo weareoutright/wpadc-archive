@@ -1,12 +1,18 @@
 import styles from "./InThisProjectSection.module.scss";
+import carouselStyles from "../Carousel/Carousel.module.scss";
 import className from "classnames/bind";
 import { Carousel } from "../Carousel";
 import { FullPageFocusOverlay } from "../FullPageFocusOverlay";
 import { useState } from "react";
 
 let cx = className.bind(styles);
+let carouselCx = className.bind(carouselStyles);
 
-const InThisProjectSection = ({ headerText, itemsArr = [] }) => {
+const InThisProjectSection = ({
+  headerText,
+  itemsArr = [],
+  frontPageCarousel,
+}) => {
   const [isOverlayShown, setIsOverlayShown] = useState(false);
 
   return (
@@ -24,6 +30,9 @@ const InThisProjectSection = ({ headerText, itemsArr = [] }) => {
               slides={itemsArr}
               cardType="image"
               setIsOverlayShown={setIsOverlayShown}
+              className={carouselCx(
+                !frontPageCarousel && "template-page-carousel"
+              )}
             />
           </div>
         </div>

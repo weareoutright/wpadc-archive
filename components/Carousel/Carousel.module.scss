@@ -1,9 +1,28 @@
+.template-page-carousel {
+  .carousel-controls {
+    padding: 0 !important;
+  }
+
+  .carousel-items {
+    margin-left: 0px;
+    padding: 0 !important;
+  }
+}
+
 .Carousel {
   display: flex;
   flex-direction: column;
   overflow-y: none;
   width: 100%;
   position: relative;
+
+  overflow-x: auto;
+  scrollbar-width: none; // For Firefox
+  -ms-overflow-style: none; // For IE/Edge
+
+  &::-webkit-scrollbar {
+    display: none; // For Chrome/Safari
+  }
 
   .carousel-controls {
     width: 100%;
@@ -42,16 +61,13 @@
     -webkit-overflow-scrolling: touch;
     white-space: nowrap;
     scrollbar-width: none; // Hide scrollbar in Firefox
-    //margin-left: -125px;
-    //margin-right: -125px;
-    //padding: 0 125px;
-    //padding-bottom: 1rem;
+    -ms-overflow-style: none; // Hide scrollbar in IE/Edge
     padding: 1rem 0 1rem 6rem;
   }
 
   @media (max-width: 650px) {
     .carousel-controls {
-      padding: 0 3rem;
+      padding: 0;
     }
     .carousel-items {
       padding: 0 3rem;

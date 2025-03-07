@@ -147,6 +147,7 @@ const ArtistPage = () => {
           <InThisProjectSection
             headerText="By This Artist"
             itemsArr={DUMMY_ITEMS}
+            frontPageCarousel={false}
           />
           <RelatedSection itemsArr={DUMMY_ITEMS} />
         </Container>

@@ -105,6 +105,7 @@ const AssetPage = () => {
             <InThisProjectSection
               headerText="In This Project"
               itemsArr={DUMMY_ITEMS}
+              frontPageCarousel={false}
             />
             <RelatedSection itemsArr={DUMMY_ITEMS} />
           </div>

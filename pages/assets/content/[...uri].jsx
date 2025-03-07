@@ -102,7 +102,11 @@ const AssetPage = () => {
         <Container>
           <div className="AssetPage">
             <ContainerHeader pageType="content" />
-            <InThisProjectSection headerText="Images" itemsArr={DUMMY_ITEMS} />
+            <InThisProjectSection
+              headerText="Images"
+              itemsArr={DUMMY_ITEMS}
+              frontPageCarousel={false}
+            />
             <RelatedSection itemsArr={DUMMY_ITEMS} />
           </div>
         </Container>
