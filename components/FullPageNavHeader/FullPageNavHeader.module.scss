@@ -7,6 +7,14 @@
   z-index: 2; // Pull dropdown menus to the foreground to sit above <Main />.
 }
 
+.not-front-page.full-page-nav-header {
+  padding: 0;
+
+  .navbar {
+    padding: 3rem 6rem 0rem 6rem;
+  }
+}
+
 .full-page-nav-header {
   padding: 0rem 21rem 4.2rem 9rem;
 }

@@ -15,15 +15,21 @@ export default function FullPageNavHeader({
   title = "",
   description,
   menuItems,
-  setDisplay,
   setIsNavShown,
   isNavShown,
   isFrontPage,
+  show,
 }) {
   return (
-    <header className={cx(["component", "full-page-nav-header"])}>
+    <header
+      className={cx([
+        "component",
+        "full-page-nav-header",
+        isFrontPage ? "front-page" : "not-front-page",
+      ])}
+    >
       <SkipNavigationLink />
-      {isNavShown && (
+      {show && (
         <FullPageNav isNavShown={isNavShown} setIsNavShown={setIsNavShown} />
       )}
       <Container>
@@ -53,7 +59,6 @@ export default function FullPageNavHeader({
               aria-controls={cx("primary-navigation")}
               aria-expanded={isNavShown}
               onClick={() => {
-                setDisplay("none");
                 setIsNavShown(false);
               }}
             >

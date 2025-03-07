@@ -43,7 +43,9 @@ export default function Header({
         )}
       >
         <SkipNavigationLink />
-        {isNavShown && <FullPageNav setIsNavShown={setIsNavShown} />}
+        {isNavShown && (
+          <FullPageNav setIsNavShown={setIsNavShown} isNavShown={isNavShown} />
+        )}
         <Container
           className={isFrontPage && containerCx("front-page-header-container")}
         >

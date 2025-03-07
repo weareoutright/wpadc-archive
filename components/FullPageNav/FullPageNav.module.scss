@@ -5,8 +5,10 @@
   position: absolute;
   z-index: 2;
   top: 0;
-  left: 0;
   overflow-y: hidden;
+  transition: all 0.4s ease-in-out;
+  animation: slideInFromRight 0.4s linear;
+  transform: translateX(0);
 
   .menu-container {
     width: 100%;
@@ -37,6 +39,20 @@
         text-decoration: underline;
       }
     }
+  }
+}
+
+.component.leaving {
+  transform: translateX(100vw);
+}
+
+@keyframes slideInFromRight {
+  from {
+    right: -100vw;
+  }
+
+  to {
+    right: 0vw;
   }
 }
 

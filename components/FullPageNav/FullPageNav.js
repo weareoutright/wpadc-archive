@@ -1,4 +1,4 @@
-import { useRouter } from "next/router"; // Import useRouter
+import { useRouter } from "next/router";
 import styles from "./FullPageNav.module.scss";
 import className from "classnames/bind";
 import { useHeaderMenu } from "../../constants/customQueryHooks";
@@ -18,73 +18,56 @@ export default function FullPageNav({
   setIsNavShown,
   isNavShown,
 }) {
-  const router = useRouter(); // Get the current route
-  const isFrontPage = router.pathname === "/"; // Check if the route is "/"
+  const router = useRouter();
+  const isFrontPage = router.pathname === "/";
 
   const { loading: loadingMenus, error: errorMenus, menus } = useHeaderMenu();
-  const [display, setDisplay] = useState("block");
-
-  // Function to prevent scrolling
-  const disableScroll = () => {
-    document.documentElement.style.overflow = "hidden";
-    document.body.style.overflow = "hidden";
-    document.body.style.height = "100vh"; // Ensure full viewport lock
-    document.body.style.position = "fixed"; // Prevent content from shifting
-    window.addEventListener("touchmove", preventDefault, { passive: false }); // Block touch gestures
-  };
-
-  // Function to enable scrolling
-  const enableScroll = () => {
-    document.documentElement.style.overflow = "";
-    document.body.style.overflow = "";
-    document.body.style.height = "";
-    document.body.style.position = "";
-    window.removeEventListener("touchmove", preventDefault);
-  };
-
-  // Prevent default scroll behavior
-  const preventDefault = (e) => e.preventDefault();
+  const [isLeaving, setIsLeaving] = useState(false);
 
   useEffect(() => {
     if (isNavShown) {
-      disableScroll();
+      document.body.style.overflow = "hidden";
     } else {
-      enableScroll();
+      document.body.style.overflow = "";
     }
-
-    return () => enableScroll(); // Cleanup on unmount
   }, [isNavShown]);
+
+  // Handle closing with animation
+  const handleClose = () => {
+    setIsLeaving(true);
+    setTimeout(() => {
+      setIsNavShown(false);
+    }, 500); // Match this to the CSS transition duration
+  };
+
+  useEffect(() => {}, isFrontPage);
 
   return (
     <div
-      className={cx(["component", className, { "front-page": isFrontPage }])}
-      style={{ display: display }}
+      className={cx(
+        "component",
+        className,
+        isFrontPage ? "front-page" : "not-front-page",
+        {
+          leaving: isLeaving,
+        }
+      )}
     >
       <FullPageNavHeader
-        display={display}
-        setDisplay={setDisplay}
-        setIsNavShown={setIsNavShown}
+        setIsNavShown={handleClose}
         isNavShown={isNavShown}
-        isFrontPage={isFrontPage} // Pass it to the header if needed
+        isFrontPage={isFrontPage}
       />
       {menus ? (
         <div className={cx("menu-container")}>
-          {menus?.map((menu) => {
-            if (menu.label === "Get Involved")
-              return (
-                <a className={cx("menu-item")} key={menu.id} href={menu.path}>
-                  <span>
-                    {menu.label} <Image src={ARROW_LEFT} alt="" />
-                  </span>
-                </a>
-              );
-            else
-              return (
-                <a className={cx("menu-item")} key={menu.id} href={menu.path}>
-                  {menu.label ? menu.label : <LOADING_ICON />}
-                </a>
-              );
-          })}
+          {menus?.map((menu) => (
+            <a className={cx("menu-item")} key={menu.id} href={menu.path}>
+              {menu.label}
+              {menu.label === "Get Involved" && (
+                <Image src={ARROW_LEFT} alt="" />
+              )}
+            </a>
+          ))}
         </div>
       ) : (
         <div className={cx("menu-container")}>
