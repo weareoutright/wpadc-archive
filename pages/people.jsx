@@ -12,7 +12,6 @@ import {
 import { gql } from "@apollo/client";
 import * as MENUS from "../constants/menus";
 import { BlogInfoFragment } from "../fragments/GeneralSettings";
-// import { capitalizeString } from "../constants/capitalizeString";
 import {
   Header,
   Footer,

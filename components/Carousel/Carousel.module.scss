@@ -14,8 +14,14 @@
     padding: var(--wpe--content-container--padding-x-y);
 
     button {
+      transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       background: none;
       border: none;
+
+      &:hover {
+        cursor: pointer;
+        scale: 1.2;
+      }
     }
   }
 
