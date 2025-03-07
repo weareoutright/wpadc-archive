@@ -7,7 +7,7 @@ export default function FullWidthLink({ label, path, bgHex = "000", bgImg }) {
   return (
     <a
       href={path}
-      className={cx(["component", "full-width-link", "bgColor"])}
+      className={cx(["component", "full-width-link", "bgColor", label === "PRINT / EPHEMERA" ? "print-wrap" : "",])}
       style={{ backgroundColor: `#${bgHex}` }}
     >
       {label}

@@ -225,6 +225,9 @@
   .full-width-page-header {
     font-size: 3.5rem;
     padding: 1rem 3rem 2.5rem;
+    span {
+      margin-bottom: -3.6rem;
+    }
   }
   .full-width-link {
     .link-text {
