@@ -55,6 +55,12 @@
   font-family: "Flaviotte";
   text-transform: uppercase;
 
+  &.print-wrap {
+    line-height: 5rem;
+    padding-top: 1rem;
+    margin-bottom: -.8rem;
+  }
+
   &:last-of-type {
     min-height: 12rem;
     padding-bottom: 2.2rem;
@@ -109,17 +115,34 @@
     .full-width-link {
       font-size: 4em;
       margin-bottom: -0.3em;
+      &.print-wrap {
+        line-height: 3.5rem;
+        margin-bottom: -.6rem;
+      }
     }
   }
 }
 
 @media (max-width: $breakpoint-xx-small) {
   .component {
-    padding: 0.5em;
+    padding: 0.5em 0.5em 0;
   }
   .front-page-full-width-links {
     .full-width-link {
       font-size: 3em;
+      padding-left: 3rem;
+      &.print-wrap {
+        line-height: 2.7rem;
+        margin-bottom: -0.4rem;
+      }
+    }
+  }
+  .full-width-link {
+    .label {
+      .link-text {
+        font-size: 3rem;
+        margin-bottom: -1.25rem;
+      }
     }
   }
 }
