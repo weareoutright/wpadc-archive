@@ -66,8 +66,10 @@ export default function Component() {
   }, [debouncedKeyword, refetch]);
 
   useEffect(() => {
-    setSearchKeyword(query.keyword);
-  }, []);
+    if (query.keyword && query.keyword !== searchKeyword) {
+      setSearchKeyword(query.keyword);
+    }
+  }, [query.keyword]);
 
   if (loadingSettings || loadingMenus) return null;
   if (errorSettings || errorMenus || error) {
@@ -94,7 +96,17 @@ export default function Component() {
         <>
           <SearchBar
             searchKeyword={searchKeyword}
-            setSearchKeyword={setSearchKeyword}
+            setSearchKeyword={(keyword) => {
+              setSearchKeyword(keyword);
+              router.replace(
+                {
+                  pathname: router.pathname,
+                  query: { ...router.query, keyword },
+                },
+                undefined,
+                { shallow: true }
+              ); // Prevents full page reload
+            }}
             debouncedKeyword={debouncedKeyword}
             setResults={setResults}
             results={results}

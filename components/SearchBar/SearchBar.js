@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import SEARCH_BTN from "../../assets/search-bar/search-icon.svg";
 import SORT_DOWN_ARROW from "../../assets/search-bar/sort-down-arrow.svg";
@@ -21,19 +21,51 @@ export default function SearchBar({
   results,
 }) {
   const router = useRouter();
-  const [localKeyword, setLocalKeyword] = useState("");
+  const { keyword } = router.query;
+
+  // Local state for the input field
+  const [localKeyword, setLocalKeyword] = useState(searchKeyword || "");
+
+  // Sync input with URL when `keyword` in query updates
+  useEffect(() => {
+    if (keyword !== undefined && keyword !== localKeyword) {
+      setLocalKeyword(keyword);
+    }
+  }, [keyword]);
+
+  // Debounce effect to reduce unnecessary updates
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (localKeyword !== searchKeyword) {
+        setSearchKeyword(localKeyword);
+      }
+    }, 300); // Adjust debounce delay as needed
+
+    return () => clearTimeout(timer);
+  }, [localKeyword, searchKeyword, setSearchKeyword]);
 
   const handleSearch = (e) => {
-    if (isFrontPage) setLocalKeyword(e.target.value);
-    else setSearchKeyword(e.target.value);
+    setLocalKeyword(e.target.value);
   };
 
-  const performSearch = () => {
-    if (results?.length > 0) setResults([]);
-    if (isFrontPage && localKeyword)
-      router.push(`/search?keyword=${encodeURIComponent(localKeyword)}`);
-    else router.push(`/search?keyword=${encodeURIComponent(searchKeyword)}`);
-  };
+  const performSearch = useCallback(() => {
+    if (!localKeyword.trim()) return;
+
+    // Update results state
+    if (results?.length > 0) {
+      setResults([]);
+    }
+
+    // Update the URL without causing a full-page reload
+    router.replace(
+      {
+        pathname: "/search",
+        query: { keyword: localKeyword },
+      },
+      undefined,
+      { shallow: true }
+    );
+  }, [localKeyword, results, router, setResults]);
 
   return (
     <div className={`search-bar ${isFrontPage ? "front-page-search-bar" : ""}`}>
@@ -51,14 +83,11 @@ export default function SearchBar({
           <input
             type="text"
             placeholder="Exhibits in the 1980s..."
-            onChange={(e) => {
-              e.preventDefault();
-              handleSearch(e);
-            }}
-            value={searchKeyword === "undefined" ? "" : searchKeyword}
+            onChange={handleSearch}
+            value={localKeyword}
             name="searchKeyword"
           />
-          <button className="search-btn" onClick={performSearch}>
+          <button type="submit" className="search-btn">
             <Image src={SEARCH_BTN} alt="search the archive" />
           </button>
         </form>
