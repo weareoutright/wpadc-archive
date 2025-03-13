@@ -2,15 +2,62 @@ import { useRouter } from "next/router";
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import SEARCH_BTN from "../../assets/search-bar/search-icon.svg";
-import SORT_DOWN_ARROW from "../../assets/search-bar/sort-down-arrow.svg";
+import RIGHT_ARROW from "../../assets/icons/arrow-right-90-deg-white.svg";
+import FilterBtn from "../FilterBtn/FilterBtn";
 
 const FILTER_PILL_BTNS_DUMMY = [
-  "Year",
-  "People",
-  "Role",
-  "Document Type",
-  "Project Type",
-  "Location",
+  {
+    filterText: "Year",
+    dropdownItems: [
+      { title: "2020", count: 15 },
+      { title: "2021", count: 10 },
+      { title: "2022", count: 8 },
+    ],
+  },
+  {
+    filterText: "People",
+    dropdownItems: [
+      {
+        title: "A-H",
+        count: 5,
+        childrenItems: ["PersonA", "PersonB", "PersonC"],
+      },
+      { title: "I-P", count: 7, childrenItems: ["Person2"] },
+      { title: "Q-Z", count: 3, childrenItems: ["Person3"] },
+    ],
+  },
+  {
+    filterText: "Role",
+    dropdownItems: [
+      { title: "Artist", count: 4 },
+      { title: "Curator", count: 6 },
+      { title: "Organizer", count: 9 },
+    ],
+  },
+  {
+    filterText: "Document Type",
+    dropdownItems: [
+      { title: "Photo", count: 12 },
+      { title: "Video", count: 7 },
+      { title: "PDF", count: 3 },
+    ],
+  },
+  {
+    filterText: "Project Type",
+    dropdownItems: [
+      { title: "Research", count: 8 },
+      { title: "Development", count: 5 },
+      { title: "Testing", count: 4 },
+    ],
+  },
+  {
+    filterText: "Location",
+    dropdownItems: [
+      { title: "New York", count: 6 },
+      { title: "San Francisco", count: 3 },
+      { title: "Chicago", count: 2 },
+    ],
+  },
 ];
 
 export default function SearchBar({
@@ -25,6 +72,9 @@ export default function SearchBar({
 
   // Local state for the input field
   const [localKeyword, setLocalKeyword] = useState(searchKeyword || "");
+
+  const [selectedItems, setSelectedItems] = useState({}); // Stores selected parent-child hierarchy
+  const [activeItems, setActiveItems] = useState([]);
 
   // Sync input with URL when `keyword` in query updates
   useEffect(() => {
@@ -67,6 +117,22 @@ export default function SearchBar({
     );
   }, [localKeyword, results, router, setResults]);
 
+  const removeItem = (itemToRemove) => {
+    setActiveItems((prevActiveItems) =>
+      prevActiveItems.filter((item) => item !== itemToRemove)
+    );
+
+    setSelectedItems((prevSelectedItems) => {
+      const updatedItems = { ...prevSelectedItems };
+      delete updatedItems[itemToRemove]; // Remove the key from selectedItems
+      return updatedItems;
+    });
+  };
+
+  useEffect(() => {
+    setActiveItems([...Object.keys(selectedItems)]);
+  }, [selectedItems]);
+
   return (
     <div className={`search-bar ${isFrontPage ? "front-page-search-bar" : ""}`}>
       <div
@@ -92,19 +158,16 @@ export default function SearchBar({
           </button>
         </form>
       </div>
+
       <div className="filter-pills">
         <div className="main-filters">
-          {FILTER_PILL_BTNS_DUMMY.map((pill_btn) => (
-            <a
-              onClick={(e) => {
-                e.preventDefault();
-                console.log(`Applied filter: ${pill_btn}`);
-              }}
-              className="pill-btn"
-              key={pill_btn}
-            >
-              {pill_btn}
-            </a>
+          {FILTER_PILL_BTNS_DUMMY.map((filter) => (
+            <FilterBtn
+              filterText={filter.filterText}
+              dropdownItems={filter.dropdownItems}
+              selectedItems={selectedItems}
+              setSelectedItems={setSelectedItems}
+            />
           ))}
         </div>
         <a
@@ -116,8 +179,33 @@ export default function SearchBar({
             console.log("Sort menu opened");
           }}
         >
-          Sort <Image src={SORT_DOWN_ARROW} alt="sort results" />
+          Apply{" "}
+          <Image src={RIGHT_ARROW} alt="sort results" height={15} width={15} />
         </a>
+      </div>
+      <div className="active-filters">
+        {activeItems?.length > 0 ? (
+          activeItems.map((item, index) => {
+            return (
+              <div key={index} className="active-item">
+                {item}{" "}
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    removeItem(item);
+                  }}
+                >
+                  X
+                </a>
+              </div>
+            );
+          })
+        ) : (
+          <div className="active-item blank">
+            <span></span>
+          </div>
+        )}
       </div>
     </div>
   );
