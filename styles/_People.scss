@@ -4,3 +4,36 @@
     border-bottom: 1px solid #9a9a9a;
   }
 }
+
+.outer-pill-container {
+  background-color: black;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  padding: var(--wpe--content-container--padding-x-y);
+  padding-top: 2rem;
+  justify-content: space-between;
+  .decade-pills {
+    padding: 2rem 0;
+  }
+  .filter-note, .note {
+    display: flex;
+    align-items: center;
+  }
+  .main-filters {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+  .pill-btn {
+    border: 1px solid #9B9B9B;
+    width: fit-content;
+    border-radius: 19.991px;
+    padding: 7.996px 17.992px;
+    font-size: 0.8rem;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
