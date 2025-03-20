@@ -57,26 +57,30 @@
 
   .active-filters {
     color: white;
-    padding: 0rem;
+    padding: 1.5rem 0 0 0;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+    flex-wrap: wrap;
     align-items: center;
     gap: 1rem;
 
     .active-item {
       color: white;
       text-decoration: underline;
+      font-weight: 325;
+      font-size: 0.75rem;
     }
 
     .blank {
-      min-height: 1.2rem;
+      min-height: 0.9rem;
       visibility: none;
     }
   }
 
   .filter-pills {
-    padding: 3rem 0rem 2rem 0rem;
+    padding: 0;
+    margin: 0 0 -2rem 0;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -94,27 +98,43 @@
       background-color: var(--dark-grey);
       width: fit-content;
       border-radius: 19.991px;
-      padding: 7.996px 17.992px;
       font-size: 0.8rem;
       &:hover {
         cursor: pointer;
       }
     }
 
-    .sort-btn {
-      text-decoration: none;
+    .apply-and-clear-all-btn {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
+      justify-content: flex-end;
       align-items: center;
-      gap: 0.25rem;
-      padding: 0.5rem 1.2rem;
-      font-size: 1rem;
-      background: var(--indigo);
-      transition: all 200ms ease-in-out;
-      outline: 1px solid var(--indigo);
+      padding: 0 0 1.5rem 0;
 
-      &:hover {
+      .clear-all-btn {
+        display: block;
+        color: white;
+        font-size: 0.75rem;
+      }
+
+      .apply-btn {
+        text-decoration: none;
+        display: block;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.5rem 1.2rem;
+        font-size: 1rem;
+        background: black;
+        transition: all 200ms ease-in-out;
         outline: 1px solid white;
+        margin: 0.5rem 0 0 0;
+
+        &:hover {
+          outline: 1px solid var(--indigo);
+          background: var(--indigo);
+        }
       }
     }
   }
