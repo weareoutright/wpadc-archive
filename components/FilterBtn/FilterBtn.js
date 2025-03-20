@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import classNames from "classnames/bind";
 import styles from "./FilterBtn.module.scss";
 import DOWN_CHEVRON from "../../assets/icons/down-chevron.svg";
@@ -12,6 +12,8 @@ const FilterBtn = ({
   dropdownItems,
   selectedItems,
   setSelectedItems,
+  activeItems,
+  setActiveItems,
 }) => {
   const filterDropdownRef = useRef(null);
   const [mainDropdownOpen, setMainDropdownOpen] = useState(false);
@@ -66,6 +68,12 @@ const FilterBtn = ({
       return updatedSelection;
     });
   };
+
+  useEffect(() => {
+    if (Object.keys(selectedItems).length <= 0 && activeItems.length <= 0) {
+      setMainDropdownOpen(false);
+    }
+  }, [selectedItems, activeItems]);
 
   return (
     <div className={cx("FilterBtn")}>

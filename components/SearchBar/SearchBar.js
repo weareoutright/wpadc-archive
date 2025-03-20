@@ -76,6 +76,11 @@ export default function SearchBar({
   const [selectedItems, setSelectedItems] = useState({}); // Stores selected parent-child hierarchy
   const [activeItems, setActiveItems] = useState([]);
 
+  const clearFilters = () => {
+    setSelectedItems({});
+    setActiveItems([]);
+  };
+
   // Sync input with URL when `keyword` in query updates
   useEffect(() => {
     if (keyword !== undefined && keyword !== localKeyword) {
@@ -158,31 +163,6 @@ export default function SearchBar({
           </button>
         </form>
       </div>
-
-      <div className="filter-pills">
-        <div className="main-filters">
-          {FILTER_PILL_BTNS_DUMMY.map((filter) => (
-            <FilterBtn
-              filterText={filter.filterText}
-              dropdownItems={filter.dropdownItems}
-              selectedItems={selectedItems}
-              setSelectedItems={setSelectedItems}
-            />
-          ))}
-        </div>
-        <a
-          className="pill-btn sort-btn"
-          href="#"
-          alt="sort results"
-          onClick={(e) => {
-            e.preventDefault();
-            console.log("Sort menu opened");
-          }}
-        >
-          Apply{" "}
-          <Image src={RIGHT_ARROW} alt="sort results" height={15} width={15} />
-        </a>
-      </div>
       <div className="active-filters">
         {activeItems?.length > 0 ? (
           activeItems.map((item, index) => {
@@ -206,6 +186,42 @@ export default function SearchBar({
             <span></span>
           </div>
         )}
+      </div>
+      <div className="filter-pills">
+        <div className="main-filters">
+          {FILTER_PILL_BTNS_DUMMY.map((filter) => (
+            <FilterBtn
+              filterText={filter.filterText}
+              dropdownItems={filter.dropdownItems}
+              selectedItems={selectedItems}
+              setSelectedItems={setSelectedItems}
+              activeItems={activeItems}
+              setActiveItems={setActiveItems}
+            />
+          ))}
+        </div>
+        <div className="apply-and-clear-all-btn">
+          <a href="#" onClick={clearFilters} className="clear-all-btn">
+            Clear all
+          </a>
+          <a
+            className="pill-btn apply-btn"
+            href="#"
+            alt="sort results"
+            onClick={(e) => {
+              e.preventDefault();
+              console.log("Sort menu opened");
+            }}
+          >
+            Apply{" "}
+            <Image
+              src={RIGHT_ARROW}
+              alt="sort results"
+              height={15}
+              width={15}
+            />
+          </a>
+        </div>
       </div>
     </div>
   );
