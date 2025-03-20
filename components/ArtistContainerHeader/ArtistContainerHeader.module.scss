@@ -1,3 +1,5 @@
+@import '../../styles/breakpoints';
+
 .ArtistContainerHeader {
   border-bottom: 1px solid var(--wpe--color--black);
   padding-bottom: 2rem;
@@ -19,7 +21,7 @@
     grid-template-columns: 1.25fr 0.75fr;
 
     .left-column {
-      margin-right: 7rem;
+      margin-right: 5rem;
 
       .description {
         font-weight: 400;
@@ -56,6 +58,42 @@
         width: 100%;
         height: auto;
         min-width: 245px;
+      }
+    }
+  }
+
+  @media (max-width: $breakpoint-medium) {
+    .artist-container-header-content {
+      .left-column {
+        margin-right: 3rem;
+      }
+    }
+  }
+
+  @media (max-width: $breakpoint-small) {
+    .artist-container-header-content {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+      grid-template-areas: "right" "left";
+      .left-column {
+        grid-area: left;
+      }
+      .right-column {
+        grid-area: right;
+        flex-direction: row;
+        align-items: center;
+        padding-bottom: 3em;
+      }
+      .left-column {
+        margin-right: 0;
+      }
+    }
+  }
+
+  @media (max-width: $breakpoint-extra-small) {
+    .artist-container-header-content {
+      .right-column {
+        flex-direction: column;
       }
     }
   }

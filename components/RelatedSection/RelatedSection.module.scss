@@ -1,7 +1,21 @@
+@import '../../styles/breakpoints.scss';
+
 .RelatedSection {
   .RelatedSectionItems {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
+  }
+
+  @media (max-width: $breakpoint-medium) {
+    .RelatedSectionItems {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: $breakpoint-extra-small) {
+    .RelatedSectionItems {
+      grid-template-columns: repeat(1, 1fr);
+    }
   }
 }

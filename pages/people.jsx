@@ -8,6 +8,7 @@ import {
   useGeneralSettings,
   useHeaderMenu,
   useRoleGroups,
+  useDecades,
 } from "../constants/customQueryHooks";
 import { gql } from "@apollo/client";
 import * as MENUS from "../constants/menus";
@@ -23,12 +24,21 @@ import {
 } from "../components";
 import { useState } from "react";
 
+const DECADE_PILL_BTNS_DUMMY = [
+  "1970s",
+  "1980s",
+  "1990s",
+  "2000s",
+  "2010s",
+  "2020s",
+];
+
 const roleTypeOrganizer = {
   /* // TODO: make visibleRoleTypes take in an array of role types set to visible via CMS
      TODO: order matters in the array for it to show up properly on the page
    */
 
-  visibleRoleTypes: ["staff", "volunteer", "board_member"],
+  visibleRoleTypes: ["staff", "board_member"],
   staff: (staffArr) => {
     return (
       <div key="staff-group" className="staff role-group">
@@ -92,15 +102,18 @@ export default function Component() {
     variables: Component.variables(),
   });
 
+    const { loading: loadingDecades, error: errorDecades, decades } = useDecades();
+
   const primaryMenu = menus;
 
-  if (loading || loadingSettings || loadingMenus)
+  if (loading || loadingSettings || loadingMenus || loadingDecades)
     return <LoadingPage stroke="#6741f5" />;
-  if (errorSettings || errorMenus || errorRoleGroups || error) {
+  if (errorSettings || errorMenus || errorRoleGroups || errorDecades || error) {
     console.error("Settings ERROR:", errorSettings?.message);
     console.error("Menus ERROR:", errorMenus?.message);
     console.error("Data ERROR:", error?.message);
     console.error("Role Groups ERROR:", errorRoleGroups?.message);
+    console.error("Decades ERROR:", errorDecades?.message);
   }
 
   return (
@@ -118,24 +131,82 @@ export default function Component() {
         setIsNavShown={setIsNavShown}
       />
       {!isNavShown && (
-        <>
-          <Main>
-            <Container>
-              <div className="People">
-                <h1>People</h1>
-                {loadingRoleGroups
-                  ? "Loading..."
-                  : roleTypeOrganizer.visibleRoleTypes.map((role) => {
-                      const roleGroupComponent = roleTypeOrganizer[role](
-                        roleGroups[role]
-                      );
-                      return roleGroupComponent;
-                    })}
+          <>
+            <div className={"outer-pill-container"}>
+              <div className={"decade-pills"}>
+                <div className="main-filters">
+                  <span className={"filter-note"}>Jump to decade</span>
+                  {DECADE_PILL_BTNS_DUMMY.map((pill_btn) => (
+                      <a
+                          onClick={(e) => {
+                            e.preventDefault();
+                            console.log(`Applied filter: ${pill_btn}`);
+                          }}
+                          className="pill-btn"
+                          key={pill_btn}
+                      >
+                        {pill_btn}
+                      </a>
+                  ))}
+                </div>
               </div>
-            </Container>
-          </Main>
-          <Footer title={generalSettings.title} menuItems={null} />
-        </>
+              <div className={"note"}>
+                <span>*New addition or role</span>
+              </div>
+            </div>
+            <Main>
+              <Container>
+                {/*Staff and Board Members - current decades*/}
+                <div className="People">
+                  {/*<h1>People</h1>*/}
+                  {loadingRoleGroups
+                      ? "Loading..."
+                      : roleTypeOrganizer.visibleRoleTypes.map((role) => {
+                        const roleGroupComponent = roleTypeOrganizer[role](
+                            roleGroups[role]
+                        );
+                        return roleGroupComponent;
+                      })}
+                </div>
+                {/*Staff and Board Members - past decades*/}
+                <div className={"decades-list"}>
+                  {decades.map((decade) => (
+                      <div key={decade.id}>
+                        {decade.hasYears && (
+                            decade.years.map((year, index) => (
+                                <div key={index} className={"decades-year"}>
+                                  {/*<h3>{year.year}</h3>*/}
+                                  {year.imageUrl && (
+                                      <img src={year.imageUrl} alt={year.imageAlt} />
+                                  )}
+                                  <div className={"staff"}>
+                                    <h4>Staff:</h4>
+                                    <ul>
+                                      {year.staffList.map((name, i) => (
+                                          <li key={i}>{name}</li>
+                                      ))}
+                                    </ul>
+                                  </div>
+
+                                  <div className={"board"}>
+                                    <h4>Board:</h4>
+                                    <ul>
+                                      {year.boardList.map((name, i) => (
+                                          <li key={i}>{name}</li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                </div>
+                            ))
+                        )}
+                      </div>
+                  ))}
+                </div>
+
+              </Container>
+            </Main>
+            <Footer title={generalSettings.title} menuItems={null}/>
+          </>
       )}
     </>
   );
