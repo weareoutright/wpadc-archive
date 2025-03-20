@@ -8,6 +8,7 @@ import {
   useGeneralSettings,
   useHeaderMenu,
   useRoleGroups,
+  useDecades,
 } from "../constants/customQueryHooks";
 import { gql } from "@apollo/client";
 import * as MENUS from "../constants/menus";
@@ -101,15 +102,18 @@ export default function Component() {
     variables: Component.variables(),
   });
 
+    const { loading: loadingDecades, error: errorDecades, decades } = useDecades();
+
   const primaryMenu = menus;
 
-  if (loading || loadingSettings || loadingMenus)
+  if (loading || loadingSettings || loadingMenus || loadingDecades)
     return <LoadingPage stroke="#6741f5" />;
-  if (errorSettings || errorMenus || errorRoleGroups || error) {
+  if (errorSettings || errorMenus || errorRoleGroups || errorDecades || error) {
     console.error("Settings ERROR:", errorSettings?.message);
     console.error("Menus ERROR:", errorMenus?.message);
     console.error("Data ERROR:", error?.message);
     console.error("Role Groups ERROR:", errorRoleGroups?.message);
+    console.error("Decades ERROR:", errorDecades?.message);
   }
 
   return (
@@ -152,6 +156,7 @@ export default function Component() {
             </div>
             <Main>
               <Container>
+                {/*Staff and Board Members - current decades*/}
                 <div className="People">
                   {/*<h1>People</h1>*/}
                   {loadingRoleGroups
@@ -163,6 +168,41 @@ export default function Component() {
                         return roleGroupComponent;
                       })}
                 </div>
+                {/*Staff and Board Members - past decades*/}
+                <div className={"decades-list"}>
+                  {decades.map((decade) => (
+                      <div key={decade.id}>
+                        {decade.hasYears && (
+                            decade.years.map((year, index) => (
+                                <div key={index} className={"decades-year"}>
+                                  {/*<h3>{year.year}</h3>*/}
+                                  {year.imageUrl && (
+                                      <img src={year.imageUrl} alt={year.imageAlt} />
+                                  )}
+                                  <div className={"staff"}>
+                                    <h4>Staff:</h4>
+                                    <ul>
+                                      {year.staffList.map((name, i) => (
+                                          <li key={i}>{name}</li>
+                                      ))}
+                                    </ul>
+                                  </div>
+
+                                  <div className={"board"}>
+                                    <h4>Board:</h4>
+                                    <ul>
+                                      {year.boardList.map((name, i) => (
+                                          <li key={i}>{name}</li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                </div>
+                            ))
+                        )}
+                      </div>
+                  ))}
+                </div>
+
               </Container>
             </Main>
             <Footer title={generalSettings.title} menuItems={null}/>

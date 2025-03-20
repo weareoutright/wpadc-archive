@@ -1,7 +1,16 @@
 .People {
   .role-group {
     padding: 1rem;
-    border-bottom: 1px solid #9a9a9a;
+    //border-bottom: 1px solid #9a9a9a;
+  }
+}
+.decades-list {
+  .decades-year {
+    display: grid;
+    grid-template-columns: .5fr 1fr 1fr;
+  }
+  ul {
+    list-style: none;
   }
 }
 
