@@ -146,7 +146,7 @@ const ArtistPage = () => {
       />
       {!isNavShown && (
         <>
-          <Main>
+          <Main className={"artist-page"}>
             <Container>
               <ArtistContainerHeader artistObj={DUMMY_ARTIST} />
               <InThisProjectSection
