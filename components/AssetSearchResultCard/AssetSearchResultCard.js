@@ -11,8 +11,12 @@ const AssetSearchResultCard = ({
 }) => {
   if (node) {
     const { title, asset_postId, uri, author, slug } = node;
+    const isWPAstory = false;
     return (
-      <div key={`${title}-${asset_postId}`} className={cx("AssetCard")}>
+      <div
+        key={`${title}-${asset_postId}`}
+        className={cx("AssetCard", isWPAstory && "wpa-story")}
+      >
         <a href={`/assets/${slug}`} className={cx("asset-link")}>
           <Image
             // src={node.assetCard.assetInfo.asset_files?.file.node.sourceUrl}
@@ -21,8 +25,17 @@ const AssetSearchResultCard = ({
             width={244}
             height={320}
             layout="fixed"
-            className={cx("asset-image")}
+            className={cx(
+              "asset-image",
+              isWPAstory && "wpa-story-border",
+              "vermillion"
+            )}
           />
+          {isWPAstory && (
+            <span className={cx("wpa-story-banner", "vermillion")}>
+              WPA Story
+            </span>
+          )}
         </a>
         <a href={`/assets/${slug}`} className={cx("asset-link")}>
           <h3>{title}</h3>
