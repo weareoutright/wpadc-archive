@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
+import Image from "next/image";
 import {
   useGeneralSettings,
   useHeaderMenu,
@@ -19,15 +20,25 @@ import {
 } from "../components";
 import { AssetSearchResultCard } from "../components/AssetSearchResultCard";
 import { PersonSearchResultCard } from "../components";
+import PREV_BTN_DARK from "../assets/icons/previous-btn-dark.svg";
+import NEXT_BTN from "../assets/icons/next-btn.svg";
 
 export default function Component() {
   const [isNavShown, setIsNavShown] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
   const router = useRouter();
   const { query } = router;
 
   const [searchKeyword, setSearchKeyword] = useState("");
   const [debouncedKeyword, setDebouncedKeyword] = useState(searchKeyword);
   const [results, setResults] = useState([]);
+
+  const applyPageChange = (pageNum, e) => {
+    e.preventDefault();
+    setCurrentPage(pageNum);
+
+    // TODO: also need to add functionality for adding to query params
+  };
 
   const {
     loading: loadingSettings,
@@ -117,14 +128,17 @@ export default function Component() {
                 <div className="results">
                   <h1>
                     Results for "
-                    {searchKeyword === undefined ? "" : searchKeyword}"
+                    {searchKeyword === undefined ? "" : searchKeyword}"{" "}
                     <small>{results.length} results</small>
                   </h1>
-                  <hr />
+
+                  {results.length < 0 && searchKeyword === "" && (
+                    <div className="results-container-placeholder"> </div>
+                  )}
                   {results.length > 0 && searchKeyword !== "" ? (
                     <div className="results-container">
                       {results?.map((result, index) => {
-                        console.log("RESULT", result);
+                        console.log(result);
                         if (result.node.__typename === "Asset_post") {
                           return (
                             <AssetSearchResultCard
@@ -144,6 +158,29 @@ export default function Component() {
                       })}
                     </div>
                   ) : null}
+                  <hr />
+                </div>
+                <div className="pagination">
+                  <a href="#" className="pagination-btn">
+                    <Image src={PREV_BTN_DARK} alt="previous results" />
+                  </a>
+                  {[1, 2, 3, 4].map((pageNum) => {
+                    return (
+                      <a
+                        key={`page-${pageNum}`}
+                        href="#"
+                        className={`page-number-btn ${
+                          currentPage === pageNum && "current-page"
+                        }`}
+                        onClick={(e) => applyPageChange(pageNum, e)}
+                      >
+                        {pageNum}
+                      </a>
+                    );
+                  })}
+                  <a href="#" className="pagination-btn">
+                    <Image src={NEXT_BTN} alt="more results" />
+                  </a>
                 </div>
               </div>
             </Container>
@@ -216,9 +253,6 @@ Component.query = gql`
                     node {
                       ... on PersonRoleType {
                         id
-                        roleType {
-                          role_type
-                        }
                       }
                     }
                   }
