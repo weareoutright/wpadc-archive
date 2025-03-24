@@ -40,6 +40,13 @@ export default function Component() {
     // TODO: also need to add functionality for adding to query params
   };
 
+  const divideAndCreateArray = (num) => {
+    const quotient = Math.floor(num / 16);
+    const hasRemainder = num % 16 !== 0;
+    const length = quotient + (hasRemainder ? 1 : 0);
+    return Array.from({ length }, (_, i) => i + 1);
+  };
+
   const {
     loading: loadingSettings,
     error: errorSettings,
@@ -164,7 +171,7 @@ export default function Component() {
                   <a href="#" className="pagination-btn">
                     <Image src={PREV_BTN_DARK} alt="previous results" />
                   </a>
-                  {[1, 2, 3, 4].map((pageNum) => {
+                  {divideAndCreateArray(results.length).map((pageNum) => {
                     return (
                       <a
                         key={`page-${pageNum}`}
