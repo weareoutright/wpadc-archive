@@ -7,10 +7,31 @@ import { FullPageNavFooter } from "../FullPageNavFooter";
 import { useState, useEffect } from "react";
 import ARROW_LEFT from "../../assets/full-page-nav/arrow-left.svg";
 import Image from "next/image";
-import LOADING_ICON from "../../assets/full-page-nav/loading-icon.svg";
-import LoadingIcons from "react-loading-icons";
 
 let cx = className.bind(styles);
+
+const DEFAULT_MENU_ITEMS = [
+  {
+    id: "home-default",
+    label: "HOME",
+    path: "/",
+  },
+  {
+    id: "about-default",
+    label: "ABOUT",
+    path: "/about",
+  },
+  {
+    id: "people-default",
+    label: "PEOPLE",
+    path: "/people",
+  },
+  {
+    id: "getinvolved-default",
+    label: "GET INVOLVED",
+    path: "/",
+  },
+];
 
 export default function FullPageNav({
   children,
@@ -60,14 +81,23 @@ export default function FullPageNav({
       />
       {menus ? (
         <div className={cx("menu-container")}>
-          {menus?.map((menu) => (
-            <a className={cx("menu-item")} key={menu.id} href={menu.path}>
-              {menu.label}
-              {menu.label === "Get Involved" && (
-                <Image src={ARROW_LEFT} alt="" />
-              )}
-            </a>
-          ))}
+          {menus
+            ? menus?.map((menu) => (
+                <a className={cx("menu-item")} key={menu.id} href={menu.path}>
+                  {menu.label}
+                  {menu.label === "Get Involved" && (
+                    <Image src={ARROW_LEFT} alt="" />
+                  )}
+                </a>
+              ))
+            : DEFAULT_MENU_ITEMS.map((menu) => (
+                <a className={cx("menu-item")} key={menu.id} href={menu.path}>
+                  {menu.label}
+                  {menu.label === "Get Involved" && (
+                    <Image src={ARROW_LEFT} alt="" />
+                  )}
+                </a>
+              ))}
         </div>
       ) : (
         <div className={cx("menu-container")}>

@@ -122,6 +122,14 @@ export default function SearchBar({
     );
   }, [localKeyword, results, router, setResults]);
 
+  const applyFilters = () => {
+    // store results in a new array??
+    // filter the array based on activeItems
+    // show results (need to trigger the replacement of database results with filtered results -- user won't see this happen)
+    // apply filters to url query params to make the link shareable
+    console.log("Filters applied");
+  };
+
   const removeItem = (itemToRemove) => {
     setActiveItems((prevActiveItems) =>
       prevActiveItems.filter((item) => item !== itemToRemove)
@@ -209,8 +217,7 @@ export default function SearchBar({
             href="#"
             alt="sort results"
             onClick={(e) => {
-              e.preventDefault();
-              console.log("Sort menu opened");
+              applyFilters();
             }}
           >
             Apply{" "}

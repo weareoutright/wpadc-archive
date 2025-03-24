@@ -25,13 +25,15 @@
       text-transform: uppercase;
       font-size: 2.5rem;
       font-family: "Flaviotte";
+      display: flex;
+      align-items: center;
       span {
         display: flex;
         flex-direction: row;
         align-items: center;
 
         img {
-          padding-bottom: 6px;
+          margin-top: -0.15rem !important;
         }
       }
 
