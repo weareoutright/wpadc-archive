@@ -7,10 +7,24 @@
 .decades-list {
   .decades-year {
     display: grid;
-    grid-template-columns: .5fr 1fr 1fr;
+    grid-template-columns: .5fr .75fr 1.25fr;
+    column-gap: 3rem;
+    padding-bottom: 1rem;
+    .year {
+      color: #C8C8C8;
+      font-size: 4rem;
+      font-family: "Flaviotte";
+    }
   }
   ul {
     list-style: none;
+    padding-inline-start: 0;
+  }
+  .board {
+    ul {
+      column-count: 2;
+      column-gap: 1rem;
+    }
   }
 }
 
@@ -34,6 +48,9 @@
     flex-direction: row;
     flex-wrap: wrap;
     gap: 0.8rem;
+    a {
+      text-decoration: none;
+    }
   }
   .pill-btn {
     border: 1px solid #9B9B9B;
