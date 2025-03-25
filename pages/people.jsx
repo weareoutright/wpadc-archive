@@ -24,15 +24,6 @@ import {
 } from "../components";
 import { useState } from "react";
 
-const DECADE_PILL_BTNS_DUMMY = [
-  "1970s",
-  "1980s",
-  "1990s",
-  "2000s",
-  "2010s",
-  "2020s",
-];
-
 const roleTypeOrganizer = {
   /* // TODO: make visibleRoleTypes take in an array of role types set to visible via CMS
      TODO: order matters in the array for it to show up properly on the page
@@ -136,18 +127,16 @@ export default function Component() {
               <div className={"decade-pills"}>
                 <div className="main-filters">
                   <span className={"filter-note"}>Jump to decade</span>
-                  {DECADE_PILL_BTNS_DUMMY.map((pill_btn) => (
-                      <a
-                          onClick={(e) => {
-                            e.preventDefault();
-                            console.log(`Applied filter: ${pill_btn}`);
-                          }}
-                          className="pill-btn"
-                          key={pill_btn}
-                      >
-                        {pill_btn}
-                      </a>
-                  ))}
+                  {decades?.length > 0 &&
+                      decades.map((decade) => (
+                          <a
+                              key={decade.decadeId}
+                              className="pill-btn"
+                              href={`#${decade.decadeId}`}
+                          >
+                            {decade?.decadeTitle || "Unknown"}
+                          </a>
+                      ))}
                 </div>
               </div>
               <div className={"note"}>
@@ -157,28 +146,27 @@ export default function Component() {
             <Main>
               <Container>
                 {/*Staff and Board Members - current decades*/}
-                <div className="People">
-                  {/*<h1>People</h1>*/}
-                  {loadingRoleGroups
-                      ? "Loading..."
-                      : roleTypeOrganizer.visibleRoleTypes.map((role) => {
-                        const roleGroupComponent = roleTypeOrganizer[role](
-                            roleGroups[role]
-                        );
-                        return roleGroupComponent;
-                      })}
-                </div>
+                {/*<div className="People">*/}
+                {/*  /!*<h1>People</h1>*!/*/}
+                {/*  {loadingRoleGroups*/}
+                {/*      ? "Loading..."*/}
+                {/*      : roleTypeOrganizer.visibleRoleTypes.map((role) => {*/}
+                {/*        const roleGroupComponent = roleTypeOrganizer[role](*/}
+                {/*            roleGroups[role]*/}
+                {/*        );*/}
+                {/*        return roleGroupComponent;*/}
+                {/*      })}*/}
+                {/*</div>*/}
                 {/*Staff and Board Members - past decades*/}
                 <div className={"decades-list"}>
                   {decades.map((decade) => (
-                      <div key={decade.id}>
+                      <div key={decade.id} id={decade.decadeId}>
                         {decade.hasYears && (
                             decade.years.map((year, index) => (
                                 <div key={index} className={"decades-year"}>
-                                  {/*<h3>{year.year}</h3>*/}
-                                  {year.imageUrl && (
-                                      <img src={year.imageUrl} alt={year.imageAlt} />
-                                  )}
+                                  <div className={"year"}>
+                                    <span>{year.year}</span>
+                                  </div>
                                   <div className={"staff"}>
                                     <h4>Staff:</h4>
                                     <ul>

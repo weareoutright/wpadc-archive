@@ -12,11 +12,6 @@ const GET_DECADES = gql`
                   year
                   boardContent
                   staffContent
-                  yearIcon {
-                    node {
-                      sourceUrl
-                    }
-                  }
                 }
               }
             }
@@ -29,26 +24,35 @@ const useDecades = () => {
     const { loading, error, data } = useQuery(GET_DECADES);
 
     const processedDecades = data?.decades?.edges.map(decade => {
+        const decadeTitle = decade.node.peopleByDecade.peopleByDecade || "";
+        const decadeId = `decade-${decadeTitle.replace(/\s+/g, '-').toLowerCase()}`;
+
         const years = decade.node.peopleByDecade.years?.map(year => {
             const staffList = year.staffContent ? year.staffContent.replace(/<\/?p>/g, "").replace(/<br\s*\/?>/g, ", ").split(",").map(name => name.trim()).filter(name => name) : [];
-
             const boardList = year.boardContent ? year.boardContent.replace(/<\/?p>/g, "").replace(/<br\s*\/?>/g, ", ").split(",").map(name => name.trim()).filter(name => name) : [];
+
             return {
                 ...year,
                 staffList,
                 boardList,
                 year: year.year,
-                imageUrl: year.yearIcon?.node?.sourceUrl || null,
-                imageAlt: year.year
             };
         }) || [];
+
+        years.sort((a, b) => a.year - b.year);
         return {
             id: decade.node.id,
-            decadeTitle: decade.node.peopleByDecade.peopleByDecade,
+            decadeTitle,
+            decadeId,
             years,
             hasYears: years.length > 0
         };
     }) || [];
+
+    processedDecades.sort((a, b) => {
+        const getNumericDecade = (title) => parseInt(title.match(/\d+/)?.[0]) || 0;
+            return getNumericDecade(a.decadeTitle) - getNumericDecade(b.decadeTitle);
+    });
     return {
         loading,
         error,
