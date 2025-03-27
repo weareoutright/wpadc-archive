@@ -167,22 +167,24 @@ export default function Component() {
                                   <div className={"year"}>
                                     <span>{year.year}</span>
                                   </div>
-                                  <div className={"staff"}>
-                                    <h4>Staff:</h4>
-                                    <ul>
-                                      {year.staffList.map((name, i) => (
-                                          <li key={i}>{name}</li>
-                                      ))}
-                                    </ul>
-                                  </div>
+                                  <div className={"text-content"}>
+                                    <div className={"staff"}>
+                                      <h4>Staff:</h4>
+                                      <ul>
+                                        {year.staffList.map((name, i) => (
+                                            <li key={i}>{name}</li>
+                                        ))}
+                                      </ul>
+                                    </div>
 
-                                  <div className={"board"}>
-                                    <h4>Board:</h4>
-                                    <ul>
-                                      {year.boardList.map((name, i) => (
-                                          <li key={i}>{name}</li>
-                                      ))}
-                                    </ul>
+                                    <div className={"board"}>
+                                      <h4>Board:</h4>
+                                      <ul>
+                                        {year.boardList.map((name, i) => (
+                                            <li key={i}>{name}</li>
+                                        ))}
+                                      </ul>
+                                    </div>
                                   </div>
                                 </div>
                             ))
