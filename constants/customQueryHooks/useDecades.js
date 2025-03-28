@@ -23,18 +23,23 @@ const GET_DECADES = gql`
 const useDecades = () => {
     const { loading, error, data } = useQuery(GET_DECADES);
 
+    const cleanText = (text) => {
+        return text
+            .replace (/<[^>]*>/g, "")
+            .replace(/,\s*/g, "\n")
+            .split(/,\s*|\n+/)
+            .map(name => name.trim());
+    }
+
     const processedDecades = data?.decades?.edges.map(decade => {
         const decadeTitle = decade.node.peopleByDecade.peopleByDecade || "";
         const decadeId = `decade-${decadeTitle.replace(/\s+/g, '-').toLowerCase()}`;
 
         const years = decade.node.peopleByDecade.years?.map(year => {
-            const staffList = year.staffContent ? year.staffContent.replace(/<\/?p>/g, "").replace(/<br\s*\/?>/g, ", ").split(",").map(name => name.trim()).filter(name => name) : [];
-            const boardList = year.boardContent ? year.boardContent.replace(/<\/?p>/g, "").replace(/<br\s*\/?>/g, ", ").split(",").map(name => name.trim()).filter(name => name) : [];
-
             return {
                 ...year,
-                staffList,
-                boardList,
+                staffList: cleanText(year.staffContent || ""),
+                boardList: cleanText(year.boardContent || ""),
                 year: year.year,
             };
         }) || [];
