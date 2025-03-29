@@ -5,57 +5,49 @@ import SEARCH_BTN from "../../assets/search-bar/search-icon.svg";
 import RIGHT_ARROW from "../../assets/icons/arrow-right-90-deg-white.svg";
 import FilterBtn from "../FilterBtn/FilterBtn";
 
-const FILTER_PILL_BTNS_DUMMY = [
+// TODO: Create queries that query the items for each filter dropdown
+
+const FILTER_PILL_BTNS_DEFAULT = [
   {
     filterText: "Year",
     dropdownItems: [
-      { title: "2020", count: 15 },
-      { title: "2021", count: 10 },
-      { title: "2022", count: 8 },
+      // { title: "2020", count: 15 },
     ],
   },
   {
     filterText: "People",
     dropdownItems: [
-      {
-        title: "A-H",
-        count: 5,
-        childrenItems: ["PersonA", "PersonB", "PersonC"],
-      },
-      { title: "I-P", count: 7, childrenItems: ["Person2"] },
-      { title: "Q-Z", count: 3, childrenItems: ["Person3"] },
+      // {
+      //   title: "A-H",
+      //   count: 5,
+      //   childrenItems: ["PersonA", "PersonB", "PersonC"],
+      // },
+      // { title: "I-P", count: 7, childrenItems: ["Person2"] },
+      // { title: "Q-Z", count: 3, childrenItems: ["Person3"] },
     ],
   },
   {
     filterText: "Role",
     dropdownItems: [
-      { title: "Artist", count: 4 },
-      { title: "Curator", count: 6 },
-      { title: "Organizer", count: 9 },
+      // { title: "Artist", count: 4 },
     ],
   },
   {
     filterText: "Document Type",
     dropdownItems: [
-      { title: "Photo", count: 12 },
-      { title: "Video", count: 7 },
-      { title: "PDF", count: 3 },
+      // { title: "Photo", count: 12 },
     ],
   },
   {
     filterText: "Project Type",
     dropdownItems: [
-      { title: "Research", count: 8 },
-      { title: "Development", count: 5 },
-      { title: "Testing", count: 4 },
+      // { title: "Research", count: 8 },
     ],
   },
   {
     filterText: "Location",
     dropdownItems: [
-      { title: "New York", count: 6 },
-      { title: "San Francisco", count: 3 },
-      { title: "Chicago", count: 2 },
+      // { title: "New York", count: 6 },
     ],
   },
 ];
@@ -197,7 +189,7 @@ export default function SearchBar({
       </div>
       <div className="filter-pills">
         <div className="main-filters">
-          {FILTER_PILL_BTNS_DUMMY.map((filter) => (
+          {FILTER_PILL_BTNS_DEFAULT.map((filter) => (
             <FilterBtn
               filterText={filter.filterText}
               dropdownItems={filter.dropdownItems}
