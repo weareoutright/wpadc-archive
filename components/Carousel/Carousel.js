@@ -36,7 +36,7 @@ const Carousel = ({
   };
 
   useEffect(() => {
-    if (!carouselRef.current || slides.length === 0) return;
+    if (!carouselRef.current || slides?.length === 0) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -44,7 +44,7 @@ const Carousel = ({
           if (entry.target.dataset.index === "0") {
             setIsFirstVisible(entry.isIntersecting);
           }
-          if (entry.target.dataset.index === `${slides.length - 1}`) {
+          if (entry.target.dataset.index === `${slides?.length - 1}`) {
             setIsLastVisible(entry.isIntersecting);
           }
         });

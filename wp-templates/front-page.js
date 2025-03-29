@@ -20,114 +20,23 @@ import FullWidthLinkStyles from "../components/FullWidthLink/FullWidthLink.modul
 let frontPageContainerCx = className.bind(frontPageStyles);
 let FullWidthLinkCx = className.bind(FullWidthLinkStyles);
 
-const DUMMY_ITEMS = [
-  {
-    title: "sample",
-    asset_postId: "hello",
-    uri: "hello",
-    author: "sample",
-    slug: "test",
-  },
-  {
-    title: "sample",
-    asset_postId: "hello",
-    uri: "hello",
-    author: "sample",
-    slug: "test",
-  },
-  {
-    title: "sample",
-    asset_postId: "hello",
-    uri: "hello",
-    author: "sample",
-    slug: "test",
-  },
-  {
-    title: "sample",
-    asset_postId: "hello",
-    uri: "hello",
-    author: "sample",
-    slug: "test",
-  },
-  {
-    title: "sample",
-    asset_postId: "hello",
-    uri: "hello",
-    author: "sample",
-    slug: "test",
-  },
-  {
-    title: "sample",
-    asset_postId: "hello",
-    uri: "hello",
-    author: "sample",
-    slug: "test",
-  },
-  {
-    title: "sample",
-    asset_postId: "hello",
-    uri: "hello",
-    author: "sample",
-    slug: "test",
-  },
-  {
-    title: "sample",
-    asset_postId: "hello",
-    uri: "hello",
-    author: "sample",
-    slug: "test",
-  },
-  {
-    title: "sample",
-    asset_postId: "hello",
-    uri: "hello",
-    author: "sample",
-    slug: "test",
-  },
-];
+// const DUMMY_ITEMS = [
+//   {
+//     title: "sample",
+//     asset_postId: "hello",
+//     uri: "hello",
+//     author: "sample",
+//     slug: "test",
+//   },
+// ];
 
-const DUMMY_ARTISTS = [
-  {
-    people_postId: "hello",
-    author: "sample",
-    slug: "test",
-  },
-  {
-    people_postId: "hello",
-    author: "sample",
-    slug: "test",
-  },
-  {
-    people_postId: "hello",
-    author: "sample",
-    slug: "test",
-  },
-  {
-    people_postId: "hello",
-    author: "sample",
-    slug: "test",
-  },
-  {
-    people_postId: "hello",
-    author: "sample",
-    slug: "test",
-  },
-  {
-    people_postId: "hello",
-    author: "sample",
-    slug: "test",
-  },
-  {
-    people_postId: "hello",
-    author: "sample",
-    slug: "test",
-  },
-  {
-    people_postId: "hello",
-    author: "sample",
-    slug: "test",
-  },
-];
+// const DUMMY_ARTISTS = [
+//   {
+//     people_postId: "hello",
+//     author: "sample",
+//     slug: "test",
+//   },
+// ];
 
 export default function Component() {
   const [isNavShown, setIsNavShown] = useState(false);
@@ -175,7 +84,7 @@ export default function Component() {
               </div>
 
               <Carousel
-                slides={DUMMY_ITEMS}
+                slides={null}
                 cardType="asset"
                 className="front-page-carousel"
               />
@@ -195,7 +104,7 @@ export default function Component() {
                 </p>
               </div>
               <Carousel
-                slides={DUMMY_ARTISTS}
+                slides={null}
                 cardType="artist"
                 className="front-page-carousel"
               />

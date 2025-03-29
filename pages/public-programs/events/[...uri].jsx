@@ -15,50 +15,15 @@ import {
   useHeaderMenu,
 } from "../../../constants/customQueryHooks";
 
-const DUMMY_ITEMS = [
-  {
-    title: "sample",
-    asset_postId: "hello",
-    uri: "hello",
-    author: "sample",
-    slug: "letting-go-documentation",
-  },
-  {
-    title: "sample",
-    asset_postId: "hello",
-    uri: "hello",
-    author: "sample",
-    slug: "letting-go-documentation",
-  },
-  {
-    title: "sample",
-    asset_postId: "hello",
-    uri: "hello",
-    author: "sample",
-    slug: "letting-go-documentation",
-  },
-  {
-    title: "sample",
-    asset_postId: "hello",
-    uri: "hello",
-    author: "sample",
-    slug: "letting-go-documentation",
-  },
-  {
-    title: "sample",
-    asset_postId: "hello",
-    uri: "hello",
-    author: "sample",
-    slug: "letting-go-documentation",
-  },
-  {
-    title: "sample",
-    asset_postId: "hello",
-    uri: "hello",
-    author: "sample",
-    slug: "letting-go-documentation",
-  },
-];
+// const DUMMY_ITEMS = [
+//   {
+//     title: "sample",
+//     asset_postId: "hello",
+//     uri: "hello",
+//     author: "sample",
+//     slug: "letting-go-documentation",
+//   },
+// ];
 
 const PublicProgramsPage = () => {
   const router = useRouter();
@@ -101,7 +66,7 @@ const PublicProgramsPage = () => {
         <Container>
           <div className="AssetPage">
             <ContainerHeader pageType="event" />
-            <RelatedSection itemsArr={DUMMY_ITEMS} />
+            <RelatedSection itemsArr={null} />
           </div>
         </Container>
       </Main>

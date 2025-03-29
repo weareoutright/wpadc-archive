@@ -9,7 +9,7 @@ const RelatedSection = ({ itemsArr }) => {
     <div className={cx("RelatedSection")}>
       <h2>Related</h2>
       <div className={cx("RelatedSectionItems")}>
-        {itemsArr.map((node) => (
+        {itemsArr?.map((node) => (
           <RelatedItemCard key={node.asset_postId} node={node} />
         ))}
       </div>

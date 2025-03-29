@@ -16,50 +16,15 @@ import {
   useHeaderMenu,
 } from "../../constants/customQueryHooks";
 
-const DUMMY_ITEMS = [
-  {
-    title: "sample",
-    asset_postId: "hello",
-    uri: "hello",
-    author: "sample",
-    slug: "letting-go-documentation",
-  },
-  {
-    title: "sample",
-    asset_postId: "hello",
-    uri: "hello",
-    author: "sample",
-    slug: "letting-go-documentation",
-  },
-  {
-    title: "sample",
-    asset_postId: "hello",
-    uri: "hello",
-    author: "sample",
-    slug: "letting-go-documentation",
-  },
-  {
-    title: "sample",
-    asset_postId: "hello",
-    uri: "hello",
-    author: "sample",
-    slug: "letting-go-documentation",
-  },
-  {
-    title: "sample",
-    asset_postId: "hello",
-    uri: "hello",
-    author: "sample",
-    slug: "letting-go-documentation",
-  },
-  {
-    title: "sample",
-    asset_postId: "hello",
-    uri: "hello",
-    author: "sample",
-    slug: "letting-go-documentation",
-  },
-];
+// const DUMMY_ITEMS = [
+//   {
+//     title: "sample",
+//     asset_postId: "hello",
+//     uri: "hello",
+//     author: "sample",
+//     slug: "letting-go-documentation",
+//   },
+// ];
 
 const AssetPage = () => {
   const router = useRouter();
@@ -104,13 +69,27 @@ const AssetPage = () => {
       <Main>
         <Container>
           <div className="AssetPage">
-            <ContainerHeader />
+            <ContainerHeader
+              programName={null}
+              artistName={null}
+              assetName={null}
+              eventName={null}
+              description={null}
+              tagsArr={null}
+              dateBegin={null}
+              dateEnd={null}
+              type={null}
+              location={null}
+              externalLinksArr={null}
+              pageType={null}
+              parentLink={null}
+            />
             <InThisProjectSection
               headerText="In This Project"
-              itemsArr={DUMMY_ITEMS}
+              itemsArr={null}
               frontPageCarousel={false}
             />
-            <RelatedSection itemsArr={DUMMY_ITEMS} />
+            <RelatedSection itemsArr={null} />
           </div>
         </Container>
       </Main>
