@@ -75,12 +75,7 @@ export default function Component() {
                   Featured Collections <br />
                   And Stories
                 </h3>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
-                </p>
+                <p></p>
               </div>
 
               <Carousel
@@ -96,12 +91,7 @@ export default function Component() {
                 )}
               >
                 <h3>Featured Artists</h3>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
-                </p>
+                <p></p>
               </div>
               <Carousel
                 slides={null}
@@ -112,29 +102,20 @@ export default function Component() {
               <div
                 className={frontPageContainerCx("browse-by", "header-and-desc")}
               >
-                <h3>Browse By</h3>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
-                </p>
+                <h3 style={{ textWrap: "nowrap" }}>Browse By</h3>
+                <p></p>
               </div>
             </FrontPageContainer>
             <div className={FullWidthLinkCx("front-page-full-width-links")}>
               <FullWidthLink
-                label={"VIDEO"}
+                label={""}
                 path={"/"}
                 bgHex={"6741f5"}
                 bgImg={"../assets/front-page/full-width-link-bg-sample.svg"}
               />
-              <FullWidthLink
-                label={"PRINT / EPHEMERA"}
-                path={"/"}
-                bgHex={"f66639"}
-              />
-              <FullWidthLink label={"EVENTS"} path={"/"} bgHex={"f63939"} />
-              <FullWidthLink label={"1900s"} path={"/"} bgHex={"FF00D2"} />
+              <FullWidthLink label={""} path={"/"} bgHex={"f66639"} />
+              <FullWidthLink label={""} path={"/"} bgHex={"f63939"} />
+              <FullWidthLink label={""} path={"/"} bgHex={"FF00D2"} />
             </div>
           </Main>
           <Footer

@@ -76,12 +76,7 @@ export default function Component(props) {
           <Main className="main-about-container" isFrontPage={false}>
             <Container className="about-container">
               <div className="About">
-                <div className="page-description">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et
-                  massa mi. Aliquam in hendrerit urna. Pellentesque sit amet
-                  sapien fringilla, mattis ligula consectetur, ultrices mauris.
-                  Maecenas vitae mattis tellus. Nullam quis imperdiet augue.
-                </div>
+                <div className="page-description"></div>
                 <div className="page-content">
                   <div className={"img-container"}>
                     <Image
@@ -91,23 +86,11 @@ export default function Component(props) {
                     />
                   </div>
                   <div className="text-content">
-                    <h2>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    </h2>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Ut et massa mi. Aliquam in hendrerit urna. Pellentesque
-                      sit amet sapien fringilla, mattis ligula consectetur,
-                      ultrices mauris. Maecenas vitae mattis tellus. Nullam quis
-                      imperdiet augue. Vestibulum auctor ornare leo, non
-                      suscipit magna interdum eu. Curabitur pellentesque nibh
-                      nibh, at maximus ante fermentum sit amet. Pellentesque
-                      commodo lacus at sodales sodales.
-                    </p>
+                    <h2></h2>
+                    <p></p>
                     <div className="external-links external-links-light">
                       {" "}
                       <a href="#">
-                        Washington Project for the Arts{" "}
                         <Image
                           className="right-arrow"
                           src={RIGHT_ARROW}
@@ -124,22 +107,16 @@ export default function Component(props) {
             <h2>How to Use the Archive</h2>
             <div className={cx("text-content")}>
               <div className={cx("how-to-use-the-archive")}>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et
-                  massa mi. Aliquam in hendrerit urna. Pellentesque sit amet
-                  sapien fringilla, mattis ligula consectetur, ultrices mauris.
-                  Maecenas vitae mattis tellus. Nullam quis imperdiet augue.
-                  Vestibulum auctor ornare leo, non suscipit magna interdum eu.
-                  Curabitur pellentesque nibh nibh, at maximus ante fermentum
-                  sit amet. Pellentesque commodo lacus at sodales sodales.
-                </p>
+                <p></p>
               </div>
               <div className={cx("submission-btns")}>
                 <a href="#" className={cx("submission-btn")}>
-                  Submit Feedback <Image src={RIGHT_ARROW} alt="right arrow" />
+                  Submit Feedback (need HREF){" "}
+                  <Image src={RIGHT_ARROW} alt="right arrow" />
                 </a>
                 <a href="#" className={cx("submission-btn")}>
-                  Submit Content <Image src={RIGHT_ARROW} alt="right arrow" />
+                  Submit Content (need HREF)
+                  <Image src={RIGHT_ARROW} alt="right arrow" />
                 </a>
               </div>
             </div>
