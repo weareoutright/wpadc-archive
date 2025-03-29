@@ -1,0 +1,39 @@
+.Blog {
+  .blog-content {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 8rem;
+    padding: 1rem 0 8rem 0;
+    margin: 0 0 3rem -1rem;
+    border-bottom: 1px solid var(--dark-grey);
+
+    .blog-left-col {
+    }
+    .blog-right-col {
+      h1 {
+        margin: 1rem 0 2rem 0;
+      }
+
+      .blog-metadata {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        .date,
+        .author {
+          display: flex;
+          flex-direction: column;
+        }
+
+        label {
+          text-transform: uppercase;
+          font-size: 0.75rem;
+          font-weight: 600;
+          padding-bottom: 0.25rem;
+        }
+      }
+    }
+  }
+}

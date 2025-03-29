@@ -8,6 +8,7 @@ export default function Main({
   children,
   className,
   isFrontPage = false,
+  isStoryPage = false,
   ...props
 }) {
   return (
@@ -23,6 +24,11 @@ export default function Main({
         </div>
       )}
       {isFrontPage && (
+        <div className={cx("main-top-padding-fg")}>
+          <span></span>
+        </div>
+      )}
+      {isStoryPage && (
         <div className={cx("main-top-padding-fg")}>
           <span></span>
         </div>
