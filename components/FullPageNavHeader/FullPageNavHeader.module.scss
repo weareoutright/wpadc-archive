@@ -17,6 +17,11 @@
 
 .full-page-nav-header {
   padding: 0rem 21rem 4.2rem 9rem;
+
+  @media (max-width: $breakpoint-small) {
+    padding: 0;
+    width: 100%;
+  }
 }
 
 .navbar {
@@ -28,6 +33,11 @@
   background-color: transparent;
   color: white;
   width: 100vw;
+
+  @media (max-width: $breakpoint-small) {
+    padding: 2rem;
+    justify-content: space-around;
+  }
 }
 
 .full-page-nav-btns {
