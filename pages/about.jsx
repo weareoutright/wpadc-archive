@@ -1,7 +1,3 @@
-/**
- *? What kind of search results do we want to be able to search for? Anything and everything within the archive (People, art, media, etc) ? or only specific types of content (e.g. People and Art?)
- *
- */
 import Image from "next/image";
 import { useState } from "react";
 import { useQuery } from "@apollo/client";
@@ -29,6 +25,7 @@ import { PageContentWrapper } from "../components/PageContentWrapper";
 import classNames from "classnames/bind";
 import styles from "../components/PageContentWrapper/PageContentWrapper.module.scss";
 import FullWidthLinkStyles from "../components/FullWidthLink/FullWidthLink.module.scss";
+import useAboutBlocks from "../constants/customQueryHooks/useAboutBlocks";
 
 let cx = classNames.bind(styles);
 let FullWidthLinkCx = classNames.bind(FullWidthLinkStyles);
@@ -46,6 +43,15 @@ export default function Component(props) {
   const { loading, error, data } = useQuery(Component.query, {
     variables: Component.variables(),
   });
+
+  const {
+    loading: loadingAbout,
+    error: errorAbout,
+    data: dataAbout,
+  } = useAboutBlocks();
+
+  const { aboutContent, howToUseTheArchive } =
+    dataAbout.pages.edges[0].node.aboutBlocks;
 
   const primaryMenu = menus;
 
@@ -76,9 +82,12 @@ export default function Component(props) {
           <Main className="main-about-container" isFrontPage={false}>
             <Container className="about-container">
               <div className="About">
-                <div className="page-description"></div>
+                <div className="page-description">
+                  {/** page description content/paragraph **/}
+                </div>
                 <div className="page-content">
                   <div className={"img-container"}>
+                    {/* page title */}
                     <Image
                       className="about-featured-image"
                       src={ABOUT_FEATURED_IMAGE}
@@ -86,11 +95,12 @@ export default function Component(props) {
                     />
                   </div>
                   <div className="text-content">
-                    <h2></h2>
-                    <p></p>
+                    <h2></h2> {/** header */}
+                    <p>{aboutContent?.aboutContent}</p> {/* content */}
                     <div className="external-links external-links-light">
                       {" "}
                       <a href="#">
+                        {/** external link href */} {/** external link title */}
                         <Image
                           className="right-arrow"
                           src={RIGHT_ARROW}
@@ -107,15 +117,16 @@ export default function Component(props) {
             <h2>How to Use the Archive</h2>
             <div className={cx("text-content")}>
               <div className={cx("how-to-use-the-archive")}>
-                <p></p>
+                <p>{howToUseTheArchive?.howToUseTheArchiveContent}</p>
               </div>
               <div className={cx("submission-btns")}>
                 <a href="#" className={cx("submission-btn")}>
-                  Submit Feedback (need HREF){" "}
-                  <Image src={RIGHT_ARROW} alt="right arrow" />
+                  {/** SUBMIT FEEDBACK HREF */}
+                  Submit Feedback <Image src={RIGHT_ARROW} alt="right arrow" />
                 </a>
                 <a href="#" className={cx("submission-btn")}>
-                  Submit Content (need HREF)
+                  {/** SUBMIT CONTENT */}
+                  Submit Content
                   <Image src={RIGHT_ARROW} alt="right arrow" />
                 </a>
               </div>
