@@ -126,7 +126,6 @@
 
 .front-page-nav-toggle {
   align-items: flex-end;
-  border: 0.1rem solid var(--wpe--color--white);
   color: var(--wpe--color--black);
   cursor: pointer;
   display: flex;
@@ -134,10 +133,12 @@
   transition: all 0.2s ease-in;
   user-select: none;
   font-size: 2rem;
+  padding: 0;
+  background: none;
+  border: none;
 
   &:hover,
   &:focus {
-    background-color: var(--wpe--color--white);
     color: var(--wpe--color--black);
   }
 
@@ -156,7 +157,7 @@
     display: block;
   }
 
-  @media (min-width: $breakpoint-small) {
+  @media (max-width: $breakpoint-small) {
     display: block;
     width: auto;
   }
