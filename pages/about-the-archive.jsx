@@ -26,6 +26,7 @@ import classNames from "classnames/bind";
 import styles from "../components/PageContentWrapper/PageContentWrapper.module.scss";
 import FullWidthLinkStyles from "../components/FullWidthLink/FullWidthLink.module.scss";
 import useAboutBlocks from "../constants/customQueryHooks/useAboutBlocks";
+import parse from "html-react-parser";
 
 let cx = classNames.bind(styles);
 let FullWidthLinkCx = classNames.bind(FullWidthLinkStyles);
@@ -50,18 +51,17 @@ export default function Component(props) {
     data: dataAbout,
   } = useAboutBlocks();
 
-  const { aboutContent, howToUseTheArchive } =
-    dataAbout.pages.edges[0].node.aboutBlocks;
-
   const primaryMenu = menus;
 
   if (loading || loadingSettings || loadingMenus)
     return <LoadingPage stroke="#f66639" />;
-  if (errorSettings || errorMenus || error) {
+  if (errorSettings || errorMenus || error || errorAbout) {
     console.error("Settings ERROR:", errorSettings?.message);
     console.error("Menus ERROR:", errorMenus?.message);
     console.error("Data ERROR:", error?.message);
   }
+
+  console.log(dataAbout);
 
   return (
     <>
@@ -83,30 +83,69 @@ export default function Component(props) {
             <Container className="about-container">
               <div className="About">
                 <div className="page-description">
-                  {/** page description content/paragraph **/}
+                  {dataAbout?.pages.edges[0].node.aboutBlocks.aboutContent[0]
+                    .aboutPageDescription &&
+                    parse(
+                      dataAbout?.pages.edges[0].node.aboutBlocks.aboutContent[0]
+                        .aboutPageDescription
+                    )}
                 </div>
                 <div className="page-content">
                   <div className={"img-container"}>
-                    {/* page title */}
-                    <Image
-                      className="about-featured-image"
-                      src={ABOUT_FEATURED_IMAGE}
-                      alt="About The Archive"
-                    />
+                    {dataAbout?.pages.edges[0].node.aboutBlocks.aboutContent[0]
+                      .aboutFeaturedImage && (
+                      <img
+                        className="about-featured-image"
+                        src={parse(
+                          dataAbout?.pages.edges[0].node.aboutBlocks
+                            .aboutContent[0].aboutFeaturedImage
+                        )}
+                        alt={`${
+                          dataAbout?.pages.edges[0].node.aboutBlocks.title &&
+                          parse(
+                            dataAbout?.pages.edges[0].node.aboutBlocks.title
+                          )
+                        }`}
+                      />
+                    )}
                   </div>
                   <div className="text-content">
-                    <h2></h2> {/** header */}
-                    <p>{aboutContent?.aboutContent}</p> {/* content */}
+                    <h2>
+                      {" "}
+                      {dataAbout?.pages.edges[0].node.aboutBlocks
+                        .aboutContent[0].aboutPageHeader &&
+                        parse(
+                          dataAbout?.pages.edges[0].node.aboutBlocks
+                            .aboutContent[0].aboutPageHeader
+                        )}
+                    </h2>{" "}
+                    {dataAbout?.pages.edges[0].node.aboutBlocks.aboutContent[0]
+                      .aboutContent &&
+                      parse(
+                        dataAbout?.pages.edges[0].node.aboutBlocks
+                          .aboutContent[0].aboutContent
+                      )}
                     <div className="external-links external-links-light">
                       {" "}
-                      <a href="#">
-                        {/** external link href */} {/** external link title */}
-                        <Image
-                          className="right-arrow"
-                          src={RIGHT_ARROW}
-                          alt="right arrow"
-                        />
-                      </a>
+                      {dataAbout?.pages.edges[0].node.aboutBlocks
+                        .aboutContent[0].buttons &&
+                        dataAbout?.pages.edges[0].node.aboutBlocks.aboutContent[0].buttons.map(
+                          (btn) => {
+                            return (
+                              <a
+                                key={`about-ext-link-${btn.title}`}
+                                href={btn.url}
+                              >
+                                {btn.title}{" "}
+                                <Image
+                                  className="right-arrow"
+                                  src={RIGHT_ARROW}
+                                  alt="right arrow"
+                                />
+                              </a>
+                            );
+                          }
+                        )}
                     </div>
                   </div>
                 </div>
@@ -117,7 +156,12 @@ export default function Component(props) {
             <h2>How to Use the Archive</h2>
             <div className={cx("text-content")}>
               <div className={cx("how-to-use-the-archive")}>
-                <p>{howToUseTheArchive?.howToUseTheArchiveContent}</p>
+                {dataAbout?.pages.edges[0].node.aboutBlocks
+                  .howToUseTheArchive[0].howToUseTheArchiveContent &&
+                  parse(
+                    dataAbout?.pages.edges[0].node.aboutBlocks
+                      .howToUseTheArchive[0].howToUseTheArchiveContent
+                  )}
               </div>
               <div className={cx("submission-btns")}>
                 <a href="#" className={cx("submission-btn")}>
