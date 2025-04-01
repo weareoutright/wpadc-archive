@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGeneralSettings } from "../../constants/customQueryHooks";
 import { useHeaderMenu } from "../../constants/customQueryHooks";
 import {
@@ -12,6 +12,7 @@ import {
   RelatedSection,
   Footer,
 } from "../../components";
+import usePersonBySlug from "../../constants/customQueryHooks/usePersonBySlug";
 
 export default function PersonPage() {
   const router = useRouter();
@@ -19,6 +20,18 @@ export default function PersonPage() {
   const roleType = router.query.roleType;
 
   const [isNavShown, setIsNavShown] = useState(false);
+  const [artistResult, setArtistResult] = useState({
+    personCard: {
+      personInfo: {
+        fullName: null,
+        bodyCopy: null,
+        quote: null,
+        headshot: null,
+        externalLink: null,
+      },
+      modified: null,
+    },
+  });
 
   const {
     loading: loadingSettings,
@@ -27,6 +40,18 @@ export default function PersonPage() {
   } = useGeneralSettings();
 
   const { loading: loadingMenus, error: errorMenus, menus } = useHeaderMenu();
+
+  const {
+    loading: loadingPerson,
+    error: errorPerson,
+    data: dataPerson,
+  } = usePersonBySlug(personName);
+
+  console.log(loadingPerson);
+
+  useEffect(() => {
+    setArtistResult(dataPerson);
+  }, []);
 
   //   if (loading) {
   //     return <div className="ArtistPage">Loading...</div>;
@@ -49,7 +74,9 @@ export default function PersonPage() {
         <>
           <Main className={"artist-page"}>
             <Container>
-              <ArtistContainerHeader artistObj={null} />
+              <ArtistContainerHeader
+                artistObj={dataPerson ? dataPerson : artistResult}
+              />
               <InThisProjectSection
                 headerText="By This Artist"
                 itemsArr={null}
