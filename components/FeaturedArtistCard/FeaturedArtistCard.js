@@ -12,7 +12,7 @@ const FeaturedArtistCard = ({ node = null }) => {
         key={`${author}-${people_postId}`}
         className={cx("FeaturedArtistCard")}
       >
-        <a href={`/artists/${slug}`} className={cx("asset-link")}>
+        <a href={`/person/${slug}`} className={cx("asset-link")}>
           <Image
             // src={node.assetCard.assetInfo.asset_files?.file.node.sourceUrl}
             alt={author}
@@ -23,7 +23,10 @@ const FeaturedArtistCard = ({ node = null }) => {
             className={cx("asset-image")}
           />
         </a>
-        <a href={`/artists/${author}`} className={cx("asset-link")}>
+        <a
+          href={`/person/${author}?roleType=artist`}
+          className={cx("asset-link")}
+        >
           <h3> {author}</h3>
         </a>
 

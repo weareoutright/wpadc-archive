@@ -1,29 +1,24 @@
-import React, { useState } from "react";
 import { useRouter } from "next/router";
+import { useState } from "react";
+import { useGeneralSettings } from "../../constants/customQueryHooks";
+import { useHeaderMenu } from "../../constants/customQueryHooks";
 import {
   SEO,
   Header,
   Main,
   Container,
-  Footer,
-  RelatedSection,
-  InThisProjectSection,
   ArtistContainerHeader,
+  InThisProjectSection,
+  RelatedSection,
+  Footer,
 } from "../../components";
-import {
-  useGeneralSettings,
-  useHeaderMenu,
-} from "../../constants/customQueryHooks";
 
-const ArtistPage = () => {
+export default function PersonPage() {
   const router = useRouter();
-  const { uri } = router.query;
+  const { personName } = router.query;
+  const roleType = router.query.roleType;
+
   const [isNavShown, setIsNavShown] = useState(false);
-
-  //   const { loading, error, assetPostBySlug } = useArtistBySlug(uri?.join("/"));
-
-  // TODO - create a query that gets artist info by slug/uri
-  // TODO - artistPostBySlug = useArtistBySlug(uri?.join("/"))
 
   const {
     loading: loadingSettings,
@@ -68,6 +63,4 @@ const ArtistPage = () => {
       )}
     </>
   );
-};
-
-export default ArtistPage;
+}

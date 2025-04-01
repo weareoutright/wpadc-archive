@@ -22,7 +22,10 @@ const RelatedItemCard = ({ node }) => {
         <a href={`/assets/${slug}`} className={cx("asset-link")}>
           <h3>{title}</h3>
         </a>
-        <a href={`/artists/${author}`} className={cx("asset-link")}>
+        <a
+          href={`/person/${author}?roleType=artist`}
+          className={cx("asset-link")}
+        >
           <small>{author ? author : "Author Name"}</small>
         </a>
       </div>

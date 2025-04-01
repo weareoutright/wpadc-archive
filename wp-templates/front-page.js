@@ -16,6 +16,7 @@ import { useState } from "react";
 import className from "classnames/bind";
 import frontPageStyles from "../components/FrontPageContainer/FrontPageContainer.module.scss";
 import FullWidthLinkStyles from "../components/FullWidthLink/FullWidthLink.module.scss";
+import useHomeBlocks from "../constants/customQueryHooks/useHomeBlocks";
 
 let frontPageContainerCx = className.bind(frontPageStyles);
 let FullWidthLinkCx = className.bind(FullWidthLinkStyles);
@@ -49,7 +50,11 @@ export default function Component() {
   const primaryMenu = data?.headerMenuItems?.nodes ?? [];
   const footerMenu = data?.footerMenuItems?.nodes ?? [];
 
+  const homeBlocks = useHomeBlocks();
+
   const { route } = useRouter();
+
+  console.log(homeBlocks);
 
   return (
     <>

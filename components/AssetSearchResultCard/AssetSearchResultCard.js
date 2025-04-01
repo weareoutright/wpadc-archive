@@ -40,7 +40,7 @@ const AssetSearchResultCard = ({
         <a href={`/assets/${slug}`} className={cx("asset-link")}>
           <h3>{title}</h3>
         </a>
-        <a href={`/artists/${author}`} className={cx("asset-link")}>
+        <a href={`/person/${author}`} className={cx("asset-link")}>
           <small>{author ? author : "Author Name"}</small>
         </a>
       </div>
