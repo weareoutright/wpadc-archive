@@ -46,7 +46,7 @@ const InThisProjectSection = ({
       )}
       <div className={cx("InThisProjectSection")}>
         <h2>
-          {headerText} <small>({filteredResults.length} items)</small>
+          {headerText} <small>({filteredResults?.length || "- "} items)</small>
         </h2>
         <div className={cx("in-this-project")}>
           <div className={cx("in-this-project-carousel")}>
