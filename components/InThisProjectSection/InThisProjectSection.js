@@ -23,10 +23,12 @@ const InThisProjectSection = ({
       .join(" ");
   };
 
+  const capitalizedName = slugToTitle(personName);
+
   const filteredResults = itemsArr?.assetPosts.edges
     .filter((edge) => {
       const assetCards = edge.node?.assetCard?.assetCard || [];
-      const capitalizedName = slugToTitle(personName);
+
       return assetCards.some((assetCard) =>
         assetCard.artists?.some((artist) =>
           artist.collaborator?.edges?.some((collabEdge) =>
