@@ -59,7 +59,7 @@ export default function Component() {
   const { route } = useRouter();
 
   let [link1, link2, link3, link4] =
-    dataHome?.pages.edges[0].node.homeBlocks.browseByLinks;
+    ;
 
   return (
     <>
@@ -132,24 +132,24 @@ export default function Component() {
             </FrontPageContainer>
             <div className={FullWidthLinkCx("front-page-full-width-links")}>
               <FullWidthLink
-                label={link1.browseByItem.linkTitle}
-                path={link1.browseByItem.url}
+                label={dataHome.pages.edges[0].node.homeBlocks.browseByLinks[0].browseByItem.linkTitle}
+                path={dataHome.pages.edges[0].node.homeBlocks.browseByLinks[0].browseByItem.url}
                 bgHex={"6741f5"}
                 bgImg={"../assets/front-page/full-width-link-bg-sample.svg"}
               />
               <FullWidthLink
-                label={link2.browseByItem.linkTitle}
-                path={link2.browseByItem.url}
+                label={dataHome.pages.edges[0].node.homeBlocks.browseByLinks[1].browseByItem.linkTitle}
+                path={dataHome.pages.edges[0].node.homeBlocks.browseByLinks[1].browseByItem.url}
                 bgHex={"f66639"}
               />
               <FullWidthLink
-                label={link3.browseByItem.linkTitle}
-                path={link3.browseByItem.url}
+                label={dataHome.pages.edges[0].node.homeBlocks.browseByLinks[2].browseByItem.linkTitle}
+                path={dataHome.pages.edges[0].node.homeBlocks.browseByLinks[2].browseByItem.url}
                 bgHex={"f63939"}
               />
               <FullWidthLink
-                label={link4.browseByItem.linkTitle}
-                path={link4.browseByItem.url}
+                label={dataHome.pages.edges[0].node.homeBlocks.browseByLinks[3].browseByItem.linkTitle}
+                path={dataHome.pages.edges[0].node.homeBlocks.browseByLinks[3].browseByItem.url}
                 bgHex={"FF00D2"}
               />
             </div>
