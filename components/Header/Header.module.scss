@@ -106,7 +106,7 @@
   align-items: center;
   color: var(--wpe--color--black);
   cursor: pointer;
-  display: flex;
+  display: none;
   margin: 0;
   transition: all 0.2s ease-in;
   user-select: none;
@@ -128,7 +128,7 @@
   align-items: flex-end;
   color: var(--wpe--color--black);
   cursor: pointer;
-  display: flex;
+  display: none;
   margin: 0;
   transition: all 0.2s ease-in;
   user-select: none;
@@ -148,7 +148,7 @@
 }
 
 .primary-navigation {
-  display: none;
+  display: block;
   width: auto;
 
   cursor: pointer;

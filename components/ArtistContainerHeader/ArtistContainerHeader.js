@@ -1,8 +1,9 @@
 import styles from "./ArtistContainerHeader.module.scss";
 import className from "classnames/bind";
-import RIGHT_ARROW from "../../icons/right-arrow.svg";
+import RIGHT_ARROW from "../../assets/icons/right-arrow.svg";
 import Image from "next/image";
-import DEFAULT_CHECKED_IMAGE from "../../checked-bg-minimal-content.png";
+import DEFAULT_CHECKED_IMAGE from "../../assets/checked-bg-minimal-content.png";
+import parse from "html-react-parser";
 
 let cx = className.bind(styles);
 
@@ -17,6 +18,8 @@ const ArtistContainerHeader = ({ artistObj }) => {
   const { fullName, bodyCopy, quote, headshot, externalLinks } =
     artistObj.personCard.personInfo[0];
 
+  console.log(externalLinks);
+
   return (
     <div className={cx("ArtistContainerHeader")}>
       {artistObj !== null && (
@@ -27,7 +30,7 @@ const ArtistContainerHeader = ({ artistObj }) => {
           </div>
           <div className={cx("artist-container-header-content")}>
             <div className={cx("left-column")}>
-              <div className={cx("description")}>{bodyCopy || ""}</div>
+              <div className={cx("description")}>{parse(bodyCopy) || ""}</div>
               <figure className={cx("block-quote")}>
                 <blockquote>
                   <p>"{quote || ""}"</p>
@@ -38,20 +41,24 @@ const ArtistContainerHeader = ({ artistObj }) => {
               </figure>
             </div>
             <div className={cx("right-column")}>
-              {headshot ? (
+              {headshot !== null ? (
                 <Image
                   className={cx("artist-headshot")}
-                  src={headshot || ""}
+                  src={headshot}
                   alt="artist"
                 />
               ) : (
-                <Image src={DEFAULT_CHECKED_IMAGE} alt="" />
+                <Image
+                  className={cx("artist-headshot")}
+                  src={DEFAULT_CHECKED_IMAGE}
+                  alt="artist"
+                />
               )}
               <div className={cx("external-links")}>
                 {externalLinks &&
                   externalLinks?.map((link) => (
-                    <a href={link.href} target="_blank" rel="noreferrer">
-                      <span>{link.name} </span>
+                    <a href={link.url} target="_blank" rel="noreferrer">
+                      <span>{link.linkTitle} </span>
                       <Image
                         className={cx("right-arrow")}
                         src={RIGHT_ARROW}

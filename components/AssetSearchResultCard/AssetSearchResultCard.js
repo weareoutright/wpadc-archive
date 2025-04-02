@@ -74,7 +74,7 @@ const AssetSearchResultCard = ({
               />
             </a>
           )}
-          {!isImageOnly && <h3>{title}</h3>}
+          {/* {!isImageOnly && <h3>{title}</h3>} */}
         </div>
         {!isImageOnly && <small>{personName}</small>}
       </div>
