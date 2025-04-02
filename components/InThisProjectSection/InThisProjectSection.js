@@ -23,7 +23,7 @@ const InThisProjectSection = ({
       .join(" ");
   };
 
-  const filteredResults = itemsArr.assetPosts.edges
+  const filteredResults = itemsArr?.assetPosts.edges
     .filter((edge) => {
       const assetCards = edge.node?.assetCard?.assetCard || [];
 
