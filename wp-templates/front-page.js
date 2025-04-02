@@ -69,7 +69,7 @@ export default function Component() {
         isNavShown={isNavShown}
         setIsNavShown={setIsNavShown}
       />
-      {!isNavShown && (
+      {!isNavShown && !loadingHome && (
         <>
           <Main
             className="front-page-main"
