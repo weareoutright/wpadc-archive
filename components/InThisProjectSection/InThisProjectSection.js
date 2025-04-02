@@ -47,7 +47,7 @@ const InThisProjectSection = ({
               slides={filteredResults}
               cardType="image"
               setIsOverlayShown={setIsOverlayShown}
-              personName={slugToTitle(personName)}
+              personName={personName}
               className={carouselCx(
                 !frontPageCarousel && "template-page-carousel"
               )}
