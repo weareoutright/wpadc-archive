@@ -16,15 +16,6 @@ const InThisProjectSection = ({
 }) => {
   const [isOverlayShown, setIsOverlayShown] = useState(false);
 
-  const slugToTitle = (slug) => {
-    return slug
-      .split("-")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-  };
-
-  const capitalizedName = slugToTitle(personName);
-
   const filteredResults = itemsArr?.assetPosts.edges
     .filter((edge) => {
       const assetCards = edge.node?.assetCard?.assetCard || [];
@@ -33,7 +24,7 @@ const InThisProjectSection = ({
         assetCard.artists?.some((artist) =>
           artist.collaborator?.edges?.some((collabEdge) =>
             collabEdge.node?.personCard?.personInfo?.some(
-              (person) => person.fullName === capitalizedName
+              (person) => person.fullName === personName
             )
           )
         )
