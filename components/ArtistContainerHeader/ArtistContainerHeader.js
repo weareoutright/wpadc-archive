@@ -30,7 +30,7 @@ const ArtistContainerHeader = ({ artistObj }) => {
           </div>
           <div className={cx("artist-container-header-content")}>
             <div className={cx("left-column")}>
-              <div className={cx("description")}>{parse(bodyCopy) || ""}</div>
+              <div className={cx("description")}>{bodyCopy ? parse(String(bodyCopy)) : ""}</div>
               <figure className={cx("block-quote")}>
                 <blockquote>
                   <p>"{quote || ""}"</p>
