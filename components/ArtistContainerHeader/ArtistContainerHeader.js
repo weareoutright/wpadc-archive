@@ -1,8 +1,8 @@
 import styles from "./ArtistContainerHeader.module.scss";
 import className from "classnames/bind";
-import RIGHT_ARROW from "../../assets/icons/right-arrow.svg";
+import RIGHT_ARROW from "../../icons/right-arrow.svg";
 import Image from "next/image";
-import DEFAULT_CHECKED_IMAGE from "../../assets/checked-bg-minimal-content.png";
+import DEFAULT_CHECKED_IMAGE from "../../checked-bg-minimal-content.png";
 
 let cx = className.bind(styles);
 

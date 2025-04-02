@@ -8,7 +8,7 @@ const RelatedItemCard = ({ node }) => {
   const { title, asset_postId, author, slug } = node;
   return (
     <div key={`${title}-${asset_postId}`} className={cx("RelatedItemCard")}>
-      <a href={`/assets/${slug}`} className={cx("asset-link")}>
+      <a href={`/asset/${slug}`} className={cx("asset-link")}>
         <Image
           // src={node.assetCard.assetInfo.asset_files?.file.node.sourceUrl}
           alt={title}
@@ -19,7 +19,7 @@ const RelatedItemCard = ({ node }) => {
         />
       </a>
       <div className={cx("card-info")}>
-        <a href={`/assets/${slug}`} className={cx("asset-link")}>
+        <a href={`/asset/${slug}`} className={cx("asset-link")}>
           <h3>{title}</h3>
         </a>
         <a
