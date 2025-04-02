@@ -26,12 +26,12 @@ const InThisProjectSection = ({
   const filteredResults = itemsArr?.assetPosts.edges
     .filter((edge) => {
       const assetCards = edge.node?.assetCard?.assetCard || [];
-
+      const capitalizedName = slugToTitle(personName);
       return assetCards.some((assetCard) =>
         assetCard.artists?.some((artist) =>
           artist.collaborator?.edges?.some((collabEdge) =>
             collabEdge.node?.personCard?.personInfo?.some(
-              (person) => person.fullName === slugToTitle(personName)
+              (person) => person.fullName === capitalizedName
             )
           )
         )
