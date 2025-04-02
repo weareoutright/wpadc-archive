@@ -34,6 +34,7 @@ const GET_HOME_BLOCKS = gql`
                 }
               }
             }
+            browseByDescription
             browseByLinks {
               browseByItem {
                 backgroundImage {

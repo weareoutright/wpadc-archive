@@ -82,7 +82,12 @@ export default function Component() {
                   Featured Collections <br />
                   And Stories
                 </h3>
-                <p></p>
+                <p>
+                  {
+                    dataHome.pages.edges[0].node.homeBlocks
+                      .featuredCollectionsStoriesDescription
+                  }
+                </p>
               </div>
 
               <Carousel
@@ -98,7 +103,13 @@ export default function Component() {
                 )}
               >
                 <h3>Featured Artists</h3>
-                <p></p>
+                <p>
+                  {" "}
+                  {
+                    dataHome.pages.edges[0].node.homeBlocks
+                      .featuredArtistsDescription
+                  }
+                </p>
               </div>
               <Carousel
                 slides={null}
@@ -110,7 +121,10 @@ export default function Component() {
                 className={frontPageContainerCx("browse-by", "header-and-desc")}
               >
                 <h3 style={{ textWrap: "nowrap" }}>Browse By</h3>
-                <p></p>
+                <p>
+                  {" "}
+                  {dataHome.pages.edges[0].node.homeBlocks.browseByDescription}
+                </p>
               </div>
             </FrontPageContainer>
             <div className={FullWidthLinkCx("front-page-full-width-links")}>
