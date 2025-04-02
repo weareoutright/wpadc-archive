@@ -16,22 +16,12 @@ import {
   useHeaderMenu,
 } from "../../constants/customQueryHooks";
 
-// const DUMMY_ITEMS = [
-//   {
-//     title: "sample",
-//     asset_postId: "hello",
-//     uri: "hello",
-//     author: "sample",
-//     slug: "letting-go-documentation",
-//   },
-// ];
-
 const PublicProgramsPage = () => {
   const router = useRouter();
   const { uri } = router.query;
   const [isNavShown, setIsNavShown] = useState(false);
 
-  const { loading, error, assetPostBySlug } = useAssetsBySlug(uri?.join("/"));
+  // const { loading, error, assetPostBySlug } = useAssetsBySlug(uri?.join("/"));
 
   const {
     loading: loadingSettings,

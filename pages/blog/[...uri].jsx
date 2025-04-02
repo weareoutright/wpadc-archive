@@ -23,7 +23,7 @@ const StoryPage = () => {
   const { uri } = router.query;
   const [isNavShown, setIsNavShown] = useState(false);
 
-  const { loading, error, assetPostBySlug } = useAssetsBySlug(uri?.join("/"));
+  // const { loading, error, assetPostBySlug } = useAssetsBySlug(uri?.join("/"));
 
   const {
     loading: loadingSettings,
