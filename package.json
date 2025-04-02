@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "faust dev",
     "export": "next export -o out && touch out/.nojekyll",
-    "build": "NEXT_PUBLIC_WORDPRESS_URL=https://wpdacarchivdev.wpenginepowered.com/ faust build",
+    "build": "NEXT_PUBLIC_WORDPRESS_URL=https://wpadcarchive.wpenginepowered.com/ faust build",
     "generate": "faust generatePossibleTypes",
     "stylesheet": "faust generateGlobalStylesheet",
     "start": "faust start"
