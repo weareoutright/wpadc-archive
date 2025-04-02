@@ -13,6 +13,7 @@ import {
   Footer,
 } from "../../components";
 import usePersonBySlug from "../../constants/customQueryHooks/usePersonBySlug";
+import useAllAssetsByArtist from "../../constants/customQueryHooks/useAllAssetsByArtist";
 
 export default function PersonPage() {
   const router = useRouter();
@@ -20,18 +21,7 @@ export default function PersonPage() {
   const roleType = router.query.roleType;
 
   const [isNavShown, setIsNavShown] = useState(false);
-  const [artistResult, setArtistResult] = useState({
-    personCard: {
-      personInfo: {
-        fullName: null,
-        bodyCopy: null,
-        quote: null,
-        headshot: null,
-        externalLink: null,
-      },
-      modified: null,
-    },
-  });
+  const [assetsByArtist, setAssetsByArtist] = useState([]);
 
   const {
     loading: loadingSettings,
@@ -47,11 +37,11 @@ export default function PersonPage() {
     data: dataPerson,
   } = usePersonBySlug(personName);
 
-  console.log(loadingPerson);
-
-  useEffect(() => {
-    setArtistResult(dataPerson);
-  }, []);
+  const {
+    loading: loadingAssets,
+    error: errorAssets,
+    data: dataAssets,
+  } = useAllAssetsByArtist(personName);
 
   //   if (loading) {
   //     return <div className="ArtistPage">Loading...</div>;
@@ -70,18 +60,19 @@ export default function PersonPage() {
         isNavShown={isNavShown}
         setIsNavShown={setIsNavShown}
       />
-      {!isNavShown && (
+      {!isNavShown && !loadingPerson && (
         <>
           <Main className={"artist-page"}>
             <Container>
-              <ArtistContainerHeader
-                artistObj={dataPerson ? dataPerson : artistResult}
-              />
-              <InThisProjectSection
-                headerText="By This Artist"
-                itemsArr={null}
-                frontPageCarousel={false}
-              />
+              <ArtistContainerHeader artistObj={dataPerson} />
+              {!loadingAssets && (
+                <InThisProjectSection
+                  headerText="By This Artist"
+                  itemsArr={dataAssets}
+                  frontPageCarousel={false}
+                  personName={dataPerson.personCard.personInfo[0].fullName}
+                />
+              )}
               <RelatedSection itemsArr={null} />
             </Container>
           </Main>

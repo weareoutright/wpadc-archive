@@ -50,11 +50,13 @@ export default function Component() {
   const primaryMenu = data?.headerMenuItems?.nodes ?? [];
   const footerMenu = data?.footerMenuItems?.nodes ?? [];
 
-  const homeBlocks = useHomeBlocks();
+  const {
+    loading: loadingHome,
+    error: errorHome,
+    data: dataHome,
+  } = useHomeBlocks();
 
   const { route } = useRouter();
-
-  console.log(homeBlocks);
 
   return (
     <>

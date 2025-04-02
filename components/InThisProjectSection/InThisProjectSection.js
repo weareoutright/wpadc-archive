@@ -10,10 +10,34 @@ let carouselCx = className.bind(carouselStyles);
 
 const InThisProjectSection = ({
   headerText,
-  itemsArr = [],
+  itemsArr,
   frontPageCarousel,
+  personName,
 }) => {
   const [isOverlayShown, setIsOverlayShown] = useState(false);
+
+  const slugToTitle = (slug) => {
+    return slug
+      .split("-")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  };
+
+  const filteredResults = itemsArr.assetPosts.edges
+    .filter((edge) => {
+      const assetCards = edge.node?.assetCard?.assetCard || [];
+
+      return assetCards.some((assetCard) =>
+        assetCard.artists?.some((artist) =>
+          artist.collaborator?.edges?.some((collabEdge) =>
+            collabEdge.node?.personCard?.personInfo?.some(
+              (person) => person.fullName === slugToTitle(personName)
+            )
+          )
+        )
+      );
+    })
+    .map((edge) => edge.node); // Return the top-level post object
 
   return (
     <>
@@ -22,14 +46,15 @@ const InThisProjectSection = ({
       )}
       <div className={cx("InThisProjectSection")}>
         <h2>
-          {headerText} <small>({itemsArr?.length} items)</small>
+          {headerText} <small>({filteredResults.length} items)</small>
         </h2>
         <div className={cx("in-this-project")}>
           <div className={cx("in-this-project-carousel")}>
             <Carousel
-              slides={itemsArr}
+              slides={filteredResults}
               cardType="image"
               setIsOverlayShown={setIsOverlayShown}
+              personName={slugToTitle(personName)}
               className={carouselCx(
                 !frontPageCarousel && "template-page-carousel"
               )}

@@ -5,9 +5,10 @@ import Image from "next/image";
 let cx = className.bind(styles);
 
 const AssetSearchResultCard = ({
-  node = null,
+  node,
   isImageOnly = false,
   setIsOverlayShown = null,
+  personName,
 }) => {
   if (node) {
     const { title, asset_postId, uri, author, slug } = node;
@@ -17,7 +18,7 @@ const AssetSearchResultCard = ({
         key={`${title}-${asset_postId}`}
         className={cx("AssetCard", isWPAstory && "wpa-story")}
       >
-        <a href={`/assets/${slug}`} className={cx("asset-link")}>
+        <a href={`/asset/${slug}`} className={cx("asset-link")}>
           <Image
             // src={node.assetCard.assetInfo.asset_files?.file.node.sourceUrl}
             alt={title}
@@ -37,11 +38,11 @@ const AssetSearchResultCard = ({
             </span>
           )}
         </a>
-        <a href={`/assets/${slug}`} className={cx("asset-link")}>
+        <a href={`/asset/${slug}`} className={cx("asset-link")}>
           <h3>{title}</h3>
         </a>
         <a href={`/person/${author}`} className={cx("asset-link")}>
-          <small>{author ? author : "Author Name"}</small>
+          <small>{personName}</small>
         </a>
       </div>
     );
@@ -73,9 +74,9 @@ const AssetSearchResultCard = ({
               />
             </a>
           )}
-          {!isImageOnly && <h3>Title</h3>}
+          {!isImageOnly && <h3>{title}</h3>}
         </div>
-        {!isImageOnly && <small>Author Name</small>}
+        {!isImageOnly && <small>{personName}</small>}
       </div>
     );
   }

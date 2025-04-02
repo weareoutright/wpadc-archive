@@ -15,6 +15,7 @@ const Carousel = ({
   slides,
   cardType = "asset",
   className,
+  personName,
   setIsOverlayShown,
 }) => {
   const carouselRef = useRef(null);
@@ -104,23 +105,31 @@ const Carousel = ({
         }}
       >
         {slides ? (
-          slides.map((slide, index) => (
-            <div
-              key={index}
-              className={cx("carousel-item")}
-              data-index={index} // Assign index for reference in observer
-            >
-              {cardType === "asset" && <AssetSearchResultCard node={slide} />}
-              {cardType === "artist" && <FeaturedArtistCard node={slide} />}
-              {cardType === "image" && (
-                <AssetSearchResultCard
-                  node={null}
-                  isImageOnly={true}
-                  setIsOverlayShown={setIsOverlayShown}
-                />
-              )}
-            </div>
-          ))
+          slides.map((slide, index) => {
+            console.log(slide);
+            return (
+              <div
+                key={index}
+                className={cx("carousel-item")}
+                data-index={index} // Assign index for reference in observer
+              >
+                {cardType === "asset" && (
+                  <AssetSearchResultCard node={slide} personName={personName} />
+                )}
+                {cardType === "artist" && (
+                  <FeaturedArtistCard node={slide} personName={personName} />
+                )}
+                {cardType === "image" && (
+                  <AssetSearchResultCard
+                    node={slide}
+                    isImageOnly={true}
+                    setIsOverlayShown={setIsOverlayShown}
+                    personName={personName}
+                  />
+                )}
+              </div>
+            );
+          })
         ) : (
           <AssetSearchResultCard node={null} />
         )}

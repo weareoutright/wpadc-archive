@@ -5,3 +5,7 @@ export { default as useRoleGroups } from "./useRoleGroups";
 export { default as useAssetCount } from "./useAssetCount";
 export { default as useAssets } from "./useAssets";
 export { default as useDecades } from "./useDecades";
+export { default as useHomeBlocks } from "./useHomeBlocks";
+export { default as useAboutBlocks } from "./useAboutBlocks";
+export { default as useAssetsBySlug } from "./useAssetsBySlug";
+export { default as usePersonBySlug } from "./usePersonBySlug";
