@@ -83,23 +83,22 @@ export default function Component(props) {
             <Container className="about-container">
               <div className="About">
                 <div className="page-description">
-                  {dataAbout?.pages.edges[0].node.aboutBlocks.aboutContent[0]
+                  {dataAbout?.pages.edges[0].node.aboutBlocks.aboutContentBlocks[0]
                     .aboutPageDescription &&
                     parse(
-                      dataAbout?.pages.edges[0].node.aboutBlocks.aboutContent[0]
+                      dataAbout?.pages.edges[0].node.aboutBlocks.aboutContentBlocks[0]
                         .aboutPageDescription
                     )}
                 </div>
                 <div className="page-content">
                   <div className={"img-container"}>
-                    {dataAbout?.pages.edges[0].node.aboutBlocks.aboutContent[0]
+                    {dataAbout?.pages.edges[0].node.aboutBlocks.aboutContentBlocks[0]
                       .aboutFeaturedImage && (
                       <img
                         className="about-featured-image"
-                        src={parse(
-                          dataAbout?.pages.edges[0].node.aboutBlocks
-                            .aboutContent[0].aboutFeaturedImage
-                        )}
+                        src={
+                          dataAbout?.pages.edges[0].node.aboutBlocks.aboutContentBlocks[0].aboutFeaturedImage
+                            .node.sourceUrl || ABOUT_FEATURED_IMAGE}
                         alt={`${
                           dataAbout?.pages.edges[0].node.aboutBlocks.title &&
                           parse(
@@ -113,23 +112,23 @@ export default function Component(props) {
                     <h2>
                       {" "}
                       {dataAbout?.pages.edges[0].node.aboutBlocks
-                        .aboutContent[0].aboutPageHeader &&
+                        .aboutContentBlocks[0].aboutPageHeader &&
                         parse(
                           dataAbout?.pages.edges[0].node.aboutBlocks
-                            .aboutContent[0].aboutPageHeader
+                            .aboutContentBlocks[0].aboutPageHeader
                         )}
                     </h2>{" "}
-                    {dataAbout?.pages.edges[0].node.aboutBlocks.aboutContent[0]
+                    {dataAbout?.pages.edges[0].node.aboutBlocks.aboutContentBlocks[0]
                       .aboutContent &&
                       parse(
                         dataAbout?.pages.edges[0].node.aboutBlocks
-                          .aboutContent[0].aboutContent
+                          .aboutContentBlocks[0].aboutContent
                       )}
                     <div className="external-links external-links-light">
                       {" "}
                       {dataAbout?.pages.edges[0].node.aboutBlocks
-                        .aboutContent[0].buttons &&
-                        dataAbout?.pages.edges[0].node.aboutBlocks.aboutContent[0].buttons.map(
+                        .aboutContentBlocks[0].buttons &&
+                        dataAbout?.pages.edges[0].node.aboutBlocks.aboutContentBlocks[0].buttons.map(
                           (btn) => {
                             return (
                               <a
@@ -164,15 +163,11 @@ export default function Component(props) {
                   )}
               </div>
               <div className={cx("submission-btns")}>
-                <a href="#" className={cx("submission-btn")}>
-                  {/** SUBMIT FEEDBACK HREF */}
-                  Submit Feedback <Image src={RIGHT_ARROW} alt="right arrow" />
-                </a>
-                <a href="#" className={cx("submission-btn")}>
-                  {/** SUBMIT CONTENT */}
-                  Submit Content
-                  <Image src={RIGHT_ARROW} alt="right arrow" />
-                </a>
+                {dataAbout.pages.edges[0].node.aboutBlocks.howToUseTheArchive[0].buttons.map((link, index) => (
+                    <a key={index} href={link.url} className={cx("submission-btn")}>
+                      {link.title} <Image src={RIGHT_ARROW} alt="right arrow" />
+                    </a>
+                ))}
               </div>
             </div>
           </PageContentWrapper>
