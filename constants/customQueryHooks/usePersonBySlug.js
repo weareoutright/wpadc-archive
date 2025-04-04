@@ -18,8 +18,11 @@ const GET_PERSON_BY_SLUG = gql`
             location
             headshot {
               node {
-                id
-                uri
+                altText
+                caption
+                sourceUrl
+                title
+                description
               }
             }
             quote
