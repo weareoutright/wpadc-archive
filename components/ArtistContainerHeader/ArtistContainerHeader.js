@@ -18,7 +18,6 @@ const ArtistContainerHeader = ({ artistObj }) => {
   const { fullName, bodyCopy, quote, headshot, externalLinks } =
     artistObj.personCard.personInfo[0];
 
-  console.log(externalLinks);
 
   return (
     <div className={cx("ArtistContainerHeader")}>
