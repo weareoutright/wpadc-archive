@@ -1,8 +1,8 @@
 import { gql, useQuery } from "@apollo/client";
 
 const GET_ASSET = gql`
-  query MyQuery2 {
-    assetPostBy(slug: "to-imagine-a-form-of-life-test") {
+  query MyQuery2($slug: String!) {
+    assetPostBy(slug: $slug) {
       assetCard {
         assetCard {
           ... on AssetCardAssetCardAssetCardLayout {
