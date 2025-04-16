@@ -1,12 +1,8 @@
 import { gql, useQuery } from "@apollo/client";
 
-// Define the GraphQL query with a slug variable
 const GET_ASSET = gql`
-  query getAssetBySlug($slug: String!) {
-    assetPostBy(slug: $slug) {
-      id
-      slug
-      uri
+  query MyQuery2 {
+    assetPostBy(slug: "to-imagine-a-form-of-life-test") {
       assetCard {
         assetCard {
           ... on AssetCardAssetCardAssetCardLayout {
@@ -114,29 +110,6 @@ const GET_ASSET = gql`
                 }
               }
             }
-            related {
-              manuallySetCards {
-                edges {
-                  node {
-                    ... on Asset_post {
-                      id
-                      slug
-                      title
-                    }
-                    ... on Person {
-                      id
-                      title
-                      slug
-                    }
-                    ... on Post {
-                      id
-                      title
-                      slug
-                    }
-                  }
-                }
-              }
-            }
           }
         }
       }
@@ -145,9 +118,9 @@ const GET_ASSET = gql`
 `;
 
 // Custom hook to fetch the asset data
-const useAssets = (slug) => {
+const useAssetsBySlug = (slug) => {
   const { loading, error, data } = useQuery(GET_ASSET, {
-    variables: { slug }, // Pass the slug variable here
+    variables: { slug },
   });
 
   return {
@@ -157,4 +130,4 @@ const useAssets = (slug) => {
   };
 };
 
-export default useAssets;
+export default useAssetsBySlug;

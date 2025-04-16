@@ -15,13 +15,18 @@ import {
   useGeneralSettings,
   useHeaderMenu,
 } from "../../constants/customQueryHooks";
+import parse from "html-react-parser";
 
 const AssetPage = () => {
   const router = useRouter();
-  const { uri } = router.query;
+  const { assetName } = router.query;
   const [isNavShown, setIsNavShown] = useState(false);
 
-  // const { loading, error, assetPostBySlug } = useAssetsBySlug(uri?.join("/"));
+  const {
+    loading: loadingAssetPostBySlug,
+    error: errorAssetPostBySlug,
+    assetPostBySlug,
+  } = useAssetsBySlug(assetName);
 
   const {
     loading: loadingSettings,
@@ -43,6 +48,8 @@ const AssetPage = () => {
   //   return <div className="AssetPage">No asset found for this URI.</div>;
   // }
 
+  console.log(assetPostBySlug?.assetCard);
+
   return (
     <>
       <SEO
@@ -58,29 +65,37 @@ const AssetPage = () => {
       />
       <Main>
         <Container>
-          <div className="AssetPage">
-            <ContainerHeader
-              programName={null}
-              artistName={null}
-              assetName={null}
-              eventName={null}
-              description={null}
-              tagsArr={null}
-              dateBegin={null}
-              dateEnd={null}
-              type={null}
-              location={null}
-              externalLinksArr={null}
-              pageType={null}
-              parentLink={null}
-            />
-            <InThisProjectSection
-              headerText="In This Project"
-              itemsArr={null}
-              frontPageCarousel={false}
-            />
-            <RelatedSection itemsArr={null} />
-          </div>
+          {assetPostBySlug && !loadingAssetPostBySlug && (
+            <div className="AssetPage">
+              <ContainerHeader
+                programName={null}
+                artistName={null}
+                assetName={assetPostBySlug?.assetCard.assetCard[0].title || ""}
+                eventName={null}
+                description={
+                  parse(assetPostBySlug?.assetCard.assetCard[0].description) ||
+                  ""
+                }
+                tagsArr={
+                  assetPostBySlug?.assetCard.assetCard[0].assetTags[0].assetTag
+                    .edges || []
+                }
+                dateBegin={null}
+                dateEnd={null}
+                type={null}
+                location={assetPostBySlug?.assetCard.assetCard[0].location}
+                externalLinksArr={null}
+                pageType={"asset"}
+                parentLink={null}
+              />
+              <InThisProjectSection
+                headerText="In This Project"
+                itemsArr={null}
+                frontPageCarousel={false}
+              />
+              <RelatedSection itemsArr={null} />
+            </div>
+          )}
         </Container>
       </Main>
       <Footer title={generalSettings?.title} menuItems={null} />

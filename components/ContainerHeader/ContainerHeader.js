@@ -45,8 +45,12 @@ const ContainerHeader = ({
             {tagsArr && (
               <div className={cx("tag-container")}>
                 {tagsArr.map((tag) => (
-                  <a key={tag.href} className={cx("tag")} href={tag.href}>
-                    {tag.name}
+                  <a
+                    key={tag.node.uri}
+                    className={cx("tag")}
+                    href={tag.node.uri}
+                  >
+                    {tag.node.title}
                   </a>
                 ))}
               </div>
