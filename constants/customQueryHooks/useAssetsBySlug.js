@@ -8,59 +8,131 @@ const GET_ASSET = gql`
       slug
       uri
       assetCard {
-        assetInfo {
-          ... on AssetCardAssetInfoAcfProAssetCardLayout {
+        assetCard {
+          ... on AssetCardAssetCardAssetCardLayout {
+            description
+            endDate
+            eyebrow
+            location
+            startDate
             title
             artists {
-              contributors {
+              collaborator {
                 edges {
                   node {
                     id
-                  }
-                }
-              }
-              primaryArtistAuthor {
-                edges {
-                  node {
-                    id
-                  }
-                }
-              }
-            }
-            curator {
-              nodes {
-                ... on Person {
-                  id
-                  personCard {
-                    personInfo {
-                      ... on PersonCardPersonInfoAcfProPersonCardLayout {
-                        activeSinceYear
-                        currentlyActive
-                        fullName
-                        location
-                        roleType {
-                          nodes {
-                            ... on PersonRoleType {
-                              id
-                              roleType {
-                                role_type
-                              }
-                            }
-                          }
-                        }
-                      }
+                    slug
+                    uri
+                    ... on Person {
+                      id
+                      title
                     }
                   }
                 }
               }
             }
-            year
-            mediaMedium {
-              medium {
-                nodes {
-                  ... on ArtMediumType {
+            thumbnail {
+              node {
+                altText
+                caption
+                title
+                sourceUrl
+              }
+            }
+            curator {
+              nodes {
+                slug
+                ... on Person {
+                  id
+                  title
+                }
+              }
+            }
+            type {
+              type {
+                edges {
+                  node {
                     id
-                    title
+                    ... on AssetMediumType {
+                      id
+                      title
+                    }
+                  }
+                }
+              }
+            }
+            assetTags {
+              assetTag {
+                edges {
+                  node {
+                    id
+                    slug
+                    uri
+                    ... on AssetTag {
+                      id
+                      title
+                    }
+                  }
+                }
+              }
+            }
+            assetFiles {
+              file {
+                node {
+                  altText
+                  caption
+                  description
+                  sourceUrl
+                  title
+                }
+              }
+            }
+            externalLinks {
+              label
+              url
+            }
+            inThisProject {
+              manuallySetCards {
+                edges {
+                  node {
+                    ... on Asset_post {
+                      id
+                      title
+                      slug
+                    }
+                    ... on Person {
+                      id
+                      title
+                      slug
+                    }
+                    ... on Post {
+                      id
+                      slug
+                      title
+                    }
+                  }
+                }
+              }
+            }
+            related {
+              manuallySetCards {
+                edges {
+                  node {
+                    ... on Asset_post {
+                      id
+                      slug
+                      title
+                    }
+                    ... on Person {
+                      id
+                      title
+                      slug
+                    }
+                    ... on Post {
+                      id
+                      title
+                      slug
+                    }
                   }
                 }
               }
