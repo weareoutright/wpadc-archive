@@ -16,7 +16,7 @@ const InThisProjectSection = ({
 }) => {
   const [isOverlayShown, setIsOverlayShown] = useState(false);
 
-  const filteredResults = itemsArr?.assetPosts.edges
+  const filteredResults = itemsArr?.edges
     .filter((edge) => {
       const assetCards = edge.node?.assetCard?.assetCard || [];
 

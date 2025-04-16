@@ -84,7 +84,9 @@ const AssetPage = () => {
                 dateEnd={null}
                 type={null}
                 location={assetPostBySlug?.assetCard.assetCard[0].location}
-                externalLinksArr={null}
+                externalLinksArr={
+                  assetPostBySlug?.assetCard.assetCard[0].externalLinks
+                }
                 pageType={"asset"}
                 parentLink={null}
               />

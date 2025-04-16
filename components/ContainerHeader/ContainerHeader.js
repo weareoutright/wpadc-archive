@@ -93,8 +93,11 @@ const ContainerHeader = ({
           </div>
           <div className={cx("external-links")}>
             {externalLinksArr?.map((link) => (
-              <a href={link.href} target="_blank" rel="noreferrer">
-                <span>{link.name} </span>
+              <a href={link.url} target="_blank" rel="noreferrer">
+                <span>
+                  {link.label}
+                  {"  "}{" "}
+                </span>
                 <Image
                   className={cx("right-arrow")}
                   src={RIGHT_ARROW}
