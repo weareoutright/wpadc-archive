@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import useAssetsBySlug from "../../constants/customQueryHooks/useAssetsBySlug";
+import { LoadingPage } from "../../components";
 import { useRouter } from "next/router";
 import {
   SEO,
@@ -36,9 +37,9 @@ const AssetPage = () => {
 
   const { loading: loadingMenus, error: errorMenus, menus } = useHeaderMenu();
 
-  // if (loading) {
-  //   return <div className="AssetPage">Loading...</div>;
-  // }
+  if (loadingAssetPostBySlug) {
+    return <LoadingPage stroke="#FFF" />;
+  }
 
   // if (error) {
   //   return <div className="AssetPage">Error: {error.message}</div>;

@@ -25,10 +25,6 @@ import {
 import { useState } from "react";
 
 const roleTypeOrganizer = {
-  /* // TODO: make visibleRoleTypes take in an array of role types set to visible via CMS
-     TODO: order matters in the array for it to show up properly on the page
-   */
-
   visibleRoleTypes: ["staff", "board_member"],
   staff: (staffArr) => {
     return (
@@ -93,7 +89,11 @@ export default function Component() {
     variables: Component.variables(),
   });
 
-    const { loading: loadingDecades, error: errorDecades, decades } = useDecades();
+  const {
+    loading: loadingDecades,
+    error: errorDecades,
+    decades,
+  } = useDecades();
 
   const primaryMenu = menus;
 
@@ -122,81 +122,79 @@ export default function Component() {
         setIsNavShown={setIsNavShown}
       />
       {!isNavShown && (
-          <>
-            <div className={"outer-pill-container"}>
-              <div className={"decade-pills"}>
-                <div className="main-filters">
-                  <span className={"filter-note"}>Jump to decade</span>
-                  {decades?.length > 0 &&
-                      decades.map((decade) => (
-                          <a
-                              key={decade.decadeId}
-                              className="pill-btn"
-                              href={`#${decade.decadeId}`}
-                          >
-                            {decade?.decadeTitle || "Unknown"}
-                          </a>
-                      ))}
-                </div>
-              </div>
-              <div className={"note"}>
-                <span>*New addition or role</span>
+        <>
+          <div className={"outer-pill-container"}>
+            <div className={"decade-pills"}>
+              <div className="main-filters">
+                <span className={"filter-note"}>Jump to decade</span>
+                {decades?.length > 0 &&
+                  decades.map((decade) => (
+                    <a
+                      key={decade.decadeId}
+                      className="pill-btn"
+                      href={`#${decade.decadeId}`}
+                    >
+                      {decade?.decadeTitle || "Unknown"}
+                    </a>
+                  ))}
               </div>
             </div>
-            <Main>
-              <Container>
-                {/*Staff and Board Members - current decades*/}
-                {/*<div className="People">*/}
-                {/*  /!*<h1>People</h1>*!/*/}
-                {/*  {loadingRoleGroups*/}
-                {/*      ? "Loading..."*/}
-                {/*      : roleTypeOrganizer.visibleRoleTypes.map((role) => {*/}
-                {/*        const roleGroupComponent = roleTypeOrganizer[role](*/}
-                {/*            roleGroups[role]*/}
-                {/*        );*/}
-                {/*        return roleGroupComponent;*/}
-                {/*      })}*/}
-                {/*</div>*/}
-                {/*Staff and Board Members - past decades*/}
-                <div className={"decades-list"}>
-                  {decades.map((decade) => (
-                      <div key={decade.id} id={decade.decadeId}>
-                        {decade.hasYears && (
-                            decade.years.map((year, index) => (
-                                <div key={index} className={"decades-year"}>
-                                  <div className={"year"}>
-                                    <span>{year.year}</span>
-                                  </div>
-                                  <div className={"text-content"}>
-                                    <div className={"staff"}>
-                                      <h4>Staff:</h4>
-                                      <ul>
-                                        {year.staffList.map((name, i) => (
-                                            <li key={i}>{name}</li>
-                                        ))}
-                                      </ul>
-                                    </div>
+            <div className={"note"}>
+              <span>*New addition or role</span>
+            </div>
+          </div>
+          <Main>
+            <Container>
+              {/*Staff and Board Members - current decades*/}
+              {/*<div className="People">*/}
+              {/*  /!*<h1>People</h1>*!/*/}
+              {/*  {loadingRoleGroups*/}
+              {/*      ? "Loading..."*/}
+              {/*      : roleTypeOrganizer.visibleRoleTypes.map((role) => {*/}
+              {/*        const roleGroupComponent = roleTypeOrganizer[role](*/}
+              {/*            roleGroups[role]*/}
+              {/*        );*/}
+              {/*        return roleGroupComponent;*/}
+              {/*      })}*/}
+              {/*</div>*/}
+              {/*Staff and Board Members - past decades*/}
+              <div className={"decades-list"}>
+                {decades.map((decade) => (
+                  <div key={decade.id} id={decade.decadeId}>
+                    {decade.hasYears &&
+                      decade.years.map((year, index) => (
+                        <div key={index} className={"decades-year"}>
+                          <div className={"year"}>
+                            <span>{year.year}</span>
+                          </div>
+                          <div className={"text-content"}>
+                            <div className={"staff"}>
+                              <h4>Staff:</h4>
+                              <ul>
+                                {year.staffList.map((name, i) => (
+                                  <li key={i}>{name}</li>
+                                ))}
+                              </ul>
+                            </div>
 
-                                    <div className={"board"}>
-                                      <h4>Board:</h4>
-                                      <ul>
-                                        {year.boardList.map((name, i) => (
-                                            <li key={i}>{name}</li>
-                                        ))}
-                                      </ul>
-                                    </div>
-                                  </div>
-                                </div>
-                            ))
-                        )}
-                      </div>
-                  ))}
-                </div>
-
-              </Container>
-            </Main>
-            <Footer title={generalSettings.title} menuItems={null}/>
-          </>
+                            <div className={"board"}>
+                              <h4>Board:</h4>
+                              <ul>
+                                {year.boardList.map((name, i) => (
+                                  <li key={i}>{name}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                  </div>
+                ))}
+              </div>
+            </Container>
+          </Main>
+          <Footer title={generalSettings.title} menuItems={null} />
+        </>
       )}
     </>
   );
