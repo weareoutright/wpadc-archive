@@ -73,12 +73,11 @@ const AssetPage = () => {
                 assetName={assetPostBySlug?.assetCard.assetCard[0].title || ""}
                 eventName={null}
                 description={
-                  parse(assetPostBySlug?.assetCard.assetCard[0].description) ||
+                  assetPostBySlug?.assetCard.assetCard[0].description ||
                   ""
                 }
                 tagsArr={
-                  assetPostBySlug?.assetCard.assetCard[0].assetTags[0].assetTag
-                    .edges || []
+                  assetPostBySlug?.assetCard?.assetCard[0]?.assetTags[0]?.assetTag?.edges || []
                 }
                 dateBegin={null}
                 dateEnd={null}
