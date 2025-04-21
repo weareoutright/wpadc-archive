@@ -46,11 +46,12 @@
         padding-bottom: 3rem;
       }
 
-      .tags {
+      .tags, .location, .date {
         small {
           font-family: "Gotham", sans-serif;
           font-weight: 600;
           text-transform: uppercase;
+          font-size: 12px;
         }
 
         .tag-container {
@@ -88,6 +89,8 @@
           font-family: "Gotham", sans-serif;
           font-weight: 600;
           text-transform: uppercase;
+          padding-bottom: .75em;
+          display: block;
         }
       }
     }
