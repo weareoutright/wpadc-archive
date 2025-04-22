@@ -49,9 +49,16 @@ const AssetPage = () => {
   //   return <div className="AssetPage">No asset found for this URI.</div>;
   // }
 
-  console.log(assetPostBySlug?.assetCard);
+  console.log('Asset Card title', assetPostBySlug?.title);
+  console.log('Asset Card, assetPostBySlug', assetPostBySlug?.assetCard?.assetCard?.[0]);
 
-  const description = parse(assetPostBySlug?.assetCard?.assetCard?.[0]?.description || "");
+  // const description = parse(assetPostBySlug?.assetCard?.assetCard?.[0]?.description || "");
+
+  const assetTitle = assetPostBySlug?.title || "";
+
+  const assetCard = assetPostBySlug?.assetCard?.assetCard?.[0];
+  const artist = assetCard?.location;
+  console.log("location", artist)
 
   return (
     <>
@@ -72,17 +79,29 @@ const AssetPage = () => {
             <div className="AssetPage">
               <ContainerHeader
                 programName={null}
-                artistName={null}
-                assetName={assetPostBySlug?.assetCard.assetCard[0].title || ""}
+                artistName={assetCard?.artists
+                    ?.flatMap(artist => artist?.collaborator?.edges || [])
+                    .map(edge => edge?.node?.title)
+                    .filter(Boolean)}
+                assetName={assetTitle}
                 eventName={null}
-                description={description}
+                description={parse(assetCard?.description || "")}
                 tagsArr={
-                  assetPostBySlug?.assetCard?.assetCard[0]?.assetTags[0]?.assetTag?.edges || []
+                  assetCard?.assetTags[0]?.assetTag?.edges || []
                 }
-                dateBegin={null}
-                dateEnd={null}
-                type={null}
-                location={assetPostBySlug?.assetCard.assetCard[0].location}
+                dateBegin={assetCard?.startDate}
+                dateEnd={assetCard?.endDate}
+                type={assetCard?.type
+                    ?.flatMap(t => t?.type?.edges || [])
+                    .map(edge => edge?.node?.title)
+                    .filter(Boolean)
+                    .map(title =>
+                        title
+                            .toLowerCase() // optional: standardize casing first
+                            .replace(/\b\w/g, char => char.toUpperCase()) // capitalize each word
+                    )
+                    .join(', ')}
+                location={assetCard.location}
                 externalLinksArr={
                   assetPostBySlug?.assetCard.assetCard[0].externalLinks
                 }

@@ -3,118 +3,104 @@ import { gql, useQuery } from "@apollo/client";
 const GET_ASSET = gql`
   query MyQuery2($slug: String!) {
     assetPostBy(slug: $slug) {
+      title
       assetCard {
         assetCard {
-          ... on AssetCardAssetCardAssetCardLayout {
-            description
-            endDate
-            eyebrow
-            location
-            startDate
-            title
-            artists {
-              collaborator {
-                edges {
-                  node {
-                    id
-                    slug
-                    uri
-                    ... on Person {
-                      id
-                      title
-                    }
-                  }
-                }
-              }
-            }
-            thumbnail {
+        ... on AssetCardAssetCardAssetCardLayout {
+          description
+          startDate
+          endDate
+          year
+          location
+          eyebrow {
+            edges {
               node {
-                altText
-                caption
-                title
-                sourceUrl
+              id
+              link
+              slug
               }
             }
-            curator {
-              nodes {
+          }
+          artists {
+            collaborator {
+              edges {
+                node {
+                id
                 slug
-                ... on Person {
+                uri
+                  ...on Person {
                   id
                   title
-                }
-              }
-            }
-            type {
-              type {
-                edges {
-                  node {
-                    id
-                    ... on AssetMediumType {
-                      id
-                      title
-                    }
-                  }
-                }
-              }
-            }
-            assetTags {
-              assetTag {
-                edges {
-                  node {
-                    id
-                    slug
-                    uri
-                    ... on AssetTag {
-                      id
-                      title
-                    }
-                  }
-                }
-              }
-            }
-            assetFiles {
-              file {
-                node {
-                  altText
-                  caption
-                  description
-                  sourceUrl
-                  title
-                }
-              }
-            }
-            externalLinks {
-              label
-              url
-            }
-            inThisProject {
-              manuallySetCards {
-                edges {
-                  node {
-                    ... on Asset_post {
-                      id
-                      title
-                      slug
-                    }
-                    ... on Person {
-                      id
-                      title
-                      slug
-                    }
-                    ... on Post {
-                      id
-                      slug
-                      title
-                    }
                   }
                 }
               }
             }
           }
+          thumbnail {
+            node {
+            altText
+            caption
+            title
+            sourceUrl
+            }
+          }
+          curator {
+            nodes {
+            slug
+              ... on Person {
+              id
+              title
+              }
+            }
+          }
+          type {
+            type {
+              edges {
+                node {
+                id
+                  ... on AssetMediumType {
+                  id
+                  title
+                  }
+                }
+              }
+            }
+          }
+          assetTags {
+            assetTag {
+              edges {
+                node {
+                id
+                slug
+                uri
+                  ... on AssetTag {
+                  id
+                  title
+                  }
+                }
+              }
+            }
+          }
+          assetFiles {
+            file {
+              node {
+              altText
+              caption
+              description
+              sourceUrl
+              title
+              }
+            }
+          }
+          externalLinks {
+            label
+            url
+          }
         }
       }
     }
   }
+}
 `;
 
 // Custom hook to fetch the asset data
