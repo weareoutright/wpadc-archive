@@ -6,101 +6,101 @@ const GET_ASSET = gql`
       title
       assetCard {
         assetCard {
-        ... on AssetCardAssetCardAssetCardLayout {
-          description
-          startDate
-          endDate
-          year
-          location
-          eyebrow {
-            edges {
-              node {
-              id
-              link
-              slug
-              }
-            }
-          }
-          artists {
-            collaborator {
+          ... on AssetCardAssetCardAssetCardLayout {
+            description
+            startDate
+            endDate
+            year
+            location
+            eyebrow {
               edges {
                 node {
-                id
-                slug
-                uri
-                  ...on Person {
                   id
-                  title
+                  link
+                  slug
+                }
+              }
+            }
+            artists {
+              collaborator {
+                edges {
+                  node {
+                    id
+                    slug
+                    uri
+                    ... on Person {
+                      id
+                      title
+                    }
                   }
                 }
               }
             }
-          }
-          thumbnail {
-            node {
-            altText
-            caption
-            title
-            sourceUrl
-            }
-          }
-          curator {
-            nodes {
-            slug
-              ... on Person {
-              id
-              title
+            thumbnail {
+              node {
+                altText
+                caption
+                title
+                sourceUrl
               }
             }
-          }
-          type {
+            curator {
+              nodes {
+                slug
+                ... on Person {
+                  id
+                  title
+                }
+              }
+            }
             type {
-              edges {
-                node {
-                id
-                  ... on AssetMediumType {
-                  id
-                  title
+              type {
+                edges {
+                  node {
+                    id
+                    ... on AssetMediumType {
+                      id
+                      title
+                    }
                   }
                 }
               }
             }
-          }
-          assetTags {
-            assetTag {
-              edges {
-                node {
-                id
-                slug
-                uri
-                  ... on AssetTag {
-                  id
-                  title
+            assetTags {
+              assetTag {
+                edges {
+                  node {
+                    id
+                    slug
+                    uri
+                    ... on AssetTag {
+                      id
+                      title
+                    }
                   }
                 }
               }
             }
-          }
-          assetFiles {
-            file {
-              node {
-              altText
-              caption
-              description
-              sourceUrl
-              title
+            assetFiles {
+              file {
+                node {
+                  altText
+                  caption
+                  description
+                  sourceUrl
+                  title
+                }
               }
             }
-          }
-          externalLinks {
-            label
-            url
+            externalLinks {
+              label
+              url
+            }
           }
         }
       }
     }
   }
-}
 `;
 
 // Custom hook to fetch the asset data
