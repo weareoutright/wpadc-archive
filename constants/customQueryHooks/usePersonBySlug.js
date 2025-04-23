@@ -12,7 +12,6 @@ const GET_PERSON_BY_SLUG = gql`
           ... on PersonCardPersonInfoPersonCardLayout {
             activeSinceYear
             bodyCopy
-            fullName
             externalLinks {
               linkTitle
               url
