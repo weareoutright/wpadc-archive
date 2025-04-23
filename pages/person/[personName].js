@@ -70,7 +70,7 @@ export default function PersonPage() {
                   headerText="By This Artist"
                   itemsArr={dataAssets}
                   frontPageCarousel={false}
-                  personName={dataPerson.personCard.personInfo[0].fullName}
+                  // personName={dataPerson.personCard.personInfo[0].fullName}
                 />
               )}
               <RelatedSection itemsArr={null} />

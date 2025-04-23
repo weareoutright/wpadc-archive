@@ -5,6 +5,8 @@ const GET_PERSON_BY_SLUG = gql`
   query getPersonBySlug($slug: String!) {
     personBy(slug: $slug) {
       id
+      title
+      modified
       personCard {
         personInfo {
           ... on PersonCardPersonInfoPersonCardLayout {
@@ -40,7 +42,6 @@ const GET_PERSON_BY_SLUG = gql`
           }
         }
       }
-      modified
     }
   }
 `;
