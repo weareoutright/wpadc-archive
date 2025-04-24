@@ -46,7 +46,11 @@ export default function PersonPage() {
   //   if (loading) {
   //     return <div className="ArtistPage">Loading...</div>;
   //   }
+  // console.log("data related", dataPerson?.personCard?.personInfo?.[0]?.related?.[0]?.relatedCard?.nodes ?? []);
 
+  const relatedItems = dataPerson?.personCard?.personInfo?.[0]?.related?.flatMap((item) => item.relatedCard?.nodes) ?? [];
+
+  // const relatedItems = dataPerson?.person?.related?
   return (
     <>
       <SEO
@@ -73,7 +77,7 @@ export default function PersonPage() {
                   // personName={dataPerson.personCard.personInfo[0].fullName}
                 />
               )}
-              <RelatedSection itemsArr={null} />
+              <RelatedSection itemsArr={relatedItems}/>
             </Container>
           </Main>
           <Footer title={generalSettings?.title} menuItems={null} />
