@@ -22,7 +22,7 @@ const RelatedItemCard = ({ node }) => {
         <Image
           // src={node.assetCard.assetInfo.asset_files?.file.node.sourceUrl}
           alt={postTitle}
-          src="/sample-img.png"
+          src={imgSrc ? imgSrc : "/sample-img.png"}
           width={157}
           height={179}
           layout="fixed"
