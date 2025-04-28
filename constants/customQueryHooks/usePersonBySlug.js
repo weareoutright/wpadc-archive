@@ -38,6 +38,30 @@ const GET_PERSON_BY_SLUG = gql`
                 }
               }
             }
+            related {
+              relatedCard {
+                nodes {
+                  slug
+                  id
+                  uri
+                  ... on Person {
+                    id
+                    personCard {
+                    personInfo {
+                    ... on PersonCardPersonInfoPersonCardLayout {
+                    headshot {
+                    node {
+                    altText
+                    sourceUrl
+                    }
+                    }
+                    }
+                    }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
