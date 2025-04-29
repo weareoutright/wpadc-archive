@@ -16,6 +16,7 @@ import {
 } from "../../components";
 import styles from "./Header.module.scss";
 import containerStyles from "../Container/Container.module.scss";
+import { useEffect } from "react";
 
 let cx = classNames.bind(styles);
 let containerCx = classNames.bind(containerStyles);
@@ -29,7 +30,7 @@ export default function Header({
   setIsNavShown,
 }) {
   const isFrontPage = currentRoute === "/";
-  const isAboutPage = currentRoute === "/about";
+  const isAboutPage = currentRoute === "/about-the-archive";
   const isPeoplePage = currentRoute === "/people";
 
   return (

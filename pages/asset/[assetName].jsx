@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useAssetsBySlug from "../../constants/customQueryHooks/useAssetsBySlug";
 import { LoadingPage } from "../../components";
 import { useRouter } from "next/router";
@@ -49,8 +49,11 @@ const AssetPage = () => {
   //   return <div className="AssetPage">No asset found for this URI.</div>;
   // }
 
-  console.log('Asset Card title', assetPostBySlug?.title);
-  console.log('Asset Card, assetPostBySlug', assetPostBySlug?.assetCard?.assetCard?.[0]);
+  console.log("Asset Card title", assetPostBySlug?.title);
+  console.log(
+    "Asset Card, assetPostBySlug",
+    assetPostBySlug?.assetCard?.assetCard?.[0]
+  );
 
   // const description = parse(assetPostBySlug?.assetCard?.assetCard?.[0]?.description || "");
 
@@ -58,7 +61,7 @@ const AssetPage = () => {
 
   const assetCard = assetPostBySlug?.assetCard?.assetCard?.[0];
   const artist = assetCard?.location;
-  console.log("location", artist)
+  console.log("location", artist);
 
   return (
     <>
@@ -73,52 +76,55 @@ const AssetPage = () => {
         isNavShown={isNavShown}
         setIsNavShown={setIsNavShown}
       />
-      <Main>
-        <Container>
-          {assetPostBySlug && !loadingAssetPostBySlug && (
-            <div className="AssetPage">
-              <ContainerHeader
-                programName={null}
-                artistName={assetCard?.artists
-                    ?.flatMap(artist => artist?.collaborator?.edges || [])
-                    .map(edge => edge?.node?.title)
+      {!isNavShown && (
+        <Main>
+          <Container>
+            {assetPostBySlug && !loadingAssetPostBySlug && (
+              <div className="AssetPage">
+                <ContainerHeader
+                  programName={null}
+                  artistName={assetCard?.artists
+                    ?.flatMap((artist) => artist?.collaborator?.edges || [])
+                    .map((edge) => edge?.node?.title)
                     .filter(Boolean)}
-                assetName={assetTitle}
-                eventName={null}
-                description={parse(assetCard?.description || "")}
-                tagsArr={
-                  assetCard?.assetTags[0]?.assetTag?.edges || []
-                }
-                dateBegin={assetCard?.startDate}
-                dateEnd={assetCard?.endDate}
-                type={assetCard?.type
-                    ?.flatMap(t => t?.type?.edges || [])
-                    .map(edge => edge?.node?.title)
+                  assetName={assetTitle}
+                  eventName={null}
+                  description={parse(assetCard?.description || "")}
+                  tagsArr={assetCard?.assetTags[0]?.assetTag?.edges || []}
+                  dateBegin={assetCard?.startDate}
+                  dateEnd={assetCard?.endDate}
+                  type={assetCard?.type
+                    ?.flatMap((t) => t?.type?.edges || [])
+                    .map((edge) => edge?.node?.title)
                     .filter(Boolean)
-                    .map(title =>
+                    .map(
+                      (title) =>
                         title
-                            .toLowerCase() // optional: standardize casing first
-                            .replace(/\b\w/g, char => char.toUpperCase()) // capitalize each word
+                          .toLowerCase() // optional: standardize casing first
+                          .replace(/\b\w/g, (char) => char.toUpperCase()) // capitalize each word
                     )
-                    .join(', ')}
-                location={assetCard.location}
-                externalLinksArr={
-                  assetPostBySlug?.assetCard.assetCard[0].externalLinks
-                }
-                pageType={"asset"}
-                parentLink={null}
-              />
-              <InThisProjectSection
-                headerText="In This Project"
-                itemsArr={null}
-                frontPageCarousel={false}
-              />
-              <RelatedSection itemsArr={null} />
-            </div>
-          )}
-        </Container>
-      </Main>
-      <Footer title={generalSettings?.title} menuItems={null} />
+                    .join(", ")}
+                  location={assetCard.location}
+                  externalLinksArr={
+                    assetPostBySlug?.assetCard.assetCard[0].externalLinks
+                  }
+                  pageType={"asset"}
+                  parentLink={null}
+                />
+                <InThisProjectSection
+                  headerText="In This Project"
+                  itemsArr={null}
+                  frontPageCarousel={false}
+                />
+                <RelatedSection itemsArr={null} />
+              </div>
+            )}
+          </Container>
+        </Main>
+      )}
+      {!isNavShown && (
+        <Footer title={generalSettings?.title} menuItems={null} />
+      )}
     </>
   );
 };
