@@ -81,27 +81,25 @@ export default function FullPageNav({
       />
       {menus ? (
         <div className={cx("menu-container")}>
-          {menus
-            ? menus?.map((menu) => (
-                <a className={cx("menu-item")} key={menu.id} href={menu.path}>
-                  {menu.label}
-                  {menu.label === "Get Involved" && (
-                    <Image src={ARROW_LEFT} alt="" />
-                  )}
-                </a>
-              ))
-            : DEFAULT_MENU_ITEMS.map((menu) => (
-                <a className={cx("menu-item")} key={menu.id} href={menu.path}>
-                  {menu.label}
-                  {menu.label === "Get Involved" && (
-                    <Image src={ARROW_LEFT} alt="" />
-                  )}
-                </a>
-              ))}
+          {menus?.map((menu) => (
+            <a className={cx("menu-item")} key={menu.id} href={menu.path}>
+              {menu.label}
+              {menu.label === "Get Involved" && (
+                <Image src={ARROW_LEFT} alt="" />
+              )}
+            </a>
+          ))}
         </div>
       ) : (
         <div className={cx("menu-container")}>
-          <LoadingIcons.Grid />
+          {DEFAULT_MENU_ITEMS.map((menu) => (
+            <a className={cx("menu-item")} key={menu.id} href={menu.path}>
+              {menu.label}
+              {menu.label === "Get Involved" && (
+                <Image src={ARROW_LEFT} alt="" />
+              )}
+            </a>
+          ))}
         </div>
       )}
       <FullPageNavFooter />

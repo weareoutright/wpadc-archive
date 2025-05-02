@@ -22,6 +22,7 @@ import { AssetSearchResultCard } from "../components/AssetSearchResultCard";
 import { PersonSearchResultCard } from "../components";
 import PREV_BTN_DARK from "../assets/icons/previous-btn-dark.svg";
 import NEXT_BTN from "../assets/icons/next-btn.svg";
+import useSearch from "../constants/customQueryHooks/useSearch";
 
 export default function Component() {
   const [isNavShown, setIsNavShown] = useState(false);
@@ -63,6 +64,15 @@ export default function Component() {
     skip: searchKeyword?.trim().length < 1,
   });
 
+  const {
+    loading: loadingSearch,
+    error: errorSearch,
+    rawData,
+    flattenedResults,
+  } = useSearch({
+    searchTerm: debouncedKeyword,
+  });
+
   const assetSearch = data?.assetSearch?.edges ?? [];
   const peopleSearch = data?.peopleSearch?.edges ?? [];
   const primaryMenu = menus;
@@ -95,6 +105,8 @@ export default function Component() {
     console.error("Menus ERROR:", errorMenus?.message);
     console.error("Data ERROR:", error?.message);
   }
+
+  console.log(flattenedResults);
 
   return (
     <>
@@ -228,7 +240,7 @@ Component.query = gql`
         node {
           id
           assetCard {
-            assetInfo {
+            assetCard {
               ... on AssetCardAssetInfoAssetCardLayout {
                 fieldGroupName
                 title
