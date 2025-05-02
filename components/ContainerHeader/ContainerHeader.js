@@ -21,6 +21,7 @@ const ContainerHeader = ({
   pageType,
   parentLink,
 }) => {
+  console.log('tagsArr', tagsArr);
   return (
     <div className={cx("ContainerHeader")}>
       {pageType === "public-programs" ||
@@ -40,22 +41,53 @@ const ContainerHeader = ({
         <div className={cx("left-column")}>
           <div className={cx("description")}>{description}</div>
 
+          {tagsArr && tagsArr.length > 0 && (
           <div className={cx("tags")}>
             <small>Tags</small>
-            {tagsArr && (
-              <div className={cx("tag-container")}>
-                {tagsArr.map((tag) => (
-                  <a
-                    key={tag.node.uri}
-                    className={cx("tag")}
-                    href={tag.node.uri}
-                  >
-                    {tag.node.title}
-                  </a>
-                ))}
-              </div>
+            {
+              tagsArr && (
+                <div className={cx("tag-container")}>
+                    {tagsArr.map((tag) => {
+                      console.log('tag', tag);
+                      if (!tag) return null;
+
+                      const isAssetTag = tag?.node?.__typename === "AssetTag";
+
+                      return (
+                          <span key={tag.uri} className={cx("tag")}>
+                          {isAssetTag ? (
+                              <span>{tag.title}</span>
+                          ) : (
+                              <a href={tag.uri}>{tag.title}</a>
+                          )}
+                        </span>
+                      )
+
+
+        //             const node = tag?.node;
+        //             console.log('node', node);
+        //
+        //             if (!node) return null; // skip if node is undefined
+        //
+        //             const isAssetTag = node.__typename === "AssetTag";
+        //             const label = node.title || node.slug || "Untitled";
+        //             console.log('label', label);
+        //
+        //             return isAssetTag ? (
+        //                 <span key={index} className={cx("tag", "non-clickable")}>
+        //   {label}
+        // </span>
+        //             ) : (
+        //                 <a key={index} className={cx("tag")} href={node.uri}>
+        //                   {label}
+        //                 </a>
+        //             );
+
+                  })}
+                </div>
             )}
           </div>
+          )}
         </div>
         <div className={cx("right-column")}>
           <div className={cx("meta-data")}>

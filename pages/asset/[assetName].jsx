@@ -90,7 +90,7 @@ const AssetPage = () => {
                   assetName={assetTitle}
                   eventName={null}
                   description={parse(assetCard?.description || "")}
-                  tagsArr={assetCard?.assetTags[0]?.assetTag?.edges || []}
+                  tagsArr={assetCard?.assetTags[0]?.assetTag?.edges?.map(edge => edge.node) || []}
                   dateBegin={assetCard?.startDate}
                   dateEnd={assetCard?.endDate}
                   type={assetCard?.type

@@ -15,8 +15,12 @@ import {
   useGeneralSettings,
   useHeaderMenu,
 } from "../../constants/customQueryHooks";
+import usePersonBySlug from "../../constants/customQueryHooks/usePersonBySlug";
+import usePublicProgramsBySlug from "../../constants/customQueryHooks/usePublicProgramsBySlug";
+import parse from "html-react-parser";
 
-const PublicProgramsPage = () => {
+
+export default function PublicProgramsPage () {
   const router = useRouter();
   const { uri } = router.query;
   const [isNavShown, setIsNavShown] = useState(false);
@@ -30,6 +34,16 @@ const PublicProgramsPage = () => {
   } = useGeneralSettings();
 
   const { loading: loadingMenus, error: errorMenus, menus } = useHeaderMenu();
+
+  const {
+    loading: loadingPublicProgram,
+    error: errorPublicProgram,
+    publicProgram: publicProgramData,
+  } = usePublicProgramsBySlug(uri?.join("/"));
+
+  console.log('Public Prog', publicProgramData?.programCard?.programCard?.[0]?.tags.nodes);
+
+  const programCard = publicProgramData?.programCard?.programCard?.[0];
 
   // if (loading) {
   //   return <div className="AssetPage">Loading...</div>;
@@ -60,15 +74,22 @@ const PublicProgramsPage = () => {
         <>
           <Main>
             <Container>
-              <div className="AssetPage">
-                <ContainerHeader pageType="public-programs" />
-                <InThisProjectSection
-                  headerText="In This Series"
-                  itemsArr={null}
-                  frontPageCarousel={false}
-                />
-                <RelatedSection itemsArr={null} />
-              </div>
+              {publicProgramData && !loadingPublicProgram && (
+                  <div className="AssetPage">
+                    <ContainerHeader
+                        pageType="public-programs"
+                        programName={publicProgramData?.title}
+                        description={parse(programCard?.description || "")}
+                        tagsArr={programCard?.tags?.nodes}
+                    />
+                    <InThisProjectSection
+                        headerText="In This Series"
+                        itemsArr={null}
+                        frontPageCarousel={false}
+                    />
+                    <RelatedSection itemsArr={null} />
+                  </div>
+              )}
             </Container>
           </Main>
           <Footer title={generalSettings?.title} menuItems={null} />
@@ -77,5 +98,3 @@ const PublicProgramsPage = () => {
     </>
   );
 };
-
-export default PublicProgramsPage;

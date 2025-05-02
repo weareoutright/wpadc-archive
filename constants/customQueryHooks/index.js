@@ -9,3 +9,4 @@ export { default as useHomeBlocks } from "./useHomeBlocks";
 export { default as useAboutBlocks } from "./useAboutBlocks";
 export { default as useAssetsBySlug } from "./useAssetsBySlug";
 export { default as usePersonBySlug } from "./usePersonBySlug";
+export { default as usePublicProgramsBySlug } from "./usePublicProgramsBySlug";

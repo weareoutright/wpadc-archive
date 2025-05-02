@@ -2,18 +2,14 @@ import styles from "./RelatedItemCard.module.scss";
 import className from "classnames/bind";
 import Image from "next/image";
 import usePersonBySlug from "../../constants/customQueryHooks/usePersonBySlug";
+import {useAssetsBySlug} from "../../constants/customQueryHooks";
 
 let cx = className.bind(styles);
 
 const RelatedItemCard = ({ node }) => {
   const { title, asset_postId, author, slug, uri, sourceUrl } = node;
-
-
-
   const postTitle = usePersonBySlug(slug)?.data?.title;
-
-  console.log("node", node);
-
+  const assetTitle = useAssetsBySlug(slug)?.data?.title;
   const imgSrc = node?.personCard?.personInfo?.[0]?.headshot?.node?.sourceUrl;
 
   return (
@@ -30,7 +26,7 @@ const RelatedItemCard = ({ node }) => {
       </a>
       <div className={cx("card-info")}>
         <a href={`/asset/${slug}`} className={cx("asset-link")}>
-          <h3>{postTitle}</h3>
+          <h3>{postTitle ? postTitle : assetTitle}here</h3>
         </a>
         <a
           href={`/person/${author}?roleType=artist`}
