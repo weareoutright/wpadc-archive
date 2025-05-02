@@ -69,6 +69,10 @@
             border-radius: 20px;
             text-decoration: none;
             border: 1px solid var(--light-grey);
+            //text-transform: capitalize;
+            a {
+              text-decoration: none;
+            }
 
             &:hover {
               border: 1px solid var(--light-grey);
