@@ -41,7 +41,7 @@ export default function PublicProgramsPage () {
     publicProgram: publicProgramData,
   } = usePublicProgramsBySlug(uri?.join("/"));
 
-  console.log('Public Prog', publicProgramData?.programCard?.programCard?.[0]?.tags.nodes);
+  // console.log('Public Prog', publicProgramData?.programCard?.programCard?.[0]?.tags.nodes);
 
   const programCard = publicProgramData?.programCard?.programCard?.[0];
 
