@@ -20,7 +20,7 @@ module.exports = {
       },
     ],
     additionalSitemaps: [
-      //   `${siteUrl}/sitemap-blog.xml`,
+      //   `${siteUrl}/sitemap-story-blog-post.xml`,
       //   `${siteUrl}/sitemap-posts.xml`,
     ],
   },

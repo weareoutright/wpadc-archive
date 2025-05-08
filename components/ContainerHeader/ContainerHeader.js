@@ -21,7 +21,6 @@ const ContainerHeader = ({
   pageType,
   parentLink,
 }) => {
-  console.log('tagsArr', tagsArr);
   return (
     <div className={cx("ContainerHeader")}>
       {pageType === "public-programs" ||
