@@ -91,7 +91,9 @@ const StoryPage = () => {
                     <Image src={DEFAULT_IMAGE} />
                   </div>
                   <div className="blog-right-col">
-                    <div className="wpa-story-tag">WPA Story</div>
+                    <div className="wpa-story-tag">
+                      <span>WPA Story</span>
+                    </div>
                     <h1>{title}</h1>
 
                     <div className="blog-metadata">
