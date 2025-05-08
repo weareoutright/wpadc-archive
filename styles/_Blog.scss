@@ -14,18 +14,31 @@
     .blog-right-col {
       max-width: 600px;
       h1 {
-        margin: 1rem 0 2rem 0;
+        margin: 1rem 0;
       }
 
+      .wpa-story-tag {
+        padding-top: .5em;
+        padding-bottom: 2em;
+          span {
+            background-color: #6741f5;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+      }
       .blog-metadata {
         display: flex;
         flex-direction: column;
         gap: 1rem;
-
         .date,
         .author {
           display: flex;
           flex-direction: column;
+          small {
+            font-size: 1em;
+          }
         }
 
         label {
@@ -33,6 +46,12 @@
           font-size: 0.75rem;
           font-weight: 600;
           padding-bottom: 0.25rem;
+        }
+      }
+      .blog-wp-content {
+        margin-top: 1rem;
+        img {
+          width: 100%;
         }
       }
     }
