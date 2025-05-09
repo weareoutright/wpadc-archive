@@ -57,6 +57,7 @@ const StoryPage = () => {
 
   const title = storyBlogData?.title;
   const mainContent = storyBlogData?.storyBlocks?.mainContent?.[0];
+  console.log('mainContent', mainContent?.thumbnail?.node?.sourceUrl);
   const pageBodyContent = mainContent?.pageContent || "";
   const parsedPageContent = parse(pageBodyContent);
 
@@ -89,7 +90,10 @@ const StoryPage = () => {
               <div className="AssetPage Blog">
                 <div className="blog-content">
                   <div className="blog-left-col">
-                    <Image src={DEFAULT_IMAGE} />
+                    <Image
+                        src={mainContent?.thumbnail?.node?.sourceUrl}
+                        alt={mainContent?.thumbnail?.node?.altText || ""}
+                        width={244} height={326} />
                   </div>
                   <div className="blog-right-col">
                     <div className="wpa-story-tag">

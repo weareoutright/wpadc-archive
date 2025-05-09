@@ -22,6 +22,9 @@
     max-width: 1000px;
     margin-bottom: 2rem;
     .blog-left-col {
+      img {
+        border-radius: 25px;
+      }
     }
     .blog-right-col {
       max-width: 600px;
