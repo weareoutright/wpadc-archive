@@ -1,13 +1,18 @@
+@import '../styles/breakpoints';
+
 .Blog {
   .blog-content {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 8rem;
-    padding: 1rem 0 8rem 0;
-    margin: 0 0 3rem -1rem;
-    border-bottom: 1px solid var(--dark-grey);
+    //display: flex;
+    //flex-direction: row;
+    //align-items: flex-start;
+    //justify-content: flex-start;
+    //gap: 8rem;
+    //padding: 1rem 0 8rem 0;
+    //margin: 0 0 3rem -1rem;
+    //border-bottom: 1px solid var(--dark-grey);
+    display: grid;
+    grid-template-columns: .75fr 1.25fr;
+    max-width: 1000px;
 
     .blog-left-col {
     }
@@ -53,6 +58,34 @@
         img {
           width: 100%;
         }
+      }
+    }
+  }
+  @media (max-width: $breakpoint-medium) {
+    .blog-content {
+      .blog-left-col {
+        margin-right: 3rem;
+        padding-bottom: 2.5rem;
+      }
+    }
+  }
+
+  @media (max-width: $breakpoint-small) {
+    .blog-content {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+      grid-template-areas: "right" "left";
+      .left-column {
+        grid-area: left;
+      }
+      .right-column {
+        grid-area: right;
+        flex-direction: row;
+        align-items: center;
+        padding-bottom: 3em;
+      }
+      .left-column {
+        margin-right: 0;
       }
     }
   }
