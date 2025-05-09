@@ -77,6 +77,7 @@ const StoryPage = () => {
         <>
           <Main
             isStoryPage={isStoryPage}
+            className={"story-blog-page"}
             style={{
               borderLeft: "1rem solid #6741F5",
               borderTop: "1rem solid #6741F5",
@@ -121,7 +122,7 @@ const StoryPage = () => {
                     <div className="blog-wp-content">{parsedPageContent}</div>
                   </div>
                 </div>
-                <RelatedSection itemsArr={null} />
+                <RelatedSection className="related-blog" itemsArr={null} />
               </div>
             </Container>
           </Main>

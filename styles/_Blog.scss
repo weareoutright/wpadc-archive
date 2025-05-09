@@ -1,19 +1,26 @@
 @import '../styles/breakpoints';
 
+.story-blog-page {
+}
+@media (max-width: $breakpoint-extra-small) {
+  .story-blog-page {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+
+@media (max-width: $breakpoint-xx-small) {
+  .story-blog-page {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
 .Blog {
   .blog-content {
-    //display: flex;
-    //flex-direction: row;
-    //align-items: flex-start;
-    //justify-content: flex-start;
-    //gap: 8rem;
-    //padding: 1rem 0 8rem 0;
-    //margin: 0 0 3rem -1rem;
-    //border-bottom: 1px solid var(--dark-grey);
     display: grid;
     grid-template-columns: .75fr 1.25fr;
     max-width: 1000px;
-
+    margin-bottom: 2rem;
     .blog-left-col {
     }
     .blog-right-col {
@@ -21,7 +28,6 @@
       h1 {
         margin: 1rem 0;
       }
-
       .wpa-story-tag {
         padding-top: .5em;
         padding-bottom: 2em;
@@ -61,6 +67,12 @@
       }
     }
   }
+  .related-blog {
+    border-top: 1px solid var(--dark-grey);
+    padding: 1rem 0;
+    margin: 0 0 3rem -1rem;
+  }
+
   @media (max-width: $breakpoint-medium) {
     .blog-content {
       .blog-left-col {
