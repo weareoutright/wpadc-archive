@@ -112,6 +112,13 @@
   @media (max-width: $breakpoint-extra-small) {
     padding-left: 3rem;
     padding-right: 3rem;
+    .Blog {
+      .blog-content {
+        .blog-left-col {
+          margin-right: 0;
+        }
+      }
+    }
   }
   @media (max-width: $breakpoint-xx-small) {
     padding-left: 2rem;

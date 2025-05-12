@@ -91,7 +91,7 @@ const StoryPage = () => {
                 <div className="blog-content">
                   <div className="blog-left-col">
                     <Image
-                        src={mainContent?.thumbnail?.node?.sourceUrl}
+                        src={mainContent?.thumbnail?.node?.sourceUrl || DEFAULT_IMAGE}
                         alt={mainContent?.thumbnail?.node?.altText || ""}
                         width={244} height={326} />
                   </div>
