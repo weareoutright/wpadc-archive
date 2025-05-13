@@ -26,7 +26,7 @@ const RelatedItemCard = ({ node }) => {
       </a>
       <div className={cx("card-info")}>
         <a href={`/asset/${slug}`} className={cx("asset-link")}>
-          <h3>{postTitle ? postTitle : assetTitle}here</h3>
+          <h3>{postTitle ? postTitle : assetTitle}</h3>
         </a>
         <a
           href={`/person/${author}?roleType=artist`}
