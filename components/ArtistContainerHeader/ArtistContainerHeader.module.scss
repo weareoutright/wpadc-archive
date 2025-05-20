@@ -19,6 +19,7 @@
   .artist-container-header-content {
     display: grid;
     grid-template-columns: 1.25fr 0.75fr;
+    max-width: 1200px;
 
     .left-column {
       margin-right: 5rem;
@@ -36,7 +37,7 @@
         blockquote,
         cite {
           color: var(--dark-grey);
-          font-size: 12px;
+          font-size: 14px;
           font-style: normal;
           font-weight: 600;
           line-height: 18.8px; /* 156.667% */

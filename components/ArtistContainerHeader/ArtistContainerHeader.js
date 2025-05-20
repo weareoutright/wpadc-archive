@@ -19,7 +19,7 @@ const ArtistContainerHeader = ({ artistObj }) => {
   const personName = artistObj?.title;
 
   const { bodyCopy, quote, quotee, headshot, externalLinks } =
-    artistObj.personCard.personInfo[0];
+    artistObj?.personCard?.personInfo?.[0];
 
 
   return (

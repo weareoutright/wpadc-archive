@@ -54,6 +54,22 @@ const GET_PUBLIC_PROGRAMS_BY_SLUG = gql`
                 nodes {
                   slug
                   uri
+                  ... on Person {
+                    id
+                    title
+                  }
+                  ... on PublicProgram {
+                    id
+                    title
+                  }
+                  ... on Asset_post {
+                    id
+                    title
+                  }
+                  ... on StoryBlogPost {
+                    id
+                    title
+                  }
                 }
               }
               tags {
