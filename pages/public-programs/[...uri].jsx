@@ -79,6 +79,7 @@ export default function PublicProgramsPage () {
                     <ContainerHeader
                         pageType="public-programs"
                         programName={publicProgramData?.title}
+                        parentLink={programCard?.eyebrow?.nodes?.[0]}
                         description={parse(programCard?.description || "")}
                         tagsArr={programCard?.tags?.nodes}
                         dateBegin={programCard?.startDate}

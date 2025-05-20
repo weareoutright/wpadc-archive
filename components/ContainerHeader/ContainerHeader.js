@@ -23,14 +23,12 @@ const ContainerHeader = ({
 }) => {
   return (
     <div className={cx("ContainerHeader")}>
-      {pageType === "public-programs" ||
-        pageType === "content" ||
-        (pageType === "event" && (
-          <a href={parentLink?.href} className={cx("eyebrow-link")}>
+      {(pageType === "public-programs" || pageType === "content" || pageType === "event") && (
+          <a href={parentLink?.uri} className={cx("eyebrow-link")}>
             <Image src={LEFT_ARROW} alt="left arrow" />{" "}
             <span>{parentLink?.title}</span>
           </a>
-        ))}
+        )}
       {pageType === "public-programs" && <h2>{programName}</h2>}
       {pageType === "event" && <h2>{eventName}</h2>}
       {pageType === "asset" && <h2>{assetName}</h2>}
@@ -103,17 +101,29 @@ const ContainerHeader = ({
               {artistName?.length > 0 && (
                   <>
                     <small>Artist(s)</small>
-                    <p>{artistName.join(', ')}</p>
+                    <p>
+                      {artistName.map((artist, index) => (
+                        <>
+                          <a href={`/artist/${artist}`} key={artist}>
+                            {artist}
+                          </a>
+                          {index < artistName.length - 1 ? ', ' : ''}
+                        </>
+                      ))}
+                    </p>
                   </>
               )}
             </div>
-
 
             {pageType === "artist" ||
                 (pageType === "event" && (
                     <>
                       <small>Artist(s)</small>
-                      <p>{artistName}</p>
+                      <p>
+                        <a href={`/artist/${artistName}`}>
+                          {artistName}
+                        </a>
+                      </p>
                     </>
                 ))}
 
