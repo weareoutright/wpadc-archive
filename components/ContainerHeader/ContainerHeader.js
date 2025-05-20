@@ -32,7 +32,7 @@ const ContainerHeader = ({
       {pageType === "public-programs" && <h2>{programName}</h2>}
       {pageType === "event" && <h2>{eventName}</h2>}
       {pageType === "asset" && <h2>{assetName}</h2>}
-      {pageType === "artist" && <h2>{artistName.title}</h2>}
+      {pageType === "person" && <h2>{artistName}</h2>}
       {pageType === "content" && <h2>{assetName}</h2>}
       <div className={cx("container-header")}>
         <div className={cx("left-column")}>
@@ -98,7 +98,7 @@ const ContainerHeader = ({
             )}
 
             <div className={cx("collaborators")}>
-              {artistName?.length > 0 && (
+              {Array.isArray(artistName) && artistName.length > 0 && (
                   <>
                     <small>Artist(s)</small>
                     <p>
@@ -115,7 +115,7 @@ const ContainerHeader = ({
               )}
             </div>
 
-            {pageType === "artist" ||
+            {/* {pageType === "artist" ||
                 (pageType === "event" && (
                     <>
                       <small>Artist(s)</small>
@@ -125,7 +125,7 @@ const ContainerHeader = ({
                         </a>
                       </p>
                     </>
-                ))}
+                ))} */}
 
             {location && (
                 <>
