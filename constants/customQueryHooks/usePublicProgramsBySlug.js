@@ -92,6 +92,10 @@ const GET_PUBLIC_PROGRAMS_BY_SLUG = gql`
                     id
                     title
                   }
+                  ... on AssetMediumType {
+                    id
+                    title
+                  }
                 }
               }
               workshops {

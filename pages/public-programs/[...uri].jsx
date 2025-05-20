@@ -45,6 +45,13 @@ export default function PublicProgramsPage () {
 
   const programCard = publicProgramData?.programCard?.programCard?.[0];
 
+    // Transform the eyebrow URI if it exists
+    const eyebrowData = programCard?.eyebrow?.nodes?.[0];
+    const transformedEyebrowData = eyebrowData ? {
+      ...eyebrowData,
+      uri: eyebrowData.uri?.replace('/public-program/', '/public-programs/')
+    } : null;
+
   // if (loading) {
   //   return <div className="AssetPage">Loading...</div>;
   // }
@@ -79,7 +86,7 @@ export default function PublicProgramsPage () {
                     <ContainerHeader
                         pageType="public-programs"
                         programName={publicProgramData?.title}
-                        parentLink={programCard?.eyebrow?.nodes?.[0]}
+                        parentLink={transformedEyebrowData}
                         description={parse(programCard?.description || "")}
                         tagsArr={programCard?.tags?.nodes}
                         dateBegin={programCard?.startDate}
