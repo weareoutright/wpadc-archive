@@ -32,7 +32,7 @@ const ContainerHeader = ({
       {pageType === "public-programs" && <h2>{programName}</h2>}
       {pageType === "event" && <h2>{eventName}</h2>}
       {pageType === "asset" && <h2>{assetName}</h2>}
-      {pageType === "artist" && <h2>{artistName}</h2>}
+      {pageType === "artist" && <h2>{artistName.title}</h2>}
       {pageType === "content" && <h2>{assetName}</h2>}
       <div className={cx("container-header")}>
         <div className={cx("left-column")}>
@@ -104,7 +104,7 @@ const ContainerHeader = ({
                     <p>
                       {artistName.map((artist, index) => (
                         <>
-                          <a href={`/artist/${artist}`} key={artist}>
+                          <a href={`/person/${artist.toLowerCase().replace(/\s+/g, '-')}`} key={artist}>
                             {artist}
                           </a>
                           {index < artistName.length - 1 ? ', ' : ''}
@@ -120,7 +120,7 @@ const ContainerHeader = ({
                     <>
                       <small>Artist(s)</small>
                       <p>
-                        <a href={`/artist/${artistName}`}>
+                        <a href={`/person/${artistName.toLowerCase().replace(/\s+/g, '-')}`}>
                           {artistName}
                         </a>
                       </p>
