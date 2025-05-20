@@ -61,7 +61,6 @@ const AssetPage = () => {
 
   const assetCard = assetPostBySlug?.assetCard?.assetCard?.[0];
   const artist = assetCard?.location;
-  console.log("location", artist);
 
   return (
     <>
