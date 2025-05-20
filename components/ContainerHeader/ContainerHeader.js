@@ -40,27 +40,46 @@ const ContainerHeader = ({
 
           {tagsArr && tagsArr.length > 0 && (
               <div className={cx("tags")}>
-                <small>Tags</small>
-                {
-                    tagsArr && (
-                        <div className={cx("tag-container")}>
-                          {tagsArr.map((tag) => {
-                            if (!tag) return null;
+                {/* <small>Tags</small> */}
+                {tagsArr && tagsArr.length > 0 && (
+                  <div className={cx("tags")}>
+                    <small>Tags</small>
+                    <div className={cx("tag-container")}>
+                      {tagsArr.map((tag) => {
+                        if (!tag) return null;
 
-                            const isAssetTag = tag?.node?.__typename === "AssetTag";
+                        // Use .__typename directly on tag (not tag.node)
+                        const typeName = tag.__typename;
+                        const label = tag.title;
 
-                            return (
-                                <span key={tag.uri} className={cx("tag")}>
-                          {isAssetTag ? (
-                              <span>{tag.title}</span>
-                          ) : (
-                              <a href={tag.uri}>{tag.title}</a>
-                          )}
-                        </span>
-                            );
-                          })}
-                        </div>
-                    )}
+                        if (typeName === "AssetMediumType") {
+                          // Link to search page for AssetMediumType
+                          return (
+                            <span key={tag.slug} className={cx("tag")}>
+                              <a href={`/search?term=${encodeURIComponent(tag.slug)}`}>{label}</a>
+                            </span>
+                          );
+                        }
+
+                        // For AssetTag, just show the label (no link)
+                        if (typeName === "AssetTag") {
+                          return (
+                            <span key={tag.uri} className={cx("tag")}>
+                              <span>{label}</span>
+                            </span>
+                          );
+                        }
+
+                        // For all other types, link to their uri
+                        return (
+                          <span key={tag.uri} className={cx("tag")}>
+                            <a href={tag.uri}>{label}</a>
+                          </span>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
               </div>
           )}
         </div>
