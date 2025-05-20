@@ -10,7 +10,7 @@ const GET_ALL_ASSETS_BY_ARTIST = gql`
           slug
           assetCard {
             assetCard {
-              ... on AssetCardAssetCardAssetCardLayout {
+              ... on AssetCardAssetCard_Layout {
                 description
                 artists {
                   collaborator {
@@ -21,7 +21,7 @@ const GET_ALL_ASSETS_BY_ARTIST = gql`
                           id
                           personCard {
                             personInfo {
-                              ... on PersonCardPersonInfoPersonCardLayout {
+                              ... on PersonCardPersonInfo_Layout {
                                 fullName
                               }
                             }

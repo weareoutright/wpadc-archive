@@ -9,7 +9,7 @@ const GET_ASSET = gql`
           id
           assetCard {
             assetInfo {
-              ... on AssetCardAssetInfoAssetCardLayout {
+              ... on AssetCardAssetCard_Layout {
                 fieldGroupName
                 title
               }

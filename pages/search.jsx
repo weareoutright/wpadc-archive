@@ -3,6 +3,7 @@ import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import {
+  useAssets,
   useGeneralSettings,
   useHeaderMenu,
 } from "../constants/customQueryHooks";
@@ -64,12 +65,20 @@ export default function Component() {
     skip: searchKeyword?.trim().length < 1,
   });
 
+  // const {
+  //   loading: loadingSearch,
+  //   error: errorSearch,
+  //   rawData,
+  //   flattenedResults,
+  // } = useSearch({
+  //   searchTerm: debouncedKeyword,
+  // });
+
   const {
-    loading: loadingSearch,
-    error: errorSearch,
-    rawData,
-    flattenedResults,
-  } = useSearch({
+    loading: loadingAsset,
+    error: errorAsset,
+    assetPosts,
+  } = useAssets({
     searchTerm: debouncedKeyword,
   });
 
@@ -106,7 +115,8 @@ export default function Component() {
     console.error("Data ERROR:", error?.message);
   }
 
-  console.log(flattenedResults);
+  console.log("assetPost", assetPosts);
+  console.log("data", data);
 
   return (
     <>
@@ -126,17 +136,7 @@ export default function Component() {
         <>
           <SearchBar
             searchKeyword={searchKeyword}
-            setSearchKeyword={(keyword) => {
-              setSearchKeyword(keyword);
-              router.replace(
-                {
-                  pathname: router.pathname,
-                  query: { ...router.query, keyword },
-                },
-                undefined,
-                { shallow: true }
-              ); // Prevents full page reload
-            }}
+            setSearchKeyword={setSearchKeyword}
             debouncedKeyword={debouncedKeyword}
             setResults={setResults}
             results={results}
@@ -241,9 +241,8 @@ Component.query = gql`
           id
           assetCard {
             assetCard {
-              ... on AssetCardAssetInfoAssetCardLayout {
+              ... on AssetCardAssetCard_Layout {
                 fieldGroupName
-                title
               }
             }
           }
@@ -256,25 +255,46 @@ Component.query = gql`
         node {
           title
           uri
+          slug
+          id
+
           personCard {
             personInfo {
-              ... on PersonCardPersonInfoAcfProPersonCardLayout {
-                currentlyActive
-                fullName
+              fieldGroupName
+              ... on PersonCardPersonInfoPersonCardLayout {
                 headshot {
                   node {
+                    altText
+                    caption
                     sourceUrl
                     title
+                    description
                   }
                 }
-                location
-                activeSinceYear
                 roleType {
                   edges {
                     node {
                       ... on PersonRoleType {
                         id
+                        title
                       }
+                    }
+                  }
+                }
+                activeSinceYear
+                location
+                bodyCopy
+                quote
+                quotee
+                externalLinks {
+                  url
+                }
+                related {
+                  relatedCard {
+                    nodes {
+                      slug
+                      id
+                      uri
                     }
                   }
                 }

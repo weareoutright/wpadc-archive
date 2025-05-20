@@ -55,6 +55,7 @@ const FILTER_PILL_BTNS_DEFAULT = [
 export default function SearchBar({
   searchKeyword,
   setSearchKeyword,
+  debouncedKeyword,
   isFrontPage,
   setResults,
   results,
@@ -63,7 +64,7 @@ export default function SearchBar({
   const { keyword } = router.query;
 
   // Local state for the input field
-  const [localKeyword, setLocalKeyword] = useState(searchKeyword || "");
+  const [localKeyword, setLocalKeyword] = useState(debouncedKeyword || "");
 
   const [selectedItems, setSelectedItems] = useState({}); // Stores selected parent-child hierarchy
   const [activeItems, setActiveItems] = useState([]);
