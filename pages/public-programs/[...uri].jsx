@@ -41,7 +41,7 @@ export default function PublicProgramsPage () {
     publicProgram: publicProgramData,
   } = usePublicProgramsBySlug(uri?.join("/"));
 
-  console.log('Public Prog', publicProgramData?.programCard?.programCard?.[0]?.tags.nodes);
+  console.log('Public Prog', publicProgramData?.programCard?.programCard?.[0]);
 
   const programCard = publicProgramData?.programCard?.programCard?.[0];
 
@@ -81,6 +81,18 @@ export default function PublicProgramsPage () {
                         programName={publicProgramData?.title}
                         description={parse(programCard?.description || "")}
                         tagsArr={programCard?.tags?.nodes}
+                        dateBegin={programCard?.startDate}
+                        dateEnd={programCard?.endDate}
+                        type={programCard?.type?.nodes?.map((node) => node?.title)
+                            ?.filter(Boolean)
+                            ?.map((title) =>
+                                title
+                                    .toLowerCase()
+                                    .replace(/\b\w/g, (char) => char.toUpperCase())
+                            )
+                            .join(", ")}
+                        artistName={programCard?.artists?.nodes?.map((node) => node?.title)}
+                        location={programCard?.location}
                     />
                     <InThisProjectSection
                         headerText="In This Series"

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import useAssetsBySlug from "../../constants/customQueryHooks/useAssetsBySlug";
+import useStoryBlogsBySlug from "../../constants/customQueryHooks/useStoryBlogsBySlug";
 import { useRouter } from "next/router";
 import {
   SEO,
@@ -16,6 +17,8 @@ import {
 } from "../../constants/customQueryHooks";
 import DEFAULT_IMAGE from "../../assets/checked-bg-minimal-content.png";
 import Image from "next/image";
+import parse from "html-react-parser";
+import usePublicProgramsBySlug from "../../constants/customQueryHooks/usePublicProgramsBySlug";
 
 const StoryPage = () => {
   const isStoryPage = true;
@@ -23,6 +26,7 @@ const StoryPage = () => {
   const { uri } = router.query;
   const [isNavShown, setIsNavShown] = useState(false);
 
+  // console.log('story', publicProgram);
   // const { loading, error, assetPostBySlug } = useAssetsBySlug(uri?.join("/"));
 
   const {
@@ -45,6 +49,18 @@ const StoryPage = () => {
   //   return <div className="AssetPage">No asset found for this URI.</div>;
   // }
 
+  const {
+    loading: loadingStoryBlog,
+    error: errorStoryBlog,
+    storyBlog: storyBlogData,
+  } = useStoryBlogsBySlug(uri?.join("/"));
+
+  const title = storyBlogData?.title;
+  const mainContent = storyBlogData?.storyBlocks?.mainContent?.[0];
+  console.log('mainContent', mainContent?.thumbnail?.node?.sourceUrl);
+  const pageBodyContent = mainContent?.pageContent || "";
+  const parsedPageContent = parse(pageBodyContent);
+
   return (
     <>
       <SEO
@@ -62,6 +78,7 @@ const StoryPage = () => {
         <>
           <Main
             isStoryPage={isStoryPage}
+            className={"story-blog-page"}
             style={{
               borderLeft: "1rem solid #6741F5",
               borderTop: "1rem solid #6741F5",
@@ -73,27 +90,43 @@ const StoryPage = () => {
               <div className="AssetPage Blog">
                 <div className="blog-content">
                   <div className="blog-left-col">
-                    <Image src={DEFAULT_IMAGE} />
+                    <Image
+                        src={mainContent?.thumbnail?.node?.sourceUrl || DEFAULT_IMAGE}
+                        alt={mainContent?.thumbnail?.node?.altText || ""}
+                        width={244} height={326} />
                   </div>
                   <div className="blog-right-col">
-                    <div className="wpa-story-tag">WPA Story</div>
-                    <h1>Story Title</h1>
+                    <div className="wpa-story-tag">
+                      <span>WPA Story</span>
+                    </div>
+                    <h1>{title}</h1>
 
                     <div className="blog-metadata">
-                      <div className="date">
-                        <label>Date</label>
-                        <small>August 1, 2024</small>
-                      </div>
+                      {mainContent?.date && (
+                          <div className="date">
+                            <label>Date</label>
+                            <small>
+                              {new Date(mainContent.date).toLocaleDateString("en-US", {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                                timeZone: "UTC",
+                              })}
+                            </small>
+                          </div>
+                      )}
                       <div className="author">
-                        <label>Author</label>
-                        <small>Travis Chamberlain</small>
+                        {mainContent?.author && (
+                            <label>Author</label>
+                        )}
+                        <small>{mainContent?.author || ""}</small>
                       </div>
                     </div>
 
-                    <div className="blog-wp-content"></div>
+                    <div className="blog-wp-content">{parsedPageContent}</div>
                   </div>
                 </div>
-                <RelatedSection itemsArr={null} />
+                <RelatedSection className="related-blog" itemsArr={null} />
               </div>
             </Container>
           </Main>
