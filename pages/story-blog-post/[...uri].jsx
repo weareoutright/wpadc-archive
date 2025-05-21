@@ -57,7 +57,6 @@ const StoryPage = () => {
 
   const title = storyBlogData?.title;
   const mainContent = storyBlogData?.storyBlocks?.mainContent?.[0];
-  console.log('mainContent', mainContent?.thumbnail?.node?.sourceUrl);
   const pageBodyContent = mainContent?.pageContent || "";
   const parsedPageContent = parse(pageBodyContent);
 

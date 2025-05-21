@@ -23,18 +23,16 @@ const ContainerHeader = ({
 }) => {
   return (
     <div className={cx("ContainerHeader")}>
-      {pageType === "public-programs" ||
-        pageType === "content" ||
-        (pageType === "event" && (
-          <a href={parentLink?.href} className={cx("eyebrow-link")}>
+      {(pageType === "public-programs" || pageType === "content" || pageType === "event") && (
+          <a href={parentLink?.uri} className={cx("eyebrow-link")}>
             <Image src={LEFT_ARROW} alt="left arrow" />{" "}
             <span>{parentLink?.title}</span>
           </a>
-        ))}
+        )}
       {pageType === "public-programs" && <h2>{programName}</h2>}
       {pageType === "event" && <h2>{eventName}</h2>}
       {pageType === "asset" && <h2>{assetName}</h2>}
-      {pageType === "artist" && <h2>{artistName}</h2>}
+      {pageType === "person" && <h2>{artistName}</h2>}
       {pageType === "content" && <h2>{assetName}</h2>}
       <div className={cx("container-header")}>
         <div className={cx("left-column")}>
@@ -42,27 +40,46 @@ const ContainerHeader = ({
 
           {tagsArr && tagsArr.length > 0 && (
               <div className={cx("tags")}>
-                <small>Tags</small>
-                {
-                    tagsArr && (
-                        <div className={cx("tag-container")}>
-                          {tagsArr.map((tag) => {
-                            if (!tag) return null;
+                {/* <small>Tags</small> */}
+                {tagsArr && tagsArr.length > 0 && (
+                  <div className={cx("tags")}>
+                    <small>Tags</small>
+                    <div className={cx("tag-container")}>
+                      {tagsArr.map((tag) => {
+                        if (!tag) return null;
 
-                            const isAssetTag = tag?.node?.__typename === "AssetTag";
+                        // Use .__typename directly on tag (not tag.node)
+                        const typeName = tag.__typename;
+                        const label = tag.title;
 
-                            return (
-                                <span key={tag.uri} className={cx("tag")}>
-                          {isAssetTag ? (
-                              <span>{tag.title}</span>
-                          ) : (
-                              <a href={tag.uri}>{tag.title}</a>
-                          )}
-                        </span>
-                            );
-                          })}
-                        </div>
-                    )}
+                        if (typeName === "AssetMediumType") {
+                          // Link to search page for AssetMediumType
+                          return (
+                            <span key={tag.slug} className={cx("tag")}>
+                              <a href={`/search?term=${encodeURIComponent(tag.slug)}`}>{label}</a>
+                            </span>
+                          );
+                        }
+
+                        // For AssetTag, just show the label (no link)
+                        if (typeName === "AssetTag") {
+                          return (
+                            <span key={tag.uri} className={cx("tag")}>
+                              <span>{label}</span>
+                            </span>
+                          );
+                        }
+
+                        // For all other types, link to their uri
+                        return (
+                          <span key={tag.uri} className={cx("tag")}>
+                            <a href={tag.uri}>{label}</a>
+                          </span>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
               </div>
           )}
         </div>
@@ -100,22 +117,34 @@ const ContainerHeader = ({
             )}
 
             <div className={cx("collaborators")}>
-              {artistName?.length > 0 && (
+              {Array.isArray(artistName) && artistName.length > 0 && (
                   <>
                     <small>Artist(s)</small>
-                    <p>{artistName.join(', ')}</p>
+                    <p>
+                      {artistName.map((artist, index) => (
+                        <>
+                          <a href={`/person/${artist.toLowerCase().replace(/\s+/g, '-')}`} key={artist}>
+                            {artist}
+                          </a>
+                          {index < artistName.length - 1 ? ', ' : ''}
+                        </>
+                      ))}
+                    </p>
                   </>
               )}
             </div>
 
-
-            {pageType === "artist" ||
+            {/* {pageType === "artist" ||
                 (pageType === "event" && (
                     <>
                       <small>Artist(s)</small>
-                      <p>{artistName}</p>
+                      <p>
+                        <a href={`/person/${artistName.toLowerCase().replace(/\s+/g, '-')}`}>
+                          {artistName}
+                        </a>
+                      </p>
                     </>
-                ))}
+                ))} */}
 
             {location && (
                 <>
