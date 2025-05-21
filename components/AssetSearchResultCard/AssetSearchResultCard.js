@@ -22,9 +22,8 @@ const AssetSearchResultCard = ({
       >
         <a href={uri} className={cx("asset-link")}>
           <Image
-            // src={node.assetCard.assetInfo.asset_files?.file.node.sourceUrl}
             alt={title}
-            src="/sample-img.png"
+            src="/checked-bg-minimal-content.png"
             width={244}
             height={320}
             layout="fixed"
