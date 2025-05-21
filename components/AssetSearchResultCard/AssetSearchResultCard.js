@@ -11,14 +11,16 @@ const AssetSearchResultCard = ({
   personName,
 }) => {
   if (node) {
-    const { title, asset_postId, uri, author, slug } = node;
+    let artistCollaborator =
+      node.assetCard.assetCard[0].artists[0].collaborator?.edges[0].node.uri;
+    const { id, title, uri, slug } = node;
     const isWPAstory = false;
     return (
       <div
-        key={`${title}-${asset_postId}`}
+        key={`${title}-${id}`}
         className={cx("AssetCard", isWPAstory && "wpa-story")}
       >
-        <a href={`/asset/${slug}`} className={cx("asset-link")}>
+        <a href={uri} className={cx("asset-link")}>
           <Image
             // src={node.assetCard.assetInfo.asset_files?.file.node.sourceUrl}
             alt={title}
@@ -41,7 +43,7 @@ const AssetSearchResultCard = ({
         <a href={`/asset/${slug}`} className={cx("asset-link")}>
           <h3>{title}</h3>
         </a>
-        <a href={`/person/${author}`} className={cx("asset-link")}>
+        <a href={artistCollaborator} className={cx("asset-link")}>
           <small>{personName}</small>
         </a>
       </div>
