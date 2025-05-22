@@ -60,6 +60,8 @@ const StoryPage = () => {
   const pageBodyContent = mainContent?.pageContent || "";
   const parsedPageContent = parse(pageBodyContent);
 
+  const relatedItems = storyBlogData?.storyBlocks?.related?.flatMap((item) => item.relatedItem.nodes) ?? [];
+
   return (
     <>
       <SEO
@@ -125,7 +127,7 @@ const StoryPage = () => {
                     <div className="blog-wp-content">{parsedPageContent}</div>
                   </div>
                 </div>
-                <RelatedSection className="related-blog" itemsArr={null} />
+                <RelatedSection className="related-blog" itemsArr={relatedItems} />
               </div>
             </Container>
           </Main>

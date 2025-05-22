@@ -40,6 +40,24 @@ const GET_STORY_BLOGS_BY_SLUG = gql`
                 uri
                 id
                 slug
+                ... on StoryBlogPost {
+                    id
+                    title
+                    storyBlocks {
+                        mainContent {
+                            ... on StoryBlocksMainContentMainContentLayout {
+                                thumbnail {
+                                    node {
+                                        altText
+                                        caption
+                                        title
+                                        sourceUrl
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
               }
             }
           }
@@ -52,6 +70,8 @@ const GET_STORY_BLOGS_BY_SLUG = gql`
 const useStoryBlogsBySlug = (slug) => {
     const { loading, error, data } = useQuery(GET_STORY_BLOGS_BY_SLUG, {
         variables: { slug },
+        fetchPolicy: 'network-only',
+        context: { depth: 10 }
     });
 
     return {
