@@ -49,18 +49,20 @@ const AssetPage = () => {
   //   return <div className="AssetPage">No asset found for this URI.</div>;
   // }
 
-  console.log("Asset Card title", assetPostBySlug?.title);
-  console.log(
-    "Asset Card, assetPostBySlug",
-    assetPostBySlug?.assetCard?.assetCard?.[0]
-  );
 
   // const description = parse(assetPostBySlug?.assetCard?.assetCard?.[0]?.description || "");
 
-  const assetTitle = assetPostBySlug?.title || "";
 
+
+  // storyBlogData?.storyBlocks?.related?.flatMap((item) => item.relatedItem.nodes) ?? [];
+  
+  const assetTitle = assetPostBySlug?.title || "";
+  
   const assetCard = assetPostBySlug?.assetCard?.assetCard?.[0];
   const artist = assetCard?.location;
+  const relatedItems = assetCard;
+  console.log('relatedItems', relatedItems);
+
 
   return (
     <>
@@ -103,9 +105,9 @@ const AssetPage = () => {
                           .replace(/\b\w/g, (char) => char.toUpperCase()) // capitalize each word
                     )
                     .join(", ")}
-                  location={assetCard.location}
+                  location={assetCard?.location}
                   externalLinksArr={
-                    assetPostBySlug?.assetCard.assetCard[0].externalLinks
+                    assetPostBySlug?.assetCard?.assetCard?.[0]?.externalLinks
                   }
                   pageType={"asset"}
                   parentLink={null}
