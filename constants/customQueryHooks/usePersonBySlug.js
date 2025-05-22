@@ -47,16 +47,16 @@ const GET_PERSON_BY_SLUG = gql`
                   ... on Person {
                     id
                     personCard {
-                    personInfo {
-                    ... on PersonCardPersonInfoPersonCardLayout {
-                    headshot {
-                    node {
-                    altText
-                    sourceUrl
-                    }
-                    }
-                    }
-                    }
+                      personInfo {
+                        ... on PersonCardPersonInfoPersonCardLayout {
+                          headshot {
+                            node {
+                            altText
+                            sourceUrl
+                            }
+                          }
+                        }
+                      }
                     }
                   }
                 }

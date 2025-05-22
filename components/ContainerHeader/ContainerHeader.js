@@ -40,7 +40,6 @@ const ContainerHeader = ({
 
           {tagsArr && tagsArr.length > 0 && (
               <div className={cx("tags")}>
-                {/* <small>Tags</small> */}
                 {tagsArr && tagsArr.length > 0 && (
                   <div className={cx("tags")}>
                     <small>Tags</small>
