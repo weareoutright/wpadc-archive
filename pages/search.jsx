@@ -23,7 +23,6 @@ import { AssetSearchResultCard } from "../components/AssetSearchResultCard";
 import { PersonSearchResultCard } from "../components";
 import PREV_BTN_DARK from "../assets/icons/previous-btn-dark.svg";
 import NEXT_BTN from "../assets/icons/next-btn.svg";
-import useSearch from "../constants/customQueryHooks/useSearch";
 
 export default function Component() {
   const [isNavShown, setIsNavShown] = useState(false);
@@ -34,6 +33,8 @@ export default function Component() {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [debouncedKeyword, setDebouncedKeyword] = useState(searchKeyword);
   const [results, setResults] = useState([]);
+  const [assetResults, setAssetResults] = useState([]);
+  const [peopleResults, setPeopleResults] = useState([]);
 
   const applyPageChange = (pageNum, e) => {
     e.preventDefault();
@@ -57,7 +58,12 @@ export default function Component() {
 
   const { loading: loadingMenus, error: errorMenus, menus } = useHeaderMenu();
 
-  const { loading, error, data, refetch } = useQuery(Component.query, {
+  const {
+    loading: loadingData,
+    error,
+    data,
+    refetch,
+  } = useQuery(Component.query, {
     variables: Component.variables({
       searchKeyword: debouncedKeyword || "_none_",
     }),
@@ -65,25 +71,8 @@ export default function Component() {
     skip: searchKeyword?.trim().length < 1,
   });
 
-  // const {
-  //   loading: loadingSearch,
-  //   error: errorSearch,
-  //   rawData,
-  //   flattenedResults,
-  // } = useSearch({
-  //   searchTerm: debouncedKeyword,
-  // });
-
-  const {
-    loading: loadingAsset,
-    error: errorAsset,
-    assetPosts,
-  } = useAssets({
-    searchTerm: debouncedKeyword,
-  });
-
-  const assetSearch = data?.assetSearch?.edges ?? [];
-  const peopleSearch = data?.peopleSearch?.edges ?? [];
+  let assetSearch = data?.assetSearch.nodes || [];
+  let peopleSearch = data?.peopleSearch.edges || [];
   const primaryMenu = menus;
 
   useEffect(() => {
@@ -93,7 +82,9 @@ export default function Component() {
   }, [searchKeyword]);
 
   useEffect(() => {
-    setResults([...assetSearch, ...peopleSearch]);
+    if (data) {
+      setResults([...assetSearch, ...peopleSearch]);
+    }
   }, [data]);
 
   useEffect(() => {
@@ -114,9 +105,6 @@ export default function Component() {
     console.error("Menus ERROR:", errorMenus?.message);
     console.error("Data ERROR:", error?.message);
   }
-
-  console.log("assetPost", assetPosts);
-  console.log("data", data);
 
   return (
     <>
@@ -151,26 +139,33 @@ export default function Component() {
                     <small>{results.length} results</small>
                   </h1>
 
-                  {results.length < 0 && searchKeyword === "" && (
+                  {results.length <= 0 && searchKeyword === "" && (
                     <div className="results-container-placeholder"> </div>
                   )}
+                  {loadingData ? "Loading search results..." : null}
+                  {!loadingData &&
+                    results?.length <= 0 &&
+                    `No results for "${searchKeyword}"`}
                   {results.length > 0 && searchKeyword !== "" ? (
                     <div className="results-container">
                       {results?.map((result, index) => {
-                        console.log(result);
-                        if (result.node.__typename === "Asset_post") {
+                        if (result.__typename === "Asset_post") {
                           return (
                             <AssetSearchResultCard
                               key={`asset-card-${index}`}
-                              node={result.node}
+                              node={result}
                             />
                           );
                         }
-                        if (result.node.__typename === "Person") {
+                        if (
+                          result.__typename === "Person" ||
+                          result.__typename ===
+                            "RootQueryToPersonConnectionEdge"
+                        ) {
                           return (
                             <PersonSearchResultCard
                               key={`person-card-${index}`}
-                              node={result.node}
+                              node={result}
                             />
                           );
                         }
@@ -236,13 +231,42 @@ Component.query = gql`
     }
 
     assetSearch: assetPosts(where: { search: $searchKeyword }) {
-      edges {
-        node {
-          id
+      nodes {
+        id
+        title
+        uri
+        slug
+        assetCard {
           assetCard {
-            assetCard {
-              ... on AssetCardAssetCard_Layout {
-                fieldGroupName
+            ... on AssetCardAssetCardAssetCardLayout {
+              description
+              startDate
+              endDate
+              year
+              location
+              eyebrow {
+                edges {
+                  node {
+                    id
+                    link
+                    slug
+                  }
+                }
+              }
+              artists {
+                collaborator {
+                  edges {
+                    node {
+                      id
+                      slug
+                      uri
+                      ... on Person {
+                        id
+                        title
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -257,7 +281,6 @@ Component.query = gql`
           uri
           slug
           id
-
           personCard {
             personInfo {
               fieldGroupName

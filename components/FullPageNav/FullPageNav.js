@@ -45,14 +45,6 @@ export default function FullPageNav({
   const { loading: loadingMenus, error: errorMenus, menus } = useHeaderMenu();
   const [isLeaving, setIsLeaving] = useState(false);
 
-  useEffect(() => {
-    if (isNavShown) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-  }, [isNavShown]);
-
   // Handle closing with animation
   const handleClose = () => {
     setIsLeaving(true);
