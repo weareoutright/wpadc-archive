@@ -58,7 +58,12 @@ export default function Component() {
 
   const { loading: loadingMenus, error: errorMenus, menus } = useHeaderMenu();
 
-  const { loading, error, data, refetch } = useQuery(Component.query, {
+  const {
+    loading: loadingData,
+    error,
+    data,
+    refetch,
+  } = useQuery(Component.query, {
     variables: Component.variables({
       searchKeyword: debouncedKeyword || "_none_",
     }),
@@ -101,8 +106,6 @@ export default function Component() {
     console.error("Data ERROR:", error?.message);
   }
 
-  console.log("results", results);
-
   return (
     <>
       <SEO
@@ -136,13 +139,16 @@ export default function Component() {
                     <small>{results.length} results</small>
                   </h1>
 
-                  {results.length < 0 && searchKeyword === "" && (
+                  {results.length <= 0 && searchKeyword === "" && (
                     <div className="results-container-placeholder"> </div>
                   )}
+                  {loadingData ? "Loading search results..." : null}
+                  {!loadingData &&
+                    results?.length <= 0 &&
+                    `No results for "${searchKeyword}"`}
                   {results.length > 0 && searchKeyword !== "" ? (
                     <div className="results-container">
                       {results?.map((result, index) => {
-                        console.log("single result", result);
                         if (result.__typename === "Asset_post") {
                           return (
                             <AssetSearchResultCard

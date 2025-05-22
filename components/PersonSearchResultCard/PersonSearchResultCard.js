@@ -5,7 +5,6 @@ import Image from "next/image";
 let cx = classNames.bind(styles);
 
 const PersonSearchResultCard = ({ node }) => {
-  console.log(node.node);
   return (
     <div key={node.node.id} className={cx("AssetCard")}>
       <a href={node.node.uri} className={cx("asset-link")}>
