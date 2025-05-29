@@ -154,14 +154,20 @@ export default function SearchBar({
         >
           <input
             type="text"
-            placeholder="Exhibits in the 1980s..."
+            placeholder=""
             onChange={handleSearch}
             value={localKeyword}
             name="searchKeyword"
           />
-          <button type="submit" className="search-btn">
-            <Image src={SEARCH_BTN} alt="search the archive" />
-          </button>
+          {localKeyword !== "" && debouncedKeyword !== "" ? (
+            <button type="submit" className="search-btn">
+              <Image src={SEARCH_BTN} alt="search the archive" />
+            </button>
+          ) : (
+            <a href="/search" className="search-btn">
+              <Image src={SEARCH_BTN} alt="search the archive" />
+            </a>
+          )}
         </form>
       </div>
       <div className="active-filters">

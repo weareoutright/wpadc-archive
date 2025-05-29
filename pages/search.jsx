@@ -33,8 +33,6 @@ export default function Component() {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [debouncedKeyword, setDebouncedKeyword] = useState(searchKeyword);
   const [results, setResults] = useState([]);
-  const [assetResults, setAssetResults] = useState([]);
-  const [peopleResults, setPeopleResults] = useState([]);
 
   const applyPageChange = (pageNum, e) => {
     e.preventDefault();
@@ -136,13 +134,18 @@ export default function Component() {
                   <h1>
                     Results for "
                     {searchKeyword === undefined ? "" : searchKeyword}"{" "}
-                    <small>{results.length} results</small>
+                    <small>
+                      {results.length}{" "}
+                      {results.length > 1 || results.length === 0
+                        ? "results"
+                        : "result"}
+                    </small>
                   </h1>
 
                   {results.length <= 0 && searchKeyword === "" && (
                     <div className="results-container-placeholder"> </div>
                   )}
-                  {loadingData ? "Loading search results..." : null}
+                  {loadingData ? <span>Loading search results...</span> : null}
                   {!loadingData &&
                     results?.length <= 0 &&
                     `No results for "${searchKeyword}"`}
