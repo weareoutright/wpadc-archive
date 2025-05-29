@@ -96,6 +96,21 @@ const GET_ASSET = gql`
               label
               url
             }
+            related {
+              manuallySetCards {
+                nodes {
+                __typename
+                  id
+                  uri
+                  slug
+                  ... on Asset_post {
+                    assetCard {
+                      fieldGroupName
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
