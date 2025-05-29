@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import useAssetsBySlug from "../../constants/customQueryHooks/useAssetsBySlug";
 import { LoadingPage } from "../../components";
 import { useRouter } from "next/router";
@@ -60,7 +60,6 @@ const AssetPage = () => {
   const assetTitle = assetPostBySlug?.title || "";
 
   const assetCard = assetPostBySlug?.assetCard?.assetCard?.[0];
-  const artist = assetCard?.location;
 
   return (
     <>
@@ -89,7 +88,11 @@ const AssetPage = () => {
                   assetName={assetTitle}
                   eventName={null}
                   description={parse(assetCard?.description || "")}
-                  tagsArr={assetCard?.assetTags[0]?.assetTag?.edges?.map(edge => edge.node) || []}
+                  tagsArr={
+                    assetCard?.assetTags[0]?.assetTag?.edges?.map(
+                      (edge) => edge.node
+                    ) || []
+                  }
                   dateBegin={assetCard?.startDate}
                   dateEnd={assetCard?.endDate}
                   type={assetCard?.type
