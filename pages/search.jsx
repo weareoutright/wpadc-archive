@@ -7,7 +7,6 @@ import {
   usePeople,
   useGeneralSettings,
   useHeaderMenu,
-  useStoryBlogsBySlug,
   useStoryBlogs,
 } from "../constants/customQueryHooks";
 import { gql } from "@apollo/client";
@@ -27,6 +26,7 @@ import { PersonSearchResultCard } from "../components";
 import PREV_BTN_DARK from "../assets/icons/previous-btn-dark.svg";
 import NEXT_BTN from "../assets/icons/next-btn.svg";
 import usePublicProgramsKeywordSearch from "../constants/customQueryHooks/usePublicPrograms";
+import LoadingIcons from "react-loading-icons";
 
 export default function Component() {
   const [isNavShown, setIsNavShown] = useState(false);
@@ -168,7 +168,8 @@ export default function Component() {
               <div className="Search">
                 <div className="results">
                   <h1>
-                    Results for "
+                    {!allLoaded && "Searching for "}
+                    {allLoaded && "Results for "}"
                     {searchKeyword === undefined ? "" : searchKeyword}"{" "}
                     <small>
                       {results.length}{" "}
@@ -181,8 +182,17 @@ export default function Component() {
                   {results.length <= 0 && searchKeyword === "" && (
                     <div className="results-container-placeholder"> </div>
                   )}
-                  {loadingData ? <span>Loading search results...</span> : null}
-                  {!loadingData &&
+                  {!allLoaded && (
+                    <div className="search-result-loading-icon">
+                      <LoadingIcons.Grid
+                        stroke="#808080"
+                        strokeOpacity={1}
+                        fill="#808080"
+                        fillOpacity={1}
+                      />
+                    </div>
+                  )}
+                  {allLoaded &&
                     results?.length <= 0 &&
                     `No results for "${searchKeyword}"`}
                   {results.length > 0 && searchKeyword !== "" ? (
