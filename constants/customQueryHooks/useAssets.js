@@ -23,6 +23,18 @@ const GET_ASSET = gql`
               endDate
               year
               location
+              type {
+                type {
+                  edges {
+                    node {
+                      ... on AssetMediumType {
+                        id
+                        title
+                      }
+                    }
+                  }
+                }
+              }
               eyebrow {
                 edges {
                   node {

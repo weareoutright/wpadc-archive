@@ -12,6 +12,7 @@ const GET_PUBLIC_PROGRAMS_KEYWORD_SEARCH = gql`
             programCard {
               ... on ProgramCardProgramCardProgramCardLayout {
                 description
+                startDate
                 endDate
                 eventType
                 eyebrow {

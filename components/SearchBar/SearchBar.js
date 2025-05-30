@@ -10,12 +10,14 @@ import FilterBtn from "../FilterBtn/FilterBtn";
 const FILTER_PILL_BTNS_DEFAULT = [
   {
     filterText: "Year",
+    graphQLPath: "startDate",
     dropdownItems: [
       // { title: "2020", count: 15 },
     ],
   },
   {
     filterText: "People",
+    graphQLPath: "title",
     dropdownItems: [
       // {
       //   title: "A-H",
@@ -28,24 +30,28 @@ const FILTER_PILL_BTNS_DEFAULT = [
   },
   {
     filterText: "Role",
+    graphQLPath: "roleType",
     dropdownItems: [
       // { title: "Artist", count: 4 },
     ],
   },
   {
     filterText: "Document Type",
+    graphQLPath: "type",
     dropdownItems: [
       // { title: "Photo", count: 12 },
     ],
   },
   {
     filterText: "Project Type",
+    graphQLPath: "type",
     dropdownItems: [
       // { title: "Research", count: 8 },
     ],
   },
   {
     filterText: "Location",
+    graphQLPath: "location",
     dropdownItems: [
       // { title: "New York", count: 6 },
     ],
@@ -59,6 +65,7 @@ export default function SearchBar({
   isFrontPage,
   setResults,
   results,
+  allLoaded,
 }) {
   const router = useRouter();
   const { keyword } = router.query;
@@ -68,6 +75,69 @@ export default function SearchBar({
 
   const [selectedItems, setSelectedItems] = useState({}); // Stores selected parent-child hierarchy
   const [activeItems, setActiveItems] = useState([]);
+
+  const getDropdownItems = (filterArr, resultsArr) => {
+    // take in filterArr and the resultsArr
+    // take all unique values for each object's property at that filter label (see top of file)
+    // set unique values in the dropdownItems array
+    console.log("BEFORE", filterArr);
+    resultsArr?.map((result) => {
+      if (result.__typename === "Asset_post") {
+        const yearFilter = filterArr.find(
+          (filter) => filter.filterText === "Year"
+        );
+
+        if (yearFilter) {
+          let year = new Date(
+            result.assetCard.assetCard[0].startDate
+          ).getFullYear();
+          yearFilter.dropdownItems.push(year);
+          yearFilter.dropdownItems = [...new Set(yearFilter.dropdownItems)];
+        }
+      }
+
+      if (result.__typename === "RootQueryToPersonConnectionEdge") {
+        const peopleFilter = filterArr.find(
+          (filter) => filter.filterText === "People"
+        );
+
+        if (peopleFilter) {
+          peopleFilter.dropdownItems.push(result.node.title);
+          peopleFilter.dropdownItems = [...new Set(peopleFilter.dropdownItems)];
+        }
+      }
+
+      if (result.__typename === "RootQueryToPublicProgramConnectionEdge") {
+        console.log("RESULT", result);
+        const typeFilter = filterArr.find(
+          (filter) => filter.filterText === "Project Type"
+        );
+
+        if (typeFilter)
+          typeFilter.dropdownItems.push([
+            ...result.node.programCard.programCard[0].eventType,
+          ]);
+        typeFilter.dropdownItems = [...new Set(typeFilter.dropdownItems)];
+      }
+    });
+    console.log("AFTER", filterArr);
+  };
+
+  const searchEntireArchive = (filterObj) => {
+    // take in a filter obj
+    // query the four post types based on that filter label
+    // return the results
+
+    // setResults(// the return value or search entire archive //)
+    console.log(filterObj);
+  };
+
+  const applyFilters = () => {
+    // filter the array based on activeItems
+    // show results (need to trigger the replacement of database results with filtered results -- user won't see this happen)
+    // apply filters to url query params to make the link shareable
+    console.log("Filters applied");
+  };
 
   const clearFilters = () => {
     setSelectedItems({});
@@ -115,14 +185,6 @@ export default function SearchBar({
     );
   }, [localKeyword, results, router, setResults]);
 
-  const applyFilters = () => {
-    // store results in a new array??
-    // filter the array based on activeItems
-    // show results (need to trigger the replacement of database results with filtered results -- user won't see this happen)
-    // apply filters to url query params to make the link shareable
-    console.log("Filters applied");
-  };
-
   const removeItem = (itemToRemove) => {
     setActiveItems((prevActiveItems) =>
       prevActiveItems.filter((item) => item !== itemToRemove)
@@ -138,6 +200,11 @@ export default function SearchBar({
   useEffect(() => {
     setActiveItems([...Object.keys(selectedItems)]);
   }, [selectedItems]);
+
+  useEffect(() => {
+    if (results.length <= 0) return;
+    getDropdownItems(FILTER_PILL_BTNS_DEFAULT, results);
+  }, [FILTER_PILL_BTNS_DEFAULT, results, allLoaded]);
 
   return (
     <div className={`search-bar ${isFrontPage ? "front-page-search-bar" : ""}`}>
@@ -196,16 +263,21 @@ export default function SearchBar({
       </div>
       <div className="filter-pills">
         <div className="main-filters">
-          {FILTER_PILL_BTNS_DEFAULT.map((filter) => (
-            <FilterBtn
-              filterText={filter.filterText}
-              dropdownItems={filter.dropdownItems}
-              selectedItems={selectedItems}
-              setSelectedItems={setSelectedItems}
-              activeItems={activeItems}
-              setActiveItems={setActiveItems}
-            />
-          ))}
+          {FILTER_PILL_BTNS_DEFAULT.map((filter) => {
+            return (
+              <FilterBtn
+                key={filter.filterText}
+                filter={filter}
+                filterText={filter.filterText}
+                dropdownItems={filter.dropdownItems}
+                selectedItems={selectedItems}
+                setSelectedItems={setSelectedItems}
+                activeItems={activeItems}
+                setActiveItems={setActiveItems}
+                resultsArr={results}
+              />
+            );
+          })}
         </div>
         <div className="apply-and-clear-all-btn">
           <a href="#" onClick={clearFilters} className="clear-all-btn">
@@ -214,15 +286,15 @@ export default function SearchBar({
           <a
             className="pill-btn apply-btn"
             href="#"
-            alt="sort results"
-            onClick={(e) => {
+            alt="apply filters"
+            onClick={() => {
               applyFilters();
             }}
           >
             Apply{" "}
             <Image
               src={RIGHT_ARROW}
-              alt="sort results"
+              alt="apply filters"
               height={15}
               width={15}
             />

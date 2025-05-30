@@ -162,6 +162,7 @@ export default function Component() {
             debouncedKeyword={debouncedKeyword}
             setResults={setResults}
             results={results}
+            allLoaded={allLoaded}
           />
           <Main>
             <Container>
@@ -225,7 +226,7 @@ export default function Component() {
                         if (
                           result.node?.__typename === "PublicProgram" ||
                           result.__typename ===
-                            "RootQueryToPersonConnectionEdge"
+                            "RootQueryToPublicProgramConnectionEdge"
                         ) {
                           return (
                             <AssetSearchResultCard
