@@ -81,6 +81,7 @@ export default function SearchBar({
     );
   }, [selectedItems, hasMounted, router.asPath]);
 
+  // rebuild filter dropdowns
   useEffect(() => {
     if (results?.length <= 0) return;
     const updatedFilters = JSON.parse(JSON.stringify(FILTER_PILL_BTNS_DEFAULT));
@@ -197,9 +198,9 @@ export default function SearchBar({
           const roles =
             node?.assetCard?.assetCard?.[0]?.artists?.[0]?.collaborator?.edges?.flatMap(
               (e) =>
-                e.node?.personCard?.personInfo?.[0]?.roleType?.edges?.map(
+                e.node.personCard?.personInfo?.[0]?.roleType?.edges?.map(
                   (r) => r.node.title
-                ) || []
+                )
             ) || [];
           return roles.some((r) => values.includes(r));
         }
@@ -209,7 +210,6 @@ export default function SearchBar({
             node?.assetCard?.assetCard?.[0]?.type?.[0]?.type?.edges?.map(
               (e) => e.node.title
             ) || [];
-
           return types.some((t) => values.includes(t));
         }
 
@@ -226,19 +226,22 @@ export default function SearchBar({
   };
 
   const performSearch = useCallback(() => {
-    if (!localKeyword.trim()) return;
-
-    if (setResults) {
-      setResults([]);
+    // on “/” default to “art” if nothing is typed
+    let keywordParam = localKeyword.trim();
+    if (!keywordParam && router.pathname === "/") {
+      keywordParam = "art";
     }
+    if (!keywordParam) return;
+
+    setResults && setResults([]);
 
     setFilterButtons(JSON.parse(JSON.stringify(FILTER_PILL_BTNS_DEFAULT)));
 
     router.push({
       pathname: "/search",
-      query: { keyword: localKeyword },
+      query: { keyword: keywordParam },
     });
-  }, [localKeyword, setResults]);
+  }, [localKeyword, setResults, router.pathname]);
 
   const handleSearch = (e) => setLocalKeyword(e.target.value);
 
