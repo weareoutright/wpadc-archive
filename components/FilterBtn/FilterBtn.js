@@ -79,7 +79,7 @@ const FilterBtn = ({
   useEffect(() => {
     if (!selectedItems) return;
 
-    if (Object.keys(selectedItems).length <= 0 && activeItems.length <= 0) {
+    if (Object.keys(selectedItems).length <= 0 && activeItems?.length <= 0) {
       setMainDropdownOpen(false);
     }
   }, [selectedItems, activeItems]);

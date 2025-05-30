@@ -1,6 +1,5 @@
-// --- search.jsx ---
-import { useState, useEffect } from "react";
-import { useQuery } from "@apollo/client";
+import React, { useState, useEffect, useMemo } from "react";
+import { useQuery, gql } from "@apollo/client";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import {
@@ -10,7 +9,6 @@ import {
   useHeaderMenu,
   useStoryBlogs,
 } from "../constants/customQueryHooks";
-import { gql } from "@apollo/client";
 import * as MENUS from "../constants/menus";
 import { BlogInfoFragment } from "../fragments/GeneralSettings";
 import {
@@ -30,6 +28,82 @@ import NEXT_BTN from "../assets/icons/next-btn.svg";
 import usePublicProgramsKeywordSearch from "../constants/customQueryHooks/usePublicPrograms";
 import LoadingIcons from "react-loading-icons";
 
+// filter keys
+const FILTER_KEYS = [
+  "Year",
+  "People",
+  "Location",
+  "Role",
+  "Document Type",
+  "Project Type",
+];
+
+// Extract values for each filter key
+function getFilterValues(node, key) {
+  switch (key) {
+    case "Year": {
+      const start = node?.assetCard?.assetCard?.[0]?.startDate;
+      return start ? [String(new Date(start).getFullYear())] : [];
+    }
+    case "People":
+      return (
+        node?.assetCard?.assetCard?.[0]?.artists?.[0]?.collaborator?.edges?.map(
+          (e) => String(e.node.title)
+        ) || []
+      );
+    case "Location": {
+      const loc =
+        node?.assetCard?.assetCard?.[0]?.location ||
+        node?.personCard?.personInfo?.[0]?.location;
+      return loc ? [String(loc)] : [];
+    }
+    case "Role":
+      return (
+        node?.assetCard?.assetCard?.[0]?.artists?.[0]?.collaborator?.edges?.flatMap(
+          (e) =>
+            (e.node?.personCard?.personInfo?.[0]?.roleType?.edges || []).map(
+              (r) => String(r.node.title)
+            )
+        ) || []
+      );
+    case "Document Type":
+    case "Project Type":
+      return (
+        node?.assetCard?.assetCard?.[0]?.type?.[0]?.type?.edges?.map((e) =>
+          String(e.node.title)
+        ) || []
+      );
+    default:
+      return [];
+  }
+}
+
+function applyFilters(resultsArray, selectedItems) {
+  resultsArray.forEach((item) => {
+    if (item.__typename === "RootQueryToPersonConnectionEdge") {
+      item.filterProps.People.push(item.node.title);
+    }
+  });
+
+  console.log(resultsArray);
+
+  if (!selectedItems || Object.keys(selectedItems).length <= 0) {
+    return resultsArray;
+  }
+
+  const selectedValues = Object.keys(selectedItems).flat();
+
+  resultsArray.filter((item) => {
+    const allProps = Object.values(item.filterProps).flat();
+    return selectedValues.some((v) => allProps.includes(v));
+  });
+
+  return resultsArray.filter((item) => {
+    const allProps = Object.values(item.filterProps).flat();
+    return selectedValues.some((v) => allProps.includes(v));
+  });
+}
+
 export default function Component() {
   const [isNavShown, setIsNavShown] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -38,95 +112,81 @@ export default function Component() {
 
   const [searchKeyword, setSearchKeyword] = useState("");
   const [debouncedKeyword, setDebouncedKeyword] = useState("");
-  const [results, setResults] = useState([]);
   const [unfilteredResults, setUnfilteredResults] = useState([]);
   const [selectedItems, setSelectedItems] = useState({});
 
-  const applyPageChange = (pageNum, e) => {
-    e.preventDefault();
-    setCurrentPage(pageNum);
-  };
-
-  const divideAndCreatePaginationArray = (num) => {
-    const pages = Math.ceil(num / 16);
-    return Array.from({ length: pages }, (_, i) => i + 1);
-  };
-
-  const { loading: loadingSettings, generalSettings } = useGeneralSettings();
-  const { loading: loadingMenus, menus } = useHeaderMenu();
-  const { loading: assetsLoading, assetPosts: assetSearch } = useAssets(
+  const { loading: ls, generalSettings } = useGeneralSettings();
+  const { loading: lm, menus } = useHeaderMenu();
+  const { loading: la, assetPosts } = useAssets(searchKeyword || "_none_");
+  const { loading: lp, people } = usePeople(searchKeyword || "_none_");
+  const { loading: lpp, publicPrograms } = usePublicProgramsKeywordSearch(
     searchKeyword || "_none_"
   );
-  const { loading: peopleLoading, people: peopleSearch } = usePeople(
-    searchKeyword || "_none_"
-  );
-  const { loading: loadingPublicPrograms, publicPrograms } =
-    usePublicProgramsKeywordSearch(searchKeyword || "_none_");
-  const { loading: loadingStoryBlogs, storyBlogs } = useStoryBlogs(
-    searchKeyword || "_none_"
-  );
+  const { loading: lb, storyBlogs } = useStoryBlogs(searchKeyword || "_none_");
 
-  const {
-    loading: loadingData,
-    error,
-    refetch,
-  } = useQuery(Component.query, {
-    variables: Component.variables({
-      searchKeyword: debouncedKeyword || "_none_",
-    }),
-    notifyOnNetworkStatusChange: true,
-    skip: debouncedKeyword.trim().length < 1,
-  });
+  const allLoaded = !la && !lp && !lpp && !lb;
 
-  const allLoaded =
-    !assetsLoading &&
-    !peopleLoading &&
-    !loadingPublicPrograms &&
-    !loadingStoryBlogs;
-
+  // Debounce input
   useEffect(() => {
-    const handler = setTimeout(() => {
-      if (searchKeyword?.trim() !== debouncedKeyword) {
+    const id = setTimeout(() => {
+      if (searchKeyword.trim() !== debouncedKeyword) {
         setDebouncedKeyword(searchKeyword);
       }
     }, 300);
-    return () => clearTimeout(handler);
+    return () => clearTimeout(id);
   }, [searchKeyword]);
 
+  // Refetch GraphQL
+  const { refetch } = useQuery(Component.query, {
+    variables: Component.variables({
+      searchKeyword: debouncedKeyword || "_none_",
+    }),
+    skip: debouncedKeyword.trim().length < 1,
+  });
   useEffect(() => {
-    if (debouncedKeyword.trim().length > 0) {
-      refetch();
-    }
+    if (debouncedKeyword.trim()) refetch();
   }, [debouncedKeyword, refetch]);
 
+  // Combine raw results & annotate filterProps
   useEffect(() => {
-    if (allLoaded) {
-      const combined = [
-        ...assetSearch,
-        ...peopleSearch,
-        ...publicPrograms,
-        ...storyBlogs,
-      ];
-      setUnfilteredResults(combined);
-      setResults(combined);
-    }
-  }, [allLoaded, assetSearch, peopleSearch, publicPrograms, storyBlogs]);
+    if (!allLoaded) return;
+    const combined = [
+      ...assetPosts,
+      ...people,
+      ...publicPrograms,
+      ...storyBlogs,
+    ].map((item) => {
+      const node = item.node || item;
+      const filterProps = FILTER_KEYS.reduce((acc, key) => {
+        acc[key] = getFilterValues(node, key);
 
+        return acc;
+      }, {});
+
+      return { ...item, filterProps };
+    });
+    setUnfilteredResults(combined);
+  }, [allLoaded, assetPosts, people, publicPrograms, storyBlogs]);
+
+  // Compute filtered results
+  const filteredResults = useMemo(() => {
+    if (!unfilteredResults.length) return [];
+    return applyFilters(unfilteredResults, selectedItems);
+  }, [unfilteredResults, selectedItems]);
+
+  // Hydrate state from URL
   useEffect(() => {
-    if (typeof query.keyword === "string" && query.keyword.trim() !== "") {
+    if (typeof query.keyword === "string" && query.keyword.trim()) {
       setSearchKeyword(query.keyword);
     }
     if (query.filters) {
       try {
-        const parsed = JSON.parse(query.filters);
-        setSelectedItems(parsed);
-      } catch (e) {
-        console.error("Invalid filters in URL", e);
-      }
+        setSelectedItems(JSON.parse(query.filters));
+      } catch {}
     }
   }, [query.keyword, query.filters]);
 
-  if (loadingSettings || loadingMenus) return <LoadingPage stroke="#808080" />;
+  if (ls || lm) return <LoadingPage stroke="#808080" />;
 
   return (
     <>
@@ -138,7 +198,7 @@ export default function Component() {
         title={generalSettings.title}
         description={generalSettings.description}
         menuItems={menus}
-        currentRoute={"/search"}
+        currentRoute="/search"
         isNavShown={isNavShown}
         setIsNavShown={setIsNavShown}
       />
@@ -148,47 +208,50 @@ export default function Component() {
             searchKeyword={searchKeyword}
             setSearchKeyword={setSearchKeyword}
             debouncedKeyword={debouncedKeyword}
-            setResults={setResults}
-            results={results}
+            setResults={() => {}}
+            results={unfilteredResults}
             allLoaded={allLoaded}
             selectedItems={selectedItems}
             setSelectedItems={setSelectedItems}
             unfilteredResults={unfilteredResults}
+            isFrontPage={false}
           />
           <Main>
             <Container>
               <div className="Search">
                 <div className="results">
                   <h1>
-                    {!allLoaded && "Searching for "}
-                    {allLoaded && "Results for "}"{searchKeyword}"{" "}
-                    <small>{results.length} result(s)</small>
+                    {!allLoaded ? (
+                      <>Searching for "{searchKeyword}"</>
+                    ) : (
+                      <>
+                        Results for "{searchKeyword}"{" "}
+                        <small>{filteredResults.length} result(s)</small>
+                      </>
+                    )}
                   </h1>
                   {!allLoaded && (
                     <div className="search-result-loading-icon">
                       <LoadingIcons.Grid stroke="#808080" fill="#808080" />
                     </div>
                   )}
-                  {allLoaded && results.length <= 0 && (
+                  {allLoaded && filteredResults.length === 0 && (
                     <div>No results for "{searchKeyword}"</div>
                   )}
-                  {results.length > 0 && (
+                  {filteredResults.length > 0 && (
                     <div className="results-container">
-                      {results.map((result, index) => {
-                        const key = `${
-                          result.__typename || result.node?.__typename
-                        }-${index}`;
-                        const node = result.node || result;
-
-                        if (node.__typename === "Asset_post")
+                      {filteredResults.map((res, i) => {
+                        const node = res?.node || res;
+                        const key = `${node?.__typename}-${i}`;
+                        if (node?.__typename === "Asset_post")
                           return (
                             <AssetSearchResultCard key={key} node={node} />
                           );
-                        if (node.__typename === "Person")
+                        if (node?.__typename === "Person")
                           return (
                             <PersonSearchResultCard key={key} node={node} />
                           );
-                        if (node.__typename === "PublicProgram")
+                        if (node?.__typename === "PublicProgram")
                           return (
                             <AssetSearchResultCard
                               key={key}
@@ -196,7 +259,7 @@ export default function Component() {
                               isPublicProgram
                             />
                           );
-                        if (node.__typename === "StoryBlogPost")
+                        if (node?.__typename === "StoryBlogPost")
                           return (
                             <AssetSearchResultCard
                               key={key}
@@ -204,7 +267,6 @@ export default function Component() {
                               isWPAStory
                             />
                           );
-
                         return null;
                       })}
                     </div>
@@ -215,20 +277,24 @@ export default function Component() {
                   <a href="#" className="pagination-btn">
                     <Image src={PREV_BTN_DARK} alt="previous results" />
                   </a>
-                  {divideAndCreatePaginationArray(results.length).map(
-                    (pageNum) => (
-                      <a
-                        key={`page-${pageNum}`}
-                        href="#"
-                        className={`page-number-btn ${
-                          currentPage === pageNum ? "current-page" : ""
-                        }`}
-                        onClick={(e) => applyPageChange(pageNum, e)}
-                      >
-                        {pageNum}
-                      </a>
-                    )
-                  )}
+                  {Array.from(
+                    { length: Math.ceil(filteredResults.length / 16) },
+                    (_, i) => i + 1
+                  ).map((pageNum) => (
+                    <a
+                      key={`page-${pageNum}`}
+                      href="#"
+                      className={`${
+                        currentPage === pageNum ? "current-page" : ""
+                      } page-number-btn`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setCurrentPage(pageNum);
+                      }}
+                    >
+                      {pageNum}
+                    </a>
+                  ))}
                   <a href="#" className="pagination-btn">
                     <Image src={NEXT_BTN} alt="more results" />
                   </a>
@@ -265,7 +331,6 @@ Component.query = gql`
     }
   }
 `;
-
 Component.variables = () => ({
   headerLocation: MENUS.PRIMARY_LOCATION,
   footerLocation: MENUS.FOOTER_LOCATION,

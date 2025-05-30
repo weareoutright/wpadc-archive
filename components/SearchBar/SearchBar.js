@@ -99,9 +99,9 @@ export default function SearchBar({
     );
 
     results?.forEach((result) => {
-      const node = result.node || result;
+      const node = result?.node || result;
 
-      if (node.__typename === "Asset_post") {
+      if (node?.__typename === "Asset_post") {
         const card = node.assetCard?.assetCard?.[0];
         if (card?.startDate)
           yearFilter.dropdownItems.push(new Date(card.startDate).getFullYear());
@@ -122,18 +122,18 @@ export default function SearchBar({
         if (card?.location) locationFilter.dropdownItems.push(card.location);
       }
 
-      if (node.__typename === "Person") {
+      if (node?.__typename === "Person") {
         peopleFilter.dropdownItems.push(node.title);
         const loc = node.personCard?.personInfo?.[0]?.location;
         if (loc) locationFilter.dropdownItems.push(loc);
       }
 
-      if (node.__typename === "PublicProgram") {
+      if (node?.__typename === "PublicProgram") {
         const events = node.programCard?.programCard?.[0]?.eventType;
         projectTypeFilter.dropdownItems.push(...(events || []));
       }
 
-      if (node.__typename === "StoryBlogPost") {
+      if (node?.__typename === "StoryBlogPost") {
         if (node.date)
           yearFilter.dropdownItems.push(new Date(node.date).getFullYear());
         const author = node.storyBlocks?.mainContent?.[0]?.author;
@@ -162,9 +162,12 @@ export default function SearchBar({
 
   useEffect(() => {
     if (!unfilteredResults?.length) return;
+
     let filtered = [...unfilteredResults];
 
     Object.entries(selectedItems).forEach(([key, values]) => {
+      if (!values?.length) return;
+
       filtered = filtered.filter((item) => {
         const node = item.node || item;
 
@@ -188,6 +191,26 @@ export default function SearchBar({
             node?.assetCard?.assetCard?.[0]?.location ||
             node?.personCard?.personInfo?.[0]?.location;
           return values.includes(loc);
+        }
+
+        if (key === "Role") {
+          const roles =
+            node?.assetCard?.assetCard?.[0]?.artists?.[0]?.collaborator?.edges?.flatMap(
+              (e) =>
+                e.node?.personCard?.personInfo?.[0]?.roleType?.edges?.map(
+                  (r) => r.node.title
+                ) || []
+            ) || [];
+          return roles.some((r) => values.includes(r));
+        }
+
+        if (key === "Document Type" || key === "Project Type") {
+          const types =
+            node?.assetCard?.assetCard?.[0]?.type?.[0]?.type?.edges?.map(
+              (e) => e.node.title
+            ) || [];
+
+          return types.some((t) => values.includes(t));
         }
 
         return true;
