@@ -1,5 +1,25 @@
 # Search Functionality Review & Completion Plan
 
+## Table of Contents
+
+- [Current State Analysis](#current-state-analysis)
+  - [Architecture Overview](#architecture-overview)
+  - [Current Implementation Files](#current-implementation-files)
+  - [Strengths of Current Approach](#strengths-of-current-approach)
+  - [Critical Issues Identified](#critical-issues-identified)
+  - [Development History & Investment](#development-history--investment)
+  - [Technical Debt Assessment](#technical-debt-assessment)
+- [Search Completion Plan](#search-completion-plan)
+  - [Phase 1: Core Fixes (Critical)](#phase-1-core-fixes-critical)
+  - [Phase 2: Filter System (High Priority)](#phase-2-filter-system-high-priority)
+  - [Phase 3: Performance & UX (Medium Priority)](#phase-3-performance--ux-medium-priority)
+  - [Phase 4: Enhanced Features (Low Priority)](#phase-4-enhanced-features-low-priority)
+  - [Total Time Estimates (REVISED)](#total-time-estimates-revised)
+  - [Recommended Approach](#recommended-approach)
+- [Current Issues Identified](#current-issues-identified)
+- [Collaboration Model: Claude + Developer](#collaboration-model-claude--developer)
+- [Progress Update: Recent Implementation](#progress-update-recent-implementation-may-29-30-2025)
+
 ## Current State Analysis
 
 ### Architecture Overview
@@ -314,7 +334,7 @@ The foundation is solid but needs consolidation and completion of planned featur
 
 This collaborative approach typically reduces development time by 60-70% compared to solo development while maintaining high code quality and thorough testing.
 
-## Progress Update: Dakota's Recent Implementation (May 29-30, 2025)
+## Progress Update: Recent Implementation (May 29-30, 2025)
 
 ### Actual Development Timeline Analysis
 
