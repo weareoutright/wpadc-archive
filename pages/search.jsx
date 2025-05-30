@@ -1,3 +1,4 @@
+// --- search.jsx ---
 import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
@@ -36,13 +37,14 @@ export default function Component() {
   const { query } = router;
 
   const [searchKeyword, setSearchKeyword] = useState("");
-  const [debouncedKeyword, setDebouncedKeyword] = useState(searchKeyword);
+  const [debouncedKeyword, setDebouncedKeyword] = useState("");
   const [results, setResults] = useState([]);
+  const [unfilteredResults, setUnfilteredResults] = useState([]);
+  const [selectedItems, setSelectedItems] = useState({});
 
   const applyPageChange = (pageNum, e) => {
     e.preventDefault();
     setCurrentPage(pageNum);
-    // TODO: add query param updates if needed
   };
 
   const divideAndCreatePaginationArray = (num) => {
@@ -50,37 +52,19 @@ export default function Component() {
     return Array.from({ length: pages }, (_, i) => i + 1);
   };
 
-  const {
-    loading: loadingSettings,
-    error: errorSettings,
-    generalSettings,
-  } = useGeneralSettings();
-
-  const { loading: loadingMenus, error: errorMenus, menus } = useHeaderMenu();
-
-  const {
-    loading: assetsLoading,
-    error: assetsError,
-    assetPosts: assetSearch,
-  } = useAssets(searchKeyword || "_none_");
-
-  const {
-    loading: peopleLoading,
-    error: peopleError,
-    people: peopleSearch,
-  } = usePeople(searchKeyword || "_none_");
-
-  const {
-    loading: loadingPublicPrograms,
-    error: errorPublicPrograms,
-    publicPrograms,
-  } = usePublicProgramsKeywordSearch(searchKeyword || "_none_");
-
-  const {
-    loading: loadingStoryBlogs,
-    error: errorStoryBlogs,
-    storyBlogs,
-  } = useStoryBlogs(searchKeyword || "_none_");
+  const { loading: loadingSettings, generalSettings } = useGeneralSettings();
+  const { loading: loadingMenus, menus } = useHeaderMenu();
+  const { loading: assetsLoading, assetPosts: assetSearch } = useAssets(
+    searchKeyword || "_none_"
+  );
+  const { loading: peopleLoading, people: peopleSearch } = usePeople(
+    searchKeyword || "_none_"
+  );
+  const { loading: loadingPublicPrograms, publicPrograms } =
+    usePublicProgramsKeywordSearch(searchKeyword || "_none_");
+  const { loading: loadingStoryBlogs, storyBlogs } = useStoryBlogs(
+    searchKeyword || "_none_"
+  );
 
   const {
     loading: loadingData,
@@ -100,9 +84,6 @@ export default function Component() {
     !loadingPublicPrograms &&
     !loadingStoryBlogs;
 
-  const primaryMenu = menus;
-
-  // Update debouncedKeyword after 300ms delay
   useEffect(() => {
     const handler = setTimeout(() => {
       if (searchKeyword?.trim() !== debouncedKeyword) {
@@ -112,38 +93,40 @@ export default function Component() {
     return () => clearTimeout(handler);
   }, [searchKeyword]);
 
-  // Refetch on debounced keyword change
   useEffect(() => {
     if (debouncedKeyword.trim().length > 0) {
       refetch();
     }
   }, [debouncedKeyword, refetch]);
 
-  // Populate results once all are loaded
   useEffect(() => {
     if (allLoaded) {
-      setResults([
+      const combined = [
         ...assetSearch,
         ...peopleSearch,
         ...publicPrograms,
         ...storyBlogs,
-      ]);
+      ];
+      setUnfilteredResults(combined);
+      setResults(combined);
     }
   }, [allLoaded, assetSearch, peopleSearch, publicPrograms, storyBlogs]);
 
-  // Sync keyword from router query
   useEffect(() => {
-    if (query.keyword && query.keyword !== searchKeyword) {
+    if (typeof query.keyword === "string" && query.keyword.trim() !== "") {
       setSearchKeyword(query.keyword);
     }
-  }, [query.keyword]);
+    if (query.filters) {
+      try {
+        const parsed = JSON.parse(query.filters);
+        setSelectedItems(parsed);
+      } catch (e) {
+        console.error("Invalid filters in URL", e);
+      }
+    }
+  }, [query.keyword, query.filters]);
 
   if (loadingSettings || loadingMenus) return <LoadingPage stroke="#808080" />;
-  if (errorSettings || errorMenus || error) {
-    console.error("Settings ERROR:", errorSettings?.message);
-    console.error("Menus ERROR:", errorMenus?.message);
-    console.error("Data ERROR:", error?.message);
-  }
 
   return (
     <>
@@ -154,7 +137,7 @@ export default function Component() {
       <Header
         title={generalSettings.title}
         description={generalSettings.description}
-        menuItems={primaryMenu}
+        menuItems={menus}
         currentRoute={"/search"}
         isNavShown={isNavShown}
         setIsNavShown={setIsNavShown}
@@ -168,6 +151,9 @@ export default function Component() {
             setResults={setResults}
             results={results}
             allLoaded={allLoaded}
+            selectedItems={selectedItems}
+            setSelectedItems={setSelectedItems}
+            unfilteredResults={unfilteredResults}
           />
           <Main>
             <Container>
@@ -175,82 +161,50 @@ export default function Component() {
                 <div className="results">
                   <h1>
                     {!allLoaded && "Searching for "}
-                    {allLoaded && "Results for "}"{searchKeyword || ""}"{" "}
-                    <small>
-                      {results.length}{" "}
-                      {results.length === 1 ? "result" : "results"}
-                    </small>
+                    {allLoaded && "Results for "}"{searchKeyword}"{" "}
+                    <small>{results.length} result(s)</small>
                   </h1>
-
-                  {results.length <= 0 && searchKeyword === "" && (
-                    <div className="results-container-placeholder"> </div>
-                  )}
                   {!allLoaded && (
                     <div className="search-result-loading-icon">
-                      <LoadingIcons.Grid
-                        stroke="#808080"
-                        strokeOpacity={1}
-                        fill="#808080"
-                        fillOpacity={1}
-                      />
+                      <LoadingIcons.Grid stroke="#808080" fill="#808080" />
                     </div>
                   )}
                   {allLoaded && results.length <= 0 && (
                     <div>No results for "{searchKeyword}"</div>
                   )}
-                  {results.length > 0 && searchKeyword !== "" && (
+                  {results.length > 0 && (
                     <div className="results-container">
                       {results.map((result, index) => {
-                        if (
-                          result.__typename === "Asset_post" ||
-                          result.__typename ===
-                            "RootQueryToAsset_postConnection"
-                        ) {
+                        const key = `${
+                          result.__typename || result.node?.__typename
+                        }-${index}`;
+                        const node = result.node || result;
+
+                        if (node.__typename === "Asset_post")
+                          return (
+                            <AssetSearchResultCard key={key} node={node} />
+                          );
+                        if (node.__typename === "Person")
+                          return (
+                            <PersonSearchResultCard key={key} node={node} />
+                          );
+                        if (node.__typename === "PublicProgram")
                           return (
                             <AssetSearchResultCard
-                              key={`asset-card-${index}`}
-                              node={result}
-                            />
-                          );
-                        }
-                        if (
-                          result.__typename === "Person" ||
-                          result.__typename ===
-                            "RootQueryToPersonConnectionEdge"
-                        ) {
-                          return (
-                            <PersonSearchResultCard
-                              key={`person-card-${index}`}
-                              node={result}
-                            />
-                          );
-                        }
-                        if (
-                          result.node?.__typename === "PublicProgram" ||
-                          result.__typename ===
-                            "RootQueryToPublicProgramConnectionEdge"
-                        ) {
-                          return (
-                            <AssetSearchResultCard
-                              key={`public-program-card-${index}`}
-                              node={result}
+                              key={key}
+                              node={node}
                               isPublicProgram
                             />
                           );
-                        }
-                        if (
-                          result.node?.__typename === "StoryBlogPost" ||
-                          result.__typename ===
-                            "RootQueryToStoryBlogPostConnectionEdge"
-                        ) {
+                        if (node.__typename === "StoryBlogPost")
                           return (
                             <AssetSearchResultCard
-                              key={`story-blog-card-${index}`}
-                              node={result}
+                              key={key}
+                              node={node}
                               isWPAStory
                             />
                           );
-                        }
+
                         return null;
                       })}
                     </div>

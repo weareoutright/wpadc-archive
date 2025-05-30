@@ -10,7 +10,7 @@ const cx = classNames.bind(styles);
 const FilterBtn = ({
   filterText,
   dropdownItems,
-  selectedItems,
+  selectedItems = {},
   setSelectedItems,
   activeItems,
   setActiveItems,
@@ -77,6 +77,8 @@ const FilterBtn = ({
   }, {});
 
   useEffect(() => {
+    if (!selectedItems) return;
+
     if (Object.keys(selectedItems).length <= 0 && activeItems.length <= 0) {
       setMainDropdownOpen(false);
     }

@@ -5,9 +5,10 @@ import Image from "next/image";
 let cx = classNames.bind(styles);
 
 const PersonSearchResultCard = ({ node }) => {
+  console.log(node);
   return (
-    <div key={node.node.id} className={cx("AssetCard")}>
-      <a href={node.node.uri} className={cx("asset-link")}>
+    <div key={node.id} className={cx("AssetCard")}>
+      <a href={node.uri} className={cx("asset-link")}>
         {node.personCard?.personInfo[0].headshot ? (
           <Image
             src={node.personCard?.personInfo[0].headshot?.node.sourceUrl}
@@ -28,7 +29,7 @@ const PersonSearchResultCard = ({ node }) => {
           />
         )}
 
-        <h3>{node.node.title}</h3>
+        <h3>{node.title}</h3>
       </a>
     </div>
   );

@@ -18,22 +18,65 @@ export default function SearchBar({
   searchKeyword,
   setSearchKeyword,
   debouncedKeyword,
-  isFrontPage,
   setResults,
   results,
   allLoaded,
+  selectedItems = {},
+  setSelectedItems,
+  unfilteredResults,
+  isFrontPage,
 }) {
   const router = useRouter();
   const { keyword } = router.query;
 
-  const [localKeyword, setLocalKeyword] = useState(debouncedKeyword || "");
+  const [localKeyword, setLocalKeyword] = useState(searchKeyword || "");
   const [filterButtons, setFilterButtons] = useState(
     JSON.parse(JSON.stringify(FILTER_PILL_BTNS_DEFAULT))
   );
-  const [selectedItems, setSelectedItems] = useState({});
   const [activeItems, setActiveItems] = useState([]);
 
-  const getDropdownItems = (resultsArr) => {
+  useEffect(() => {
+    if (
+      typeof keyword === "string" &&
+      keyword.trim() !== "" &&
+      keyword !== localKeyword
+    ) {
+      setLocalKeyword(keyword);
+    }
+  }, [keyword]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (localKeyword !== searchKeyword) {
+        setSearchKeyword(localKeyword);
+      }
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [localKeyword]);
+
+  useEffect(() => {
+    if (!selectedItems || typeof selectedItems !== "object") return;
+
+    const newQuery = {
+      ...router.query, // preserve existing query values like `keyword`
+      filters:
+        Object.keys(selectedItems).length > 0
+          ? JSON.stringify(selectedItems)
+          : undefined, // remove filters param if empty
+    };
+
+    router.replace(
+      {
+        pathname: "/search",
+        query: newQuery,
+      },
+      undefined,
+      { shallow: true }
+    );
+  }, [selectedItems]);
+
+  useEffect(() => {
+    if (results?.length <= 0) return;
     const updatedFilters = JSON.parse(JSON.stringify(FILTER_PILL_BTNS_DEFAULT));
 
     const yearFilter = updatedFilters.find((f) => f.filterText === "Year");
@@ -49,61 +92,47 @@ export default function SearchBar({
       (f) => f.filterText === "Location"
     );
 
-    resultsArr?.forEach((result) => {
-      if (result.__typename === "Asset_post") {
-        const card = result.assetCard.assetCard?.[0];
+    results.forEach((result) => {
+      const node = result.node || result;
 
-        if (yearFilter && card?.startDate) {
+      if (node.__typename === "Asset_post") {
+        const card = node.assetCard?.assetCard?.[0];
+        if (card?.startDate)
           yearFilter.dropdownItems.push(new Date(card.startDate).getFullYear());
-        }
 
-        const peopleEdges = card?.artists?.[0]?.collaborator?.edges;
-        peopleEdges?.forEach((person) => {
-          peopleFilter?.dropdownItems.push(person.node.title);
-
-          const roles =
-            person.node.personCard?.personInfo?.[0]?.roleType?.edges;
-          roles?.forEach((role) => {
-            roleFilter?.dropdownItems.push(role.node.title);
-          });
+        const people = card?.artists?.[0]?.collaborator?.edges;
+        people?.forEach((p) => {
+          peopleFilter.dropdownItems.push(p.node.title);
+          const roles = p.node.personCard?.personInfo?.[0]?.roleType?.edges;
+          roles?.forEach((r) => roleFilter.dropdownItems.push(r.node.title));
         });
 
         const types = card?.type?.[0]?.type?.edges;
-        types?.forEach((type) => {
-          projectTypeFilter?.dropdownItems.push(type.node.title);
-          documentTypeFilter?.dropdownItems.push(type.node.title);
+        types?.forEach((t) => {
+          documentTypeFilter.dropdownItems.push(t.node.title);
+          projectTypeFilter.dropdownItems.push(t.node.title);
         });
 
-        if (card?.location) {
-          locationFilter?.dropdownItems.push(card.location);
-        }
+        if (card?.location) locationFilter.dropdownItems.push(card.location);
       }
 
-      if (result.__typename === "RootQueryToPersonConnectionEdge") {
-        peopleFilter?.dropdownItems.push(result.node.title);
-        const location = result.node.personCard?.personInfo?.[0]?.location;
-        if (location) locationFilter?.dropdownItems.push(location);
+      if (node.__typename === "Person") {
+        peopleFilter.dropdownItems.push(node.title);
+        const loc = node.personCard?.personInfo?.[0]?.location;
+        if (loc) locationFilter.dropdownItems.push(loc);
       }
 
-      if (result.__typename === "RootQueryToPublicProgramConnectionEdge") {
-        const events = result.node.programCard.programCard?.[0]?.eventType;
-        projectTypeFilter?.dropdownItems.push(...events);
+      if (node.__typename === "PublicProgram") {
+        const events = node.programCard?.programCard?.[0]?.eventType;
+        projectTypeFilter.dropdownItems.push(...(events || []));
       }
 
-      if (result.__typename === "RootQueryToStoryBlogPostConnectionEdge") {
-        if (yearFilter && result.node.date) {
-          yearFilter.dropdownItems.push(
-            new Date(result.node.date).getFullYear()
-          );
-        }
-
-        if (peopleFilter && result.node.storyBlocks?.mainContent?.[0]?.author) {
-          peopleFilter.dropdownItems.push(
-            result.node.storyBlocks.mainContent[0].author
-          );
-        }
-
-        roleFilter?.dropdownItems.push("Author");
+      if (node.__typename === "StoryBlogPost") {
+        if (node.date)
+          yearFilter.dropdownItems.push(new Date(node.date).getFullYear());
+        const author = node.storyBlocks?.mainContent?.[0]?.author;
+        if (author) peopleFilter.dropdownItems.push(author);
+        roleFilter.dropdownItems.push("Author");
       }
     });
 
@@ -112,45 +141,58 @@ export default function SearchBar({
     });
 
     setFilterButtons(updatedFilters);
-  };
+  }, [results]);
 
-  const applyFilters = () => {
-    console.log("Filters applied");
-  };
+  useEffect(() => {
+    setActiveItems(Object.keys(selectedItems || {}));
+  }, [selectedItems]);
+
+  useEffect(() => {
+    if (!unfilteredResults?.length) return;
+    let filtered = [...unfilteredResults];
+
+    Object.entries(selectedItems).forEach(([key, values]) => {
+      filtered = filtered.filter((item) => {
+        const node = item.node || item;
+
+        if (key === "Year") {
+          const year = node?.assetCard?.assetCard?.[0]?.startDate
+            ? new Date(node.assetCard.assetCard[0].startDate).getFullYear()
+            : null;
+          return values.includes(year);
+        }
+
+        if (key === "People") {
+          const people =
+            node?.assetCard?.assetCard?.[0]?.artists?.[0]?.collaborator?.edges?.map(
+              (e) => e.node.title
+            ) || [];
+          return people.some((p) => values.includes(p));
+        }
+
+        if (key === "Location") {
+          const loc =
+            node?.assetCard?.assetCard?.[0]?.location ||
+            node?.personCard?.personInfo?.[0]?.location;
+          return values.includes(loc);
+        }
+
+        return true;
+      });
+    });
+
+    setResults(filtered);
+  }, [selectedItems, unfilteredResults]);
 
   const clearFilters = () => {
     setSelectedItems({});
     setActiveItems([]);
   };
 
-  useEffect(() => {
-    if (keyword !== undefined && keyword !== localKeyword) {
-      setLocalKeyword(keyword);
-    }
-  }, [keyword]);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (localKeyword !== searchKeyword) {
-        setSearchKeyword(localKeyword);
-      }
-    }, 300);
-    return () => clearTimeout(timer);
-  }, [localKeyword, searchKeyword, setSearchKeyword]);
-
-  const handleSearch = (e) => {
-    setLocalKeyword(e.target.value);
-  };
-
   const performSearch = useCallback(() => {
     if (!localKeyword.trim()) return;
-
-    if (results?.length > 0) {
-      setResults([]);
-    }
-
+    setResults([]);
     setFilterButtons(JSON.parse(JSON.stringify(FILTER_PILL_BTNS_DEFAULT)));
-
     router.replace(
       {
         pathname: "/search",
@@ -159,7 +201,9 @@ export default function SearchBar({
       undefined,
       { shallow: true }
     );
-  }, [localKeyword, results, router, setResults]);
+  }, [localKeyword]);
+
+  const handleSearch = (e) => setLocalKeyword(e.target.value);
 
   const removeItem = (itemToRemove) => {
     setActiveItems((prev) => prev.filter((item) => item !== itemToRemove));
@@ -169,15 +213,6 @@ export default function SearchBar({
       return updated;
     });
   };
-
-  useEffect(() => {
-    setActiveItems([...Object.keys(selectedItems)]);
-  }, [selectedItems]);
-
-  useEffect(() => {
-    if (results?.length <= 0) return;
-    getDropdownItems(results);
-  }, [results, allLoaded]);
 
   return (
     <div className={`search-bar ${isFrontPage ? "front-page-search-bar" : ""}`}>
@@ -253,20 +288,6 @@ export default function SearchBar({
         <div className="apply-and-clear-all-btn">
           <a href="#" onClick={clearFilters} className="clear-all-btn">
             Clear all
-          </a>
-          <a
-            className="pill-btn apply-btn"
-            href="#"
-            alt="apply filters"
-            onClick={applyFilters}
-          >
-            Apply{" "}
-            <Image
-              src={RIGHT_ARROW}
-              alt="apply filters"
-              height={15}
-              width={15}
-            />
           </a>
         </div>
       </div>
