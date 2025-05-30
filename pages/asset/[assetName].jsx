@@ -41,18 +41,6 @@ const AssetPage = () => {
     return <LoadingPage stroke="#FFF" />;
   }
 
-  // if (error) {
-  //   return <div className="AssetPage">Error: {error.message}</div>;
-  // }
-
-  // if (!assetPostBySlug) {
-  //   return <div className="AssetPage">No asset found for this URI.</div>;
-  // }
-
-  // const description = parse(assetPostBySlug?.assetCard?.assetCard?.[0]?.description || "");
-
-  // storyBlogData?.storyBlocks?.related?.flatMap((item) => item.relatedItem.nodes) ?? [];
-
   const assetTitle = assetPostBySlug?.title || "";
 
   const assetCard = assetPostBySlug?.assetCard?.assetCard?.[0];

@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useGeneralSettings } from "../../constants/customQueryHooks";
 import { useHeaderMenu } from "../../constants/customQueryHooks";
 import {

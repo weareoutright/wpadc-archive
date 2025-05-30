@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import useAssetsBySlug from "../../constants/customQueryHooks/useAssetsBySlug";
 import { useRouter } from "next/router";
 import {
   SEO,

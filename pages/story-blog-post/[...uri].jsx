@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import useAssetsBySlug from "../../constants/customQueryHooks/useAssetsBySlug";
 import useStoryBlogsBySlug from "../../constants/customQueryHooks/useStoryBlogsBySlug";
 import { useRouter } from "next/router";
 import {
@@ -9,7 +8,6 @@ import {
   Container,
   Footer,
   RelatedSection,
-  ContentWrapper,
   LoadingPage,
 } from "../../components";
 import {
@@ -19,7 +17,6 @@ import {
 import DEFAULT_IMAGE from "../../assets/checked-bg-minimal-content.png";
 import Image from "next/image";
 import parse from "html-react-parser";
-import usePublicProgramsBySlug from "../../constants/customQueryHooks/usePublicProgramsBySlug";
 
 const StoryPage = () => {
   const isStoryPage = true;

@@ -145,19 +145,6 @@ export default function Component() {
           </div>
           <Main>
             <Container>
-              {/*Staff and Board Members - current decades*/}
-              {/*<div className="People">*/}
-              {/*  /!*<h1>People</h1>*!/*/}
-              {/*  {loadingRoleGroups*/}
-              {/*      ? "Loading..."*/}
-              {/*      : roleTypeOrganizer.visibleRoleTypes.map((role) => {*/}
-              {/*        const roleGroupComponent = roleTypeOrganizer[role](*/}
-              {/*            roleGroups[role]*/}
-              {/*        );*/}
-              {/*        return roleGroupComponent;*/}
-              {/*      })}*/}
-              {/*</div>*/}
-              {/*Staff and Board Members - past decades*/}
               <div className={"decades-list"}>
                 {decades.map((decade) => (
                   <div key={decade.id} id={decade.decadeId}>
