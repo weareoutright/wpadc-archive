@@ -4,6 +4,14 @@ import Image from "next/image";
 
 let cx = className.bind(styles);
 
+const WPA_STORY_BORDER_COLOR_CLASSES = ["vermillion", "cyan", "indigo"];
+
+const getRandomColor = (arr) => {
+  if (!Array.isArray(arr) || arr.length === 0) return undefined;
+  const randomIndex = Math.floor(Math.random() * arr.length);
+  return arr[randomIndex];
+};
+
 const AssetSearchResultCard = ({
   node,
   isImageOnly = false,
@@ -31,11 +39,6 @@ const AssetSearchResultCard = ({
               "vermillion"
             )}
           />
-          {isWPAStory && (
-            <span className={cx("wpa-story-banner", "vermillion")}>
-              WPA Story
-            </span>
-          )}
         </a>
         <a href={`/asset/${slug}`} className={cx("asset-link")}>
           <h3>{title}</h3>
@@ -56,11 +59,7 @@ const AssetSearchResultCard = ({
             width={244}
             height={320}
             layout="fixed"
-            className={cx(
-              "asset-image",
-              isWPAStory && "wpa-story-border",
-              "vermillion"
-            )}
+            className={cx("asset-image")}
           />
         </a>
         <a href={`/public-programs/${slug}`} className={cx("asset-link")}>
@@ -70,6 +69,7 @@ const AssetSearchResultCard = ({
     );
   } else if (node && !isPublicProgram && isWPAStory) {
     const { id, title, uri } = node;
+    const borderColor = getRandomColor(WPA_STORY_BORDER_COLOR_CLASSES);
     return (
       <div key={`${title}-${id}`} className={cx("AssetCard", "wpa-story")}>
         <a href={uri} className={cx("asset-link")}>
@@ -82,11 +82,11 @@ const AssetSearchResultCard = ({
             className={cx(
               "asset-image",
               isWPAStory && "wpa-story-border",
-              "vermillion"
+              `${borderColor}`
             )}
           />
           {isWPAStory && (
-            <span className={cx("wpa-story-banner", "vermillion")}>
+            <span className={cx("wpa-story-banner", `${borderColor}`)}>
               WPA Story
             </span>
           )}
