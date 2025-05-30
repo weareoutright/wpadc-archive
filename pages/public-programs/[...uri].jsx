@@ -15,17 +15,13 @@ import {
   useGeneralSettings,
   useHeaderMenu,
 } from "../../constants/customQueryHooks";
-import usePersonBySlug from "../../constants/customQueryHooks/usePersonBySlug";
 import usePublicProgramsBySlug from "../../constants/customQueryHooks/usePublicProgramsBySlug";
 import parse from "html-react-parser";
 
-
-export default function PublicProgramsPage () {
+export default function PublicProgramsPage() {
   const router = useRouter();
   const { uri } = router.query;
   const [isNavShown, setIsNavShown] = useState(false);
-
-  // const { loading, error, assetPostBySlug } = useAssetsBySlug(uri?.join("/"));
 
   const {
     loading: loadingSettings,
@@ -41,16 +37,18 @@ export default function PublicProgramsPage () {
     publicProgram: publicProgramData,
   } = usePublicProgramsBySlug(uri?.join("/"));
 
-  console.log('Public Prog', publicProgramData?.programCard?.programCard?.[0]);
+  console.log("Public Prog", publicProgramData?.programCard?.programCard?.[0]);
 
   const programCard = publicProgramData?.programCard?.programCard?.[0];
 
-    // Transform the eyebrow URI if it exists
-    const eyebrowData = programCard?.eyebrow?.nodes?.[0];
-    const transformedEyebrowData = eyebrowData ? {
-      ...eyebrowData,
-      uri: eyebrowData.uri?.replace('/public-program/', '/public-programs/')
-    } : null;
+  // Transform the eyebrow URI if it exists
+  const eyebrowData = programCard?.eyebrow?.nodes?.[0];
+  const transformedEyebrowData = eyebrowData
+    ? {
+        ...eyebrowData,
+        uri: eyebrowData.uri?.replace("/public-program/", "/public-programs/"),
+      }
+    : null;
 
   // if (loading) {
   //   return <div className="AssetPage">Loading...</div>;
@@ -82,33 +80,36 @@ export default function PublicProgramsPage () {
           <Main>
             <Container>
               {publicProgramData && !loadingPublicProgram && (
-                  <div className="AssetPage">
-                    <ContainerHeader
-                        pageType="public-programs"
-                        programName={publicProgramData?.title}
-                        parentLink={transformedEyebrowData}
-                        description={parse(programCard?.description || "")}
-                        tagsArr={programCard?.tags?.nodes}
-                        dateBegin={programCard?.startDate}
-                        dateEnd={programCard?.endDate}
-                        type={programCard?.type?.nodes?.map((node) => node?.title)
-                            ?.filter(Boolean)
-                            ?.map((title) =>
-                                title
-                                    .toLowerCase()
-                                    .replace(/\b\w/g, (char) => char.toUpperCase())
-                            )
-                            .join(", ")}
-                        artistName={programCard?.artists?.nodes?.map((node) => node?.title)}
-                        location={programCard?.location}
-                    />
-                    <InThisProjectSection
-                        headerText="In This Series"
-                        itemsArr={null}
-                        frontPageCarousel={false}
-                    />
-                    <RelatedSection itemsArr={null} />
-                  </div>
+                <div className="AssetPage">
+                  <ContainerHeader
+                    pageType="public-programs"
+                    programName={publicProgramData?.title}
+                    parentLink={transformedEyebrowData}
+                    description={parse(programCard?.description || "")}
+                    tagsArr={programCard?.tags?.nodes}
+                    dateBegin={programCard?.startDate}
+                    dateEnd={programCard?.endDate}
+                    type={programCard?.type?.nodes
+                      ?.map((node) => node?.title)
+                      ?.filter(Boolean)
+                      ?.map((title) =>
+                        title
+                          .toLowerCase()
+                          .replace(/\b\w/g, (char) => char.toUpperCase())
+                      )
+                      .join(", ")}
+                    artistName={programCard?.artists?.nodes?.map(
+                      (node) => node?.title
+                    )}
+                    location={programCard?.location}
+                  />
+                  <InThisProjectSection
+                    headerText="In This Series"
+                    itemsArr={null}
+                    frontPageCarousel={false}
+                  />
+                  <RelatedSection itemsArr={null} />
+                </div>
               )}
             </Container>
           </Main>
@@ -117,4 +118,4 @@ export default function PublicProgramsPage () {
       )}
     </>
   );
-};
+}

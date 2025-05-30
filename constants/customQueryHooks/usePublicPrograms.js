@@ -7,6 +7,7 @@ const GET_PUBLIC_PROGRAMS_KEYWORD_SEARCH = gql`
         node {
           id
           title
+          slug
           programCard {
             programCard {
               ... on ProgramCardProgramCardProgramCardLayout {

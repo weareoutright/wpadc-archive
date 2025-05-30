@@ -106,6 +106,8 @@ export default function Component() {
     }
   }, [query.keyword]);
 
+  useAssets(() => {}, [results]);
+
   if (loadingSettings || loadingMenus) return null;
   if (errorSettings || errorMenus || error) {
     console.error("Settings ERROR:", errorSettings?.message);
