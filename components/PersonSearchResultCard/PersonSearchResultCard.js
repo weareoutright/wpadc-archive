@@ -8,7 +8,7 @@ const PersonSearchResultCard = ({ node }) => {
   return (
     <div key={node.id} className={cx("AssetCard")}>
       <a href={node.uri} className={cx("asset-link")}>
-        {node.personCard?.personInfo[0].headshot ? (
+        {node.personCard?.personInfo?.[0].headshot ? (
           <Image
             src={node.personCard?.personInfo[0].headshot?.node.sourceUrl}
             alt={node.personCard?.personInfo[0].headshot?.node.title}
