@@ -10,6 +10,7 @@ import {
   ContainerHeader,
   InThisProjectSection,
   RelatedSection,
+  LoadingPage,
 } from "../../components";
 import {
   useGeneralSettings,
@@ -37,8 +38,6 @@ export default function PublicProgramsPage() {
     publicProgram: publicProgramData,
   } = usePublicProgramsBySlug(uri?.join("/"));
 
-  console.log("Public Prog", publicProgramData?.programCard?.programCard?.[0]);
-
   const programCard = publicProgramData?.programCard?.programCard?.[0];
 
   // Transform the eyebrow URI if it exists
@@ -50,17 +49,7 @@ export default function PublicProgramsPage() {
       }
     : null;
 
-  // if (loading) {
-  //   return <div className="AssetPage">Loading...</div>;
-  // }
-
-  // if (error) {
-  //   return <div className="AssetPage">Error: {error.message}</div>;
-  // }
-
-  // if (!assetPostBySlug) {
-  //   return <div className="AssetPage">No asset found for this URI.</div>;
-  // }
+  if (loadingPublicProgram) return <LoadingPage stroke="#6741f5" />;
 
   return (
     <>

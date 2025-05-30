@@ -11,6 +11,7 @@ import {
   InThisProjectSection,
   RelatedSection,
   Footer,
+  LoadingPage,
 } from "../../components";
 import usePersonBySlug from "../../constants/customQueryHooks/usePersonBySlug";
 import useAllAssetsByArtist from "../../constants/customQueryHooks/useAllAssetsByArtist";
@@ -43,14 +44,13 @@ export default function PersonPage() {
     data: dataAssets,
   } = useAllAssetsByArtist(personName);
 
-  //   if (loading) {
-  //     return <div className="ArtistPage">Loading...</div>;
-  //   }
-  // console.log("data related", dataPerson?.personCard?.personInfo?.[0]?.related?.[0]?.relatedCard?.nodes ?? []);
+  const relatedItems =
+    dataPerson?.personCard?.personInfo?.[0]?.related?.flatMap(
+      (item) => item.relatedCard?.nodes
+    ) ?? [];
 
-  const relatedItems = dataPerson?.personCard?.personInfo?.[0]?.related?.flatMap((item) => item.relatedCard?.nodes) ?? [];
+  if (loadingAssets) return <LoadingPage stroke="#f63939" />;
 
-  // const relatedItems = dataPerson?.person?.related?
   return (
     <>
       <SEO
@@ -77,7 +77,7 @@ export default function PersonPage() {
                   // personName={dataPerson.personCard.personInfo[0].fullName}
                 />
               )}
-              <RelatedSection itemsArr={relatedItems}/>
+              <RelatedSection itemsArr={relatedItems} />
             </Container>
           </Main>
           <Footer title={generalSettings?.title} menuItems={null} />
