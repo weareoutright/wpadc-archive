@@ -9,6 +9,15 @@ const GET_STORY_BLOG_BY_KEYWORD = gql`
           id
           title
           uri
+          date
+          storyBlocks {
+            mainContent {
+              ... on StoryBlocksMainContentMainContentLayout {
+                author
+                date
+              }
+            }
+          }
         }
       }
     }

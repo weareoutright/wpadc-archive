@@ -54,6 +54,25 @@ const GET_ASSET = gql`
                       ... on Person {
                         id
                         title
+                        personCard {
+                          personInfo {
+                            ... on PersonCardPersonInfoPersonCardLayout {
+                              activeSinceYear
+                              bodyCopy
+                              roleType {
+                                edges {
+                                  node {
+                                    id
+                                    ... on PersonRoleType {
+                                      id
+                                      title
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
                       }
                     }
                   }
