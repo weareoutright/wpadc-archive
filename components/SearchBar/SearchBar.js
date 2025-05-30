@@ -92,7 +92,7 @@ export default function SearchBar({
       (f) => f.filterText === "Location"
     );
 
-    results.forEach((result) => {
+    results?.forEach((result) => {
       const node = result.node || result;
 
       if (node.__typename === "Asset_post") {

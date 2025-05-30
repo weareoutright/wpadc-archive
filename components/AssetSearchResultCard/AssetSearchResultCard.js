@@ -46,7 +46,7 @@ const AssetSearchResultCard = ({
       </div>
     );
   } else if (node && isPublicProgram && !isWPAStory) {
-    const { id, title, slug } = node.node;
+    const { id, title, slug } = node;
     return (
       <div key={`${title}-${id}`} className={cx("AssetCard")}>
         <a href={`/public-programs/${slug}`} className={cx("asset-link")}>
@@ -69,7 +69,7 @@ const AssetSearchResultCard = ({
       </div>
     );
   } else if (node && !isPublicProgram && isWPAStory) {
-    const { id, title, uri } = node.node;
+    const { id, title, uri } = node;
     return (
       <div key={`${title}-${id}`} className={cx("AssetCard", "wpa-story")}>
         <a href={uri} className={cx("asset-link")}>
