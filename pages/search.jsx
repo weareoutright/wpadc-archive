@@ -138,7 +138,7 @@ export default function Component() {
     }
   }, [query.keyword]);
 
-  if (loadingSettings || loadingMenus) return null;
+  if (loadingSettings || loadingMenus) return <LoadingPage stroke="#808080" />;
   if (errorSettings || errorMenus || error) {
     console.error("Settings ERROR:", errorSettings?.message);
     console.error("Menus ERROR:", errorMenus?.message);
