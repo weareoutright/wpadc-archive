@@ -63,25 +63,25 @@ export default function Component() {
     loading: assetsLoading,
     error: assetsError,
     assetPosts: assetSearch,
-  } = useAssets(searchKeyword);
+  } = useAssets(searchKeyword || "_none_");
 
   const {
     loading: peopleLoading,
     error: peopleError,
     people: peopleSearch,
-  } = usePeople(searchKeyword);
+  } = usePeople(searchKeyword || "_none_");
 
   const {
     loading: loadingPublicPrograms,
     error: errorPublicPrograms,
     publicPrograms,
-  } = usePublicProgramsKeywordSearch(searchKeyword);
+  } = usePublicProgramsKeywordSearch(searchKeyword || "_none_");
 
   const {
     loading: loadingStoryBlogs,
     error: errorStoryBlogs,
     storyBlogs,
-  } = useStoryBlogs(searchKeyword);
+  } = useStoryBlogs(searchKeyword || "_none_");
 
   const {
     loading: loadingData,
@@ -140,8 +140,6 @@ export default function Component() {
     console.error("Data ERROR:", error?.message);
   }
 
-  console.log("BLOGS", storyBlogs);
-
   return (
     <>
       <SEO
@@ -192,7 +190,7 @@ export default function Component() {
                       {results?.map((result, index) => {
                         if (
                           result.__typename === "Asset_post" ||
-                          result.node?.__typename ===
+                          result.__typename ===
                             "RootQueryToAsset_postConnection"
                         ) {
                           return (

@@ -159,7 +159,7 @@ export default function SearchBar({
             value={localKeyword}
             name="searchKeyword"
           />
-          {localKeyword !== "" && debouncedKeyword !== "" ? (
+          {localKeyword !== "" && debouncedKeyword !== "" && isFrontPage ? (
             <button type="submit" className="search-btn">
               <Image src={SEARCH_BTN} alt="search the archive" />
             </button>
