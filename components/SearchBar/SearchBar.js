@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import SEARCH_BTN from "../../assets/search-bar/search-icon.svg";
-import RIGHT_ARROW from "../../assets/icons/arrow-right-90-deg-white.svg";
 import FilterBtn from "../FilterBtn/FilterBtn";
 
 const FILTER_PILL_BTNS_DEFAULT = [
@@ -29,40 +28,47 @@ export default function SearchBar({
   const router = useRouter();
   const { keyword } = router.query;
 
-  const [localKeyword, setLocalKeyword] = useState(searchKeyword || "");
+  const [localKeyword, setLocalKeyword] = useState(() => {
+    return searchKeyword || (typeof keyword === "string" ? keyword : "");
+  });
+
   const [filterButtons, setFilterButtons] = useState(
     JSON.parse(JSON.stringify(FILTER_PILL_BTNS_DEFAULT))
   );
   const [activeItems, setActiveItems] = useState([]);
+  const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
-    if (
-      typeof keyword === "string" &&
-      keyword.trim() !== "" &&
-      keyword !== localKeyword
-    ) {
-      setLocalKeyword(keyword);
-    }
-  }, [keyword]);
+    setHasMounted(true);
+  }, []);
 
+  const shouldSyncWithParent =
+    hasMounted && router.asPath.startsWith("/search");
+
+  // Only sync local keyword back to parent on /search
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (localKeyword !== searchKeyword) {
+    if (!shouldSyncWithParent) return;
+
+    if (localKeyword.trim() !== searchKeyword?.trim()) {
+      const timer = setTimeout(() => {
         setSearchKeyword(localKeyword);
-      }
-    }, 300);
-    return () => clearTimeout(timer);
-  }, [localKeyword]);
+      }, 300);
+
+      return () => clearTimeout(timer);
+    }
+  }, [localKeyword, searchKeyword, shouldSyncWithParent]);
 
   useEffect(() => {
+    if (!hasMounted) return;
+    if (!router.asPath.startsWith("/search")) return;
     if (!selectedItems || typeof selectedItems !== "object") return;
 
     const newQuery = {
-      ...router.query, // preserve existing query values like `keyword`
+      ...router.query,
       filters:
         Object.keys(selectedItems).length > 0
           ? JSON.stringify(selectedItems)
-          : undefined, // remove filters param if empty
+          : undefined,
     };
 
     router.replace(
@@ -73,7 +79,7 @@ export default function SearchBar({
       undefined,
       { shallow: true }
     );
-  }, [selectedItems]);
+  }, [selectedItems, hasMounted, router.asPath]);
 
   useEffect(() => {
     if (results?.length <= 0) return;
@@ -144,8 +150,15 @@ export default function SearchBar({
   }, [results]);
 
   useEffect(() => {
-    setActiveItems(Object.keys(selectedItems || {}));
-  }, [selectedItems]);
+    const newKeys = Object.keys(selectedItems || {});
+    const areSame =
+      newKeys.length === activeItems.length &&
+      newKeys.every((k) => activeItems.includes(k));
+
+    if (!areSame) {
+      setActiveItems(newKeys);
+    }
+  }, [selectedItems, activeItems]);
 
   useEffect(() => {
     if (!unfilteredResults?.length) return;
@@ -191,17 +204,18 @@ export default function SearchBar({
 
   const performSearch = useCallback(() => {
     if (!localKeyword.trim()) return;
-    setResults([]);
+
+    if (setResults) {
+      setResults([]);
+    }
+
     setFilterButtons(JSON.parse(JSON.stringify(FILTER_PILL_BTNS_DEFAULT)));
-    router.replace(
-      {
-        pathname: "/search",
-        query: { keyword: localKeyword },
-      },
-      undefined,
-      { shallow: true }
-    );
-  }, [localKeyword]);
+
+    router.push({
+      pathname: "/search",
+      query: { keyword: localKeyword },
+    });
+  }, [localKeyword, setResults]);
 
   const handleSearch = (e) => setLocalKeyword(e.target.value);
 
@@ -230,19 +244,13 @@ export default function SearchBar({
           <input
             type="text"
             placeholder=""
-            onChange={handleSearch}
             value={localKeyword}
+            onChange={handleSearch}
             name="searchKeyword"
           />
-          {localKeyword !== "" && debouncedKeyword !== "" && isFrontPage ? (
-            <button type="submit" className="search-btn">
-              <Image src={SEARCH_BTN} alt="search the archive" />
-            </button>
-          ) : (
-            <a href="/search" className="search-btn">
-              <Image src={SEARCH_BTN} alt="search the archive" />
-            </a>
-          )}
+          <button type="submit" className="search-btn">
+            <Image src={SEARCH_BTN} alt="search the archive" />
+          </button>
         </form>
       </div>
 
