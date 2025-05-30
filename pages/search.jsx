@@ -7,6 +7,8 @@ import {
   usePeople,
   useGeneralSettings,
   useHeaderMenu,
+  useStoryBlogsBySlug,
+  useStoryBlogs,
 } from "../constants/customQueryHooks";
 import { gql } from "@apollo/client";
 import * as MENUS from "../constants/menus";
@@ -76,6 +78,12 @@ export default function Component() {
   } = usePublicProgramsKeywordSearch(searchKeyword);
 
   const {
+    loading: loadingStoryBlogs,
+    error: errorStoryBlogs,
+    storyBlogs,
+  } = useStoryBlogs(searchKeyword);
+
+  const {
     loading: loadingData,
     error,
     data,
@@ -88,10 +96,12 @@ export default function Component() {
     skip: searchKeyword?.trim().length < 1,
   });
 
-  const allLoaded = !assetsLoading && !peopleLoading && !loadingPublicPrograms;
+  const allLoaded =
+    !assetsLoading &&
+    !peopleLoading &&
+    !loadingPublicPrograms &&
+    !loadingStoryBlogs;
   const primaryMenu = menus;
-
-  console.log("PEOPLE", peopleSearch);
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -103,7 +113,12 @@ export default function Component() {
   }, [searchKeyword]);
 
   useEffect(() => {
-    setResults([...assetSearch, ...peopleSearch, ...publicPrograms]);
+    setResults([
+      ...assetSearch,
+      ...peopleSearch,
+      ...publicPrograms,
+      ...storyBlogs,
+    ]);
   }, [allLoaded]);
 
   useEffect(() => {
@@ -124,6 +139,8 @@ export default function Component() {
     console.error("Menus ERROR:", errorMenus?.message);
     console.error("Data ERROR:", error?.message);
   }
+
+  console.log("BLOGS", storyBlogs);
 
   return (
     <>
@@ -207,6 +224,19 @@ export default function Component() {
                               key={`public-program-card-${index}`}
                               node={result}
                               isPublicProgram={true}
+                            />
+                          );
+                        }
+                        if (
+                          result.node?.__typename === "StoryBlogPost" ||
+                          result.__typename ===
+                            "RootQueryToStoryBlogPostConnectionEdge"
+                        ) {
+                          return (
+                            <AssetSearchResultCard
+                              key={`public-program-card-${index}`}
+                              node={result}
+                              isWPAStory={true}
                             />
                           );
                         }
