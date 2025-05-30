@@ -10,6 +10,7 @@ import {
   Footer,
   RelatedSection,
   ContentWrapper,
+  LoadingPage,
 } from "../../components";
 import {
   useGeneralSettings,
@@ -26,9 +27,6 @@ const StoryPage = () => {
   const { uri } = router.query;
   const [isNavShown, setIsNavShown] = useState(false);
 
-  // console.log('story', publicProgram);
-  // const { loading, error, assetPostBySlug } = useAssetsBySlug(uri?.join("/"));
-
   const {
     loading: loadingSettings,
     error: errorSettings,
@@ -36,18 +34,6 @@ const StoryPage = () => {
   } = useGeneralSettings();
 
   const { loading: loadingMenus, error: errorMenus, menus } = useHeaderMenu();
-
-  // if (loading) {
-  //   return <div className="AssetPage">Loading...</div>;
-  // }
-
-  // if (error) {
-  //   return <div className="AssetPage">Error: {error.message}</div>;
-  // }
-
-  // if (!assetPostBySlug) {
-  //   return <div className="AssetPage">No asset found for this URI.</div>;
-  // }
 
   const {
     loading: loadingStoryBlog,
@@ -60,7 +46,12 @@ const StoryPage = () => {
   const pageBodyContent = mainContent?.pageContent || "";
   const parsedPageContent = parse(pageBodyContent);
 
-  const relatedItems = storyBlogData?.storyBlocks?.related?.flatMap((item) => item.relatedItem.nodes) ?? [];
+  const relatedItems =
+    storyBlogData?.storyBlocks?.related?.flatMap(
+      (item) => item.relatedItem.nodes
+    ) ?? [];
+
+  if (loadingStoryBlog) return <LoadingPage stroke="#6741f5" />;
 
   return (
     <>
@@ -92,9 +83,13 @@ const StoryPage = () => {
                 <div className="blog-content">
                   <div className="blog-left-col">
                     <Image
-                        src={mainContent?.thumbnail?.node?.sourceUrl || DEFAULT_IMAGE}
-                        alt={mainContent?.thumbnail?.node?.altText || ""}
-                        width={244} height={326} />
+                      src={
+                        mainContent?.thumbnail?.node?.sourceUrl || DEFAULT_IMAGE
+                      }
+                      alt={mainContent?.thumbnail?.node?.altText || ""}
+                      width={244}
+                      height={326}
+                    />
                   </div>
                   <div className="blog-right-col">
                     <div className="wpa-story-tag">
@@ -104,22 +99,23 @@ const StoryPage = () => {
 
                     <div className="blog-metadata">
                       {mainContent?.date && (
-                          <div className="date">
-                            <label>Date</label>
-                            <small>
-                              {new Date(mainContent.date).toLocaleDateString("en-US", {
+                        <div className="date">
+                          <label>Date</label>
+                          <small>
+                            {new Date(mainContent.date).toLocaleDateString(
+                              "en-US",
+                              {
                                 year: "numeric",
                                 month: "long",
                                 day: "numeric",
                                 timeZone: "UTC",
-                              })}
-                            </small>
-                          </div>
+                              }
+                            )}
+                          </small>
+                        </div>
                       )}
                       <div className="author">
-                        {mainContent?.author && (
-                            <label>Author</label>
-                        )}
+                        {mainContent?.author && <label>Author</label>}
                         <small>{mainContent?.author || ""}</small>
                       </div>
                     </div>
@@ -127,7 +123,10 @@ const StoryPage = () => {
                     <div className="blog-wp-content">{parsedPageContent}</div>
                   </div>
                 </div>
-                <RelatedSection className="related-blog" itemsArr={relatedItems} />
+                <RelatedSection
+                  className="related-blog"
+                  itemsArr={relatedItems}
+                />
               </div>
             </Container>
           </Main>
