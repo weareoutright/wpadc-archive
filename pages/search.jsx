@@ -232,7 +232,7 @@ export default function Component() {
                         ) {
                           return (
                             <AssetSearchResultCard
-                              key={`public-program-card-${index}`}
+                              key={`story-blog-card-${index}`}
                               node={result}
                               isWPAStory={true}
                             />
