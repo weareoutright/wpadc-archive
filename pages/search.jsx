@@ -23,6 +23,7 @@ import { AssetSearchResultCard } from "../components/AssetSearchResultCard";
 import { PersonSearchResultCard } from "../components";
 import PREV_BTN_DARK from "../assets/icons/previous-btn-dark.svg";
 import NEXT_BTN from "../assets/icons/next-btn.svg";
+import usePublicProgramsKeywordSearch from "../constants/customQueryHooks/usePublicPrograms";
 
 export default function Component() {
   const [isNavShown, setIsNavShown] = useState(false);
@@ -57,6 +58,12 @@ export default function Component() {
   const { loading: loadingMenus, error: errorMenus, menus } = useHeaderMenu();
 
   const {
+    loading: loadingPublicPrograms,
+    error: errorPublicPrograms,
+    publicPrograms,
+  } = usePublicProgramsKeywordSearch(searchKeyword);
+
+  const {
     loading: loadingData,
     error,
     data,
@@ -73,6 +80,8 @@ export default function Component() {
   let peopleSearch = data?.peopleSearch.edges || [];
   const primaryMenu = menus;
 
+  console.log(results);
+
   useEffect(() => {
     if (searchKeyword?.trim() !== debouncedKeyword) {
       setDebouncedKeyword(searchKeyword);
@@ -81,7 +90,7 @@ export default function Component() {
 
   useEffect(() => {
     if (data) {
-      setResults([...assetSearch, ...peopleSearch]);
+      setResults([...assetSearch, ...peopleSearch, ...publicPrograms]);
     }
   }, [data]);
 
@@ -169,6 +178,19 @@ export default function Component() {
                             <PersonSearchResultCard
                               key={`person-card-${index}`}
                               node={result}
+                            />
+                          );
+                        }
+                        if (
+                          result.node.__typename === "PublicProgram" ||
+                          result.__typename ===
+                            "RootQueryToPersonConnectionEdge"
+                        ) {
+                          return (
+                            <AssetSearchResultCard
+                              key={`public-program-card-${index}`}
+                              node={result}
+                              isPublicProgram={true}
                             />
                           );
                         }
