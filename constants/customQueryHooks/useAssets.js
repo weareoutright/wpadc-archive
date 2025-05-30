@@ -4,14 +4,48 @@ import { gql, useQuery } from "@apollo/client";
 const GET_ASSET = gql`
   query getAssetByKeyword($keyword: String!) {
     assetPosts(where: { search: $keyword }) {
-      edges {
-        node {
-          id
+      nodes {
+        id
+        title
+        uri
+        slug
+        assetCard {
           assetCard {
-            assetInfo {
-              ... on AssetCardAssetCard_Layout {
-                fieldGroupName
-                title
+            ... on AssetCardAssetCardAssetCardLayout {
+              description
+              startDate
+              thumbnail {
+                node {
+                  id
+                  uri
+                }
+              }
+              endDate
+              year
+              location
+              eyebrow {
+                edges {
+                  node {
+                    id
+                    link
+                    slug
+                  }
+                }
+              }
+              artists {
+                collaborator {
+                  edges {
+                    node {
+                      id
+                      slug
+                      uri
+                      ... on Person {
+                        id
+                        title
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -30,7 +64,7 @@ const useAssets = (keyword) => {
   return {
     loading,
     error,
-    assetPosts: data?.assetPosts || {}, // Adjusted to match the query structure
+    assetPosts: data?.assetPosts.nodes || [], // Adjusted to match the query structure
   };
 };
 

@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import {
   useAssets,
+  usePeople,
   useGeneralSettings,
   useHeaderMenu,
 } from "../constants/customQueryHooks";
@@ -38,7 +39,6 @@ export default function Component() {
   const applyPageChange = (pageNum, e) => {
     e.preventDefault();
     setCurrentPage(pageNum);
-
     // TODO: also need to add functionality for adding to query params
   };
 
@@ -56,6 +56,18 @@ export default function Component() {
   } = useGeneralSettings();
 
   const { loading: loadingMenus, error: errorMenus, menus } = useHeaderMenu();
+
+  const {
+    loading: assetsLoading,
+    error: assetsError,
+    assetPosts: assetSearch,
+  } = useAssets(searchKeyword);
+
+  const {
+    loading: peopleLoading,
+    error: peopleError,
+    people: peopleSearch,
+  } = usePeople(searchKeyword);
 
   const {
     loading: loadingPublicPrograms,
@@ -76,23 +88,23 @@ export default function Component() {
     skip: searchKeyword?.trim().length < 1,
   });
 
-  let assetSearch = data?.assetSearch.nodes || [];
-  let peopleSearch = data?.peopleSearch.edges || [];
+  const allLoaded = !assetsLoading && !peopleLoading && !loadingPublicPrograms;
   const primaryMenu = menus;
 
-  console.log(results);
+  console.log("PEOPLE", peopleSearch);
 
   useEffect(() => {
-    if (searchKeyword?.trim() !== debouncedKeyword) {
-      setDebouncedKeyword(searchKeyword);
-    }
+    const handler = setTimeout(() => {
+      if (searchKeyword?.trim() !== debouncedKeyword) {
+        setDebouncedKeyword(searchKeyword);
+      }
+    }, 300);
+    return () => clearTimeout(handler);
   }, [searchKeyword]);
 
   useEffect(() => {
-    if (data) {
-      setResults([...assetSearch, ...peopleSearch, ...publicPrograms]);
-    }
-  }, [data]);
+    setResults([...assetSearch, ...peopleSearch, ...publicPrograms]);
+  }, [allLoaded]);
 
   useEffect(() => {
     if (searchKeyword?.trim() !== "") {
@@ -105,8 +117,6 @@ export default function Component() {
       setSearchKeyword(query.keyword);
     }
   }, [query.keyword]);
-
-  useAssets(() => {}, [results]);
 
   if (loadingSettings || loadingMenus) return null;
   if (errorSettings || errorMenus || error) {
@@ -163,7 +173,11 @@ export default function Component() {
                   {results.length > 0 && searchKeyword !== "" ? (
                     <div className="results-container">
                       {results?.map((result, index) => {
-                        if (result.__typename === "Asset_post") {
+                        if (
+                          result.__typename === "Asset_post" ||
+                          result.node?.__typename ===
+                            "RootQueryToAsset_postConnection"
+                        ) {
                           return (
                             <AssetSearchResultCard
                               key={`asset-card-${index}`}
@@ -184,7 +198,7 @@ export default function Component() {
                           );
                         }
                         if (
-                          result.node.__typename === "PublicProgram" ||
+                          result.node?.__typename === "PublicProgram" ||
                           result.__typename ===
                             "RootQueryToPersonConnectionEdge"
                         ) {
@@ -241,7 +255,6 @@ Component.query = gql`
   query GetPageData(
     $headerLocation: MenuLocationEnum
     $footerLocation: MenuLocationEnum
-    $searchKeyword: String = ""
   ) {
     generalSettings {
       ...BlogInfoFragment
@@ -256,111 +269,12 @@ Component.query = gql`
         ...NavigationMenuItemFragment
       }
     }
-
-    assetSearch: assetPosts(where: { search: $searchKeyword }) {
-      nodes {
-        id
-        title
-        uri
-        slug
-        assetCard {
-          assetCard {
-            ... on AssetCardAssetCardAssetCardLayout {
-              description
-              startDate
-              endDate
-              year
-              location
-              eyebrow {
-                edges {
-                  node {
-                    id
-                    link
-                    slug
-                  }
-                }
-              }
-              artists {
-                collaborator {
-                  edges {
-                    node {
-                      id
-                      slug
-                      uri
-                      ... on Person {
-                        id
-                        title
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-
-    peopleSearch: people(where: { search: $searchKeyword }) {
-      edges {
-        node {
-          title
-          uri
-          slug
-          id
-          personCard {
-            personInfo {
-              fieldGroupName
-              ... on PersonCardPersonInfoPersonCardLayout {
-                headshot {
-                  node {
-                    altText
-                    caption
-                    sourceUrl
-                    title
-                    description
-                  }
-                }
-                roleType {
-                  edges {
-                    node {
-                      ... on PersonRoleType {
-                        id
-                        title
-                      }
-                    }
-                  }
-                }
-                activeSinceYear
-                location
-                bodyCopy
-                quote
-                quotee
-                externalLinks {
-                  url
-                }
-                related {
-                  relatedCard {
-                    nodes {
-                      slug
-                      id
-                      uri
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
   }
 `;
 
-Component.variables = ({ searchKeyword }) => {
+Component.variables = () => {
   return {
     headerLocation: MENUS.PRIMARY_LOCATION,
     footerLocation: MENUS.FOOTER_LOCATION,
-    searchKeyword: searchKeyword,
   };
 };

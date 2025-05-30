@@ -17,10 +17,7 @@ const AssetSearchResultCard = ({
       node.assetCard.assetCard[0].artists[0].collaborator?.edges[0].node.uri;
     const { id, title, uri, slug } = node;
     return (
-      <div
-        key={`${title}-${id}`}
-        className={cx("AssetCard", isWPAStory && "wpa-story")}
-      >
+      <div key={`${title}-${id}`} className={cx("AssetCard")}>
         <a href={uri} className={cx("asset-link")}>
           <Image
             alt={title}
@@ -51,10 +48,7 @@ const AssetSearchResultCard = ({
   } else if (node && isPublicProgram && !isWPAStory) {
     const { id, title, slug } = node.node;
     return (
-      <div
-        key={`${title}-${id}`}
-        className={cx("AssetCard", isWPAStory && "wpa-story")}
-      >
+      <div key={`${title}-${id}`} className={cx("AssetCard")}>
         <a href={`/public-programs/${slug}`} className={cx("asset-link")}>
           <Image
             alt={title}
@@ -68,11 +62,6 @@ const AssetSearchResultCard = ({
               "vermillion"
             )}
           />
-          {isWPAStory && (
-            <span className={cx("wpa-story-banner", "vermillion")}>
-              WPA Story
-            </span>
-          )}
         </a>
         <a href={`/public-programs/${slug}`} className={cx("asset-link")}>
           <h3>{title}</h3>
@@ -82,10 +71,7 @@ const AssetSearchResultCard = ({
   } else if (node && !isPublicProgram && isWPAStory) {
     const { id, title, slug } = node.node;
     return (
-      <div
-        key={`${title}-${id}`}
-        className={cx("AssetCard", isWPAStory && "wpa-story")}
-      >
+      <div key={`${title}-${id}`} className={cx("AssetCard", "wpa-story")}>
         <a href={"/"} className={cx("asset-link")}>
           <Image
             alt={title}

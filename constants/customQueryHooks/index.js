@@ -11,3 +11,4 @@ export { default as useAssetsBySlug } from "./useAssetsBySlug";
 export { default as usePersonBySlug } from "./usePersonBySlug";
 export { default as usePublicProgramsBySlug } from "./usePublicProgramsBySlug";
 export { default as useStoryBlogsBySlug } from "./useStoryBlogsBySlug";
+export { default as usePeople } from "./usePeople";
