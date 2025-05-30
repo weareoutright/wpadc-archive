@@ -20,6 +20,7 @@ import {
   SEO,
   NavigationMenu,
   SearchBar,
+  LoadingPage,
 } from "../components";
 import { AssetSearchResultCard } from "../components/AssetSearchResultCard";
 import { PersonSearchResultCard } from "../components";
@@ -41,14 +42,12 @@ export default function Component() {
   const applyPageChange = (pageNum, e) => {
     e.preventDefault();
     setCurrentPage(pageNum);
-    // TODO: also need to add functionality for adding to query params
+    // TODO: add query param updates if needed
   };
 
   const divideAndCreatePaginationArray = (num) => {
-    const quotient = Math.floor(num / 16);
-    const hasRemainder = num % 16 !== 0;
-    const length = quotient + (hasRemainder ? 1 : 0);
-    return Array.from({ length }, (_, i) => i + 1);
+    const pages = Math.ceil(num / 16);
+    return Array.from({ length: pages }, (_, i) => i + 1);
   };
 
   const {
@@ -86,14 +85,13 @@ export default function Component() {
   const {
     loading: loadingData,
     error,
-    data,
     refetch,
   } = useQuery(Component.query, {
     variables: Component.variables({
       searchKeyword: debouncedKeyword || "_none_",
     }),
     notifyOnNetworkStatusChange: true,
-    skip: searchKeyword?.trim().length < 1,
+    skip: debouncedKeyword.trim().length < 1,
   });
 
   const allLoaded =
@@ -101,8 +99,10 @@ export default function Component() {
     !peopleLoading &&
     !loadingPublicPrograms &&
     !loadingStoryBlogs;
+
   const primaryMenu = menus;
 
+  // Update debouncedKeyword after 300ms delay
   useEffect(() => {
     const handler = setTimeout(() => {
       if (searchKeyword?.trim() !== debouncedKeyword) {
@@ -112,28 +112,33 @@ export default function Component() {
     return () => clearTimeout(handler);
   }, [searchKeyword]);
 
+  // Refetch on debounced keyword change
   useEffect(() => {
-    setResults([
-      ...assetSearch,
-      ...peopleSearch,
-      ...publicPrograms,
-      ...storyBlogs,
-    ]);
-  }, [allLoaded]);
-
-  useEffect(() => {
-    if (searchKeyword?.trim() !== "") {
+    if (debouncedKeyword.trim().length > 0) {
       refetch();
     }
   }, [debouncedKeyword, refetch]);
 
+  // Populate results once all are loaded
+  useEffect(() => {
+    if (allLoaded) {
+      setResults([
+        ...assetSearch,
+        ...peopleSearch,
+        ...publicPrograms,
+        ...storyBlogs,
+      ]);
+    }
+  }, [allLoaded, assetSearch, peopleSearch, publicPrograms, storyBlogs]);
+
+  // Sync keyword from router query
   useEffect(() => {
     if (query.keyword && query.keyword !== searchKeyword) {
       setSearchKeyword(query.keyword);
     }
   }, [query.keyword]);
 
-  if (loadingSettings || loadingMenus) return null;
+  if (loadingSettings || loadingMenus || loadingData) return null;
   if (errorSettings || errorMenus || error) {
     console.error("Settings ERROR:", errorSettings?.message);
     console.error("Menus ERROR:", errorMenus?.message);
@@ -170,13 +175,10 @@ export default function Component() {
                 <div className="results">
                   <h1>
                     {!allLoaded && "Searching for "}
-                    {allLoaded && "Results for "}"
-                    {searchKeyword === undefined ? "" : searchKeyword}"{" "}
+                    {allLoaded && "Results for "}"{searchKeyword || ""}"{" "}
                     <small>
                       {results.length}{" "}
-                      {results.length > 1 || results.length === 0
-                        ? "results"
-                        : "result"}
+                      {results.length === 1 ? "result" : "results"}
                     </small>
                   </h1>
 
@@ -193,12 +195,12 @@ export default function Component() {
                       />
                     </div>
                   )}
-                  {allLoaded &&
-                    results?.length <= 0 &&
-                    `No results for "${searchKeyword}"`}
-                  {results.length > 0 && searchKeyword !== "" ? (
+                  {allLoaded && results.length <= 0 && (
+                    <div>No results for "{searchKeyword}"</div>
+                  )}
+                  {results.length > 0 && searchKeyword !== "" && (
                     <div className="results-container">
-                      {results?.map((result, index) => {
+                      {results.map((result, index) => {
                         if (
                           result.__typename === "Asset_post" ||
                           result.__typename ===
@@ -232,7 +234,7 @@ export default function Component() {
                             <AssetSearchResultCard
                               key={`public-program-card-${index}`}
                               node={result}
-                              isPublicProgram={true}
+                              isPublicProgram
                             />
                           );
                         }
@@ -245,13 +247,14 @@ export default function Component() {
                             <AssetSearchResultCard
                               key={`story-blog-card-${index}`}
                               node={result}
-                              isWPAStory={true}
+                              isWPAStory
                             />
                           );
                         }
+                        return null;
                       })}
                     </div>
-                  ) : null}
+                  )}
                   <hr />
                 </div>
                 <div className="pagination">
@@ -259,20 +262,18 @@ export default function Component() {
                     <Image src={PREV_BTN_DARK} alt="previous results" />
                   </a>
                   {divideAndCreatePaginationArray(results.length).map(
-                    (pageNum) => {
-                      return (
-                        <a
-                          key={`page-${pageNum}`}
-                          href="#"
-                          className={`page-number-btn ${
-                            currentPage === pageNum && "current-page"
-                          }`}
-                          onClick={(e) => applyPageChange(pageNum, e)}
-                        >
-                          {pageNum}
-                        </a>
-                      );
-                    }
+                    (pageNum) => (
+                      <a
+                        key={`page-${pageNum}`}
+                        href="#"
+                        className={`page-number-btn ${
+                          currentPage === pageNum ? "current-page" : ""
+                        }`}
+                        onClick={(e) => applyPageChange(pageNum, e)}
+                      >
+                        {pageNum}
+                      </a>
+                    )
                   )}
                   <a href="#" className="pagination-btn">
                     <Image src={NEXT_BTN} alt="more results" />
@@ -311,9 +312,7 @@ Component.query = gql`
   }
 `;
 
-Component.variables = () => {
-  return {
-    headerLocation: MENUS.PRIMARY_LOCATION,
-    footerLocation: MENUS.FOOTER_LOCATION,
-  };
-};
+Component.variables = () => ({
+  headerLocation: MENUS.PRIMARY_LOCATION,
+  footerLocation: MENUS.FOOTER_LOCATION,
+});
