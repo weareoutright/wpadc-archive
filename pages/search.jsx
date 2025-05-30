@@ -85,8 +85,6 @@ function applyFilters(resultsArray, selectedItems) {
     }
   });
 
-  console.log(resultsArray);
-
   if (!selectedItems || Object.keys(selectedItems).length <= 0) {
     return resultsArray;
   }
