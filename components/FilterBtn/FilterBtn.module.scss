@@ -35,7 +35,8 @@
       position: relative;
       width: fit-content;
       z-index: 6;
-      min-width: 12rem;
+      min-width: 10rem;
+      max-width: 12rem;
 
       .select-box {
         background: var(--dark-grey);
