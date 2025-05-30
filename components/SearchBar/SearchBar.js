@@ -5,57 +5,13 @@ import SEARCH_BTN from "../../assets/search-bar/search-icon.svg";
 import RIGHT_ARROW from "../../assets/icons/arrow-right-90-deg-white.svg";
 import FilterBtn from "../FilterBtn/FilterBtn";
 
-// TODO: Create queries that query the items for each filter dropdown
-
 const FILTER_PILL_BTNS_DEFAULT = [
-  {
-    filterText: "Year",
-    graphQLPath: "startDate",
-    dropdownItems: [
-      // { title: "2020", count: 15 },
-    ],
-  },
-  {
-    filterText: "People",
-    graphQLPath: "title",
-    dropdownItems: [
-      // {
-      //   title: "A-H",
-      //   count: 5,
-      //   childrenItems: ["PersonA", "PersonB", "PersonC"],
-      // },
-      // { title: "I-P", count: 7, childrenItems: ["Person2"] },
-      // { title: "Q-Z", count: 3, childrenItems: ["Person3"] },
-    ],
-  },
-  {
-    filterText: "Role",
-    graphQLPath: "roleType",
-    dropdownItems: [
-      // { title: "Artist", count: 4 },
-    ],
-  },
-  {
-    filterText: "Document Type",
-    graphQLPath: "type",
-    dropdownItems: [
-      // { title: "Photo", count: 12 },
-    ],
-  },
-  {
-    filterText: "Project Type",
-    graphQLPath: "type",
-    dropdownItems: [
-      // { title: "Research", count: 8 },
-    ],
-  },
-  {
-    filterText: "Location",
-    graphQLPath: "location",
-    dropdownItems: [
-      // { title: "New York", count: 6 },
-    ],
-  },
+  { filterText: "Year", dropdownItems: [] },
+  { filterText: "People", dropdownItems: [] },
+  { filterText: "Role", dropdownItems: [] },
+  { filterText: "Document Type", dropdownItems: [] },
+  { filterText: "Project Type", dropdownItems: [] },
+  { filterText: "Location", dropdownItems: [] },
 ];
 
 export default function SearchBar({
@@ -70,72 +26,95 @@ export default function SearchBar({
   const router = useRouter();
   const { keyword } = router.query;
 
-  // Local state for the input field
   const [localKeyword, setLocalKeyword] = useState(debouncedKeyword || "");
-
-  const [selectedItems, setSelectedItems] = useState({}); // Stores selected parent-child hierarchy
+  const [filterButtons, setFilterButtons] = useState(
+    JSON.parse(JSON.stringify(FILTER_PILL_BTNS_DEFAULT))
+  );
+  const [selectedItems, setSelectedItems] = useState({});
   const [activeItems, setActiveItems] = useState([]);
 
-  const getDropdownItems = (filterArr, resultsArr) => {
-    // take in filterArr and the resultsArr
-    // take all unique values for each object's property at that filter label (see top of file)
-    // set unique values in the dropdownItems array
-    console.log("BEFORE", filterArr);
-    resultsArr?.map((result) => {
-      if (result.__typename === "Asset_post") {
-        const yearFilter = filterArr.find(
-          (filter) => filter.filterText === "Year"
-        );
+  const getDropdownItems = (resultsArr) => {
+    const updatedFilters = JSON.parse(JSON.stringify(FILTER_PILL_BTNS_DEFAULT));
 
-        if (yearFilter) {
-          let year = new Date(
-            result.assetCard.assetCard[0].startDate
-          ).getFullYear();
-          yearFilter.dropdownItems.push(year);
-          yearFilter.dropdownItems = [...new Set(yearFilter.dropdownItems)];
+    const yearFilter = updatedFilters.find((f) => f.filterText === "Year");
+    const peopleFilter = updatedFilters.find((f) => f.filterText === "People");
+    const roleFilter = updatedFilters.find((f) => f.filterText === "Role");
+    const documentTypeFilter = updatedFilters.find(
+      (f) => f.filterText === "Document Type"
+    );
+    const projectTypeFilter = updatedFilters.find(
+      (f) => f.filterText === "Project Type"
+    );
+    const locationFilter = updatedFilters.find(
+      (f) => f.filterText === "Location"
+    );
+
+    resultsArr?.forEach((result) => {
+      if (result.__typename === "Asset_post") {
+        const card = result.assetCard.assetCard?.[0];
+
+        if (yearFilter && card?.startDate) {
+          yearFilter.dropdownItems.push(new Date(card.startDate).getFullYear());
+        }
+
+        const peopleEdges = card?.artists?.[0]?.collaborator?.edges;
+        peopleEdges?.forEach((person) => {
+          peopleFilter?.dropdownItems.push(person.node.title);
+
+          const roles =
+            person.node.personCard?.personInfo?.[0]?.roleType?.edges;
+          roles?.forEach((role) => {
+            roleFilter?.dropdownItems.push(role.node.title);
+          });
+        });
+
+        const types = card?.type?.[0]?.type?.edges;
+        types?.forEach((type) => {
+          projectTypeFilter?.dropdownItems.push(type.node.title);
+          documentTypeFilter?.dropdownItems.push(type.node.title);
+        });
+
+        if (card?.location) {
+          locationFilter?.dropdownItems.push(card.location);
         }
       }
 
       if (result.__typename === "RootQueryToPersonConnectionEdge") {
-        const peopleFilter = filterArr.find(
-          (filter) => filter.filterText === "People"
-        );
-
-        if (peopleFilter) {
-          peopleFilter.dropdownItems.push(result.node.title);
-          peopleFilter.dropdownItems = [...new Set(peopleFilter.dropdownItems)];
-        }
+        peopleFilter?.dropdownItems.push(result.node.title);
+        const location = result.node.personCard?.personInfo?.[0]?.location;
+        if (location) locationFilter?.dropdownItems.push(location);
       }
 
       if (result.__typename === "RootQueryToPublicProgramConnectionEdge") {
-        console.log("RESULT", result);
-        const typeFilter = filterArr.find(
-          (filter) => filter.filterText === "Project Type"
-        );
+        const events = result.node.programCard.programCard?.[0]?.eventType;
+        projectTypeFilter?.dropdownItems.push(...events);
+      }
 
-        if (typeFilter)
-          typeFilter.dropdownItems.push([
-            ...result.node.programCard.programCard[0].eventType,
-          ]);
-        typeFilter.dropdownItems = [...new Set(typeFilter.dropdownItems)];
+      if (result.__typename === "RootQueryToStoryBlogPostConnectionEdge") {
+        if (yearFilter && result.node.date) {
+          yearFilter.dropdownItems.push(
+            new Date(result.node.date).getFullYear()
+          );
+        }
+
+        if (peopleFilter && result.node.storyBlocks?.mainContent?.[0]?.author) {
+          peopleFilter.dropdownItems.push(
+            result.node.storyBlocks.mainContent[0].author
+          );
+        }
+
+        roleFilter?.dropdownItems.push("Author");
       }
     });
-    console.log("AFTER", filterArr);
-  };
 
-  const searchEntireArchive = (filterObj) => {
-    // take in a filter obj
-    // query the four post types based on that filter label
-    // return the results
+    updatedFilters.forEach((f) => {
+      f.dropdownItems = [...new Set(f.dropdownItems.filter(Boolean))];
+    });
 
-    // setResults(// the return value or search entire archive //)
-    console.log(filterObj);
+    setFilterButtons(updatedFilters);
   };
 
   const applyFilters = () => {
-    // filter the array based on activeItems
-    // show results (need to trigger the replacement of database results with filtered results -- user won't see this happen)
-    // apply filters to url query params to make the link shareable
     console.log("Filters applied");
   };
 
@@ -144,21 +123,18 @@ export default function SearchBar({
     setActiveItems([]);
   };
 
-  // Sync input with URL when `keyword` in query updates
   useEffect(() => {
     if (keyword !== undefined && keyword !== localKeyword) {
       setLocalKeyword(keyword);
     }
   }, [keyword]);
 
-  // Debounce effect to reduce unnecessary updates
   useEffect(() => {
     const timer = setTimeout(() => {
       if (localKeyword !== searchKeyword) {
         setSearchKeyword(localKeyword);
       }
-    }, 300); // Adjust debounce delay as needed
-
+    }, 300);
     return () => clearTimeout(timer);
   }, [localKeyword, searchKeyword, setSearchKeyword]);
 
@@ -169,12 +145,12 @@ export default function SearchBar({
   const performSearch = useCallback(() => {
     if (!localKeyword.trim()) return;
 
-    // Update results state
     if (results?.length > 0) {
       setResults([]);
     }
 
-    // Update the URL without causing a full-page reload
+    setFilterButtons(JSON.parse(JSON.stringify(FILTER_PILL_BTNS_DEFAULT)));
+
     router.replace(
       {
         pathname: "/search",
@@ -186,14 +162,11 @@ export default function SearchBar({
   }, [localKeyword, results, router, setResults]);
 
   const removeItem = (itemToRemove) => {
-    setActiveItems((prevActiveItems) =>
-      prevActiveItems.filter((item) => item !== itemToRemove)
-    );
-
-    setSelectedItems((prevSelectedItems) => {
-      const updatedItems = { ...prevSelectedItems };
-      delete updatedItems[itemToRemove]; // Remove the key from selectedItems
-      return updatedItems;
+    setActiveItems((prev) => prev.filter((item) => item !== itemToRemove));
+    setSelectedItems((prev) => {
+      const updated = { ...prev };
+      delete updated[itemToRemove];
+      return updated;
     });
   };
 
@@ -202,9 +175,9 @@ export default function SearchBar({
   }, [selectedItems]);
 
   useEffect(() => {
-    if (results.length <= 0) return;
-    getDropdownItems(FILTER_PILL_BTNS_DEFAULT, results);
-  }, [FILTER_PILL_BTNS_DEFAULT, results, allLoaded]);
+    if (results?.length <= 0) return;
+    getDropdownItems(results);
+  }, [results, allLoaded]);
 
   return (
     <div className={`search-bar ${isFrontPage ? "front-page-search-bar" : ""}`}>
@@ -237,47 +210,45 @@ export default function SearchBar({
           )}
         </form>
       </div>
+
       <div className="active-filters">
-        {activeItems?.length > 0 ? (
-          activeItems.map((item, index) => {
-            return (
-              <div key={index} className="active-item">
-                {item}{" "}
-                <a
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    removeItem(item);
-                  }}
-                >
-                  X
-                </a>
-              </div>
-            );
-          })
+        {activeItems.length > 0 ? (
+          activeItems.map((item, index) => (
+            <div key={index} className="active-item">
+              {item}{" "}
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  removeItem(item);
+                }}
+              >
+                X
+              </a>
+            </div>
+          ))
         ) : (
           <div className="active-item blank">
             <span></span>
           </div>
         )}
       </div>
+
       <div className="filter-pills">
         <div className="main-filters">
-          {FILTER_PILL_BTNS_DEFAULT.map((filter) => {
-            return (
-              <FilterBtn
-                key={filter.filterText}
-                filter={filter}
-                filterText={filter.filterText}
-                dropdownItems={filter.dropdownItems}
-                selectedItems={selectedItems}
-                setSelectedItems={setSelectedItems}
-                activeItems={activeItems}
-                setActiveItems={setActiveItems}
-                resultsArr={results}
-              />
-            );
-          })}
+          {filterButtons.map((filter) => (
+            <FilterBtn
+              key={filter.filterText}
+              filter={filter}
+              filterText={filter.filterText}
+              dropdownItems={filter.dropdownItems}
+              selectedItems={selectedItems}
+              setSelectedItems={setSelectedItems}
+              activeItems={activeItems}
+              setActiveItems={setActiveItems}
+              resultsArr={results}
+            />
+          ))}
         </div>
         <div className="apply-and-clear-all-btn">
           <a href="#" onClick={clearFilters} className="clear-all-btn">
@@ -287,9 +258,7 @@ export default function SearchBar({
             className="pill-btn apply-btn"
             href="#"
             alt="apply filters"
-            onClick={() => {
-              applyFilters();
-            }}
+            onClick={applyFilters}
           >
             Apply{" "}
             <Image

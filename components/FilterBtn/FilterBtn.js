@@ -9,13 +9,11 @@ const cx = classNames.bind(styles);
 
 const FilterBtn = ({
   filterText,
-  filter,
   dropdownItems,
   selectedItems,
   setSelectedItems,
   activeItems,
   setActiveItems,
-  resultsArr,
 }) => {
   const filterDropdownRef = useRef(null);
   const [mainDropdownOpen, setMainDropdownOpen] = useState(false);
@@ -71,6 +69,13 @@ const FilterBtn = ({
     });
   };
 
+  const filterCounts = dropdownItems.reduce((acc, item) => {
+    if (item != null) {
+      acc[item] = (acc[item] || 0) + 1;
+    }
+    return acc;
+  }, {});
+
   useEffect(() => {
     if (Object.keys(selectedItems).length <= 0 && activeItems.length <= 0) {
       setMainDropdownOpen(false);
@@ -108,67 +113,77 @@ const FilterBtn = ({
           {/* Parent Dropdown Options (Checkboxes) */}
           {mainDropdownOpen && (
             <div className={cx(["parent", "dropdown-options"])}>
-              {dropdownItems.map((parent, index) => {
-                return (
-                  <div key={`${String(parent).split().join("-")}-${index}`}>
-                    <label className={cx("parent-label")}>
-                      <span className={cx("parent-label-text")}>
-                        <input
-                          type="checkbox"
-                          value={parent}
-                          onChange={handleParentChange}
-                          checked={selectedItems.hasOwnProperty(parent)}
-                          className={cx("checkbox-input")}
-                        />{" "}
-                        {parent} ({dropdownItems.length})
-                      </span>
-                      {parent.childrenItems?.length > 0 ? (
-                        <Image
-                          src={PLUS_ICON}
-                          alt=""
-                          height={15}
-                          width={15}
-                          className={cx("plus-icon")}
-                        />
-                      ) : null}
-                    </label>
+              {[...new Set(dropdownItems)]
+                .filter((item) => item != null)
+                .sort((a, b) => {
+                  return a.toString().localeCompare(b.toString(), undefined, {
+                    numeric: true,
+                    sensitivity: "base",
+                  });
+                })
+                .map((parent, index) => {
+                  return (
+                    <div key={`${String(parent).split().join("-")}-${index}`}>
+                      <label className={cx("parent-label")}>
+                        <span className={cx("parent-label-text")}>
+                          <input
+                            type="checkbox"
+                            value={parent}
+                            onChange={handleParentChange}
+                            checked={selectedItems.hasOwnProperty(parent)}
+                            className={cx("checkbox-input")}
+                          />{" "}
+                          {parent} ({filterCounts[parent]})
+                        </span>
+                        {parent?.childrenItems?.length > 0 ? (
+                          <Image
+                            src={PLUS_ICON}
+                            alt=""
+                            height={15}
+                            width={15}
+                            className={cx("plus-icon")}
+                          />
+                        ) : null}
+                      </label>
 
-                    {/* Sub Dropdown (Child Options) */}
-                    {selectedItems.hasOwnProperty(parent.title) && (
-                      <>
-                        {/* <button
+                      {/* Sub Dropdown (Child Options) */}
+                      {selectedItems.hasOwnProperty(parent) && (
+                        <>
+                          {/* <button
                         className={cx("toggle-child-btn")}
                         onClick={() => toggleSubDropdown(parent.title)}
                       /> */}
 
-                        {subDropdownOpen[parent.title] &&
-                          parent.childrenItems && (
-                            <div className={cx(["child", "dropdown-options"])}>
-                              {parent.childrenItems.map((child, idx) => (
-                                <label
-                                  key={`${child.title}-${idx}`}
-                                  className={cx("child-label")}
-                                >
-                                  <input
-                                    type="checkbox"
-                                    value={child.title}
-                                    onChange={(e) =>
-                                      handleChildChange(e, parent.title)
-                                    }
-                                    checked={selectedItems[
-                                      parent.title
-                                    ]?.includes(child.title)}
-                                  />{" "}
-                                  {child.title} ({child.count})
-                                </label>
-                              ))}
-                            </div>
-                          )}
-                      </>
-                    )}
-                  </div>
-                );
-              })}
+                          {subDropdownOpen[parent.title] &&
+                            parent.childrenItems && (
+                              <div
+                                className={cx(["child", "dropdown-options"])}
+                              >
+                                {parent.childrenItems.map((child, idx) => (
+                                  <label
+                                    key={`${child.title}-${idx}`}
+                                    className={cx("child-label")}
+                                  >
+                                    <input
+                                      type="checkbox"
+                                      value={child.title}
+                                      onChange={(e) =>
+                                        handleChildChange(e, parent.title)
+                                      }
+                                      checked={selectedItems[
+                                        parent.title
+                                      ]?.includes(child.title)}
+                                    />{" "}
+                                    {child.title} ({child.count})
+                                  </label>
+                                ))}
+                              </div>
+                            )}
+                        </>
+                      )}
+                    </div>
+                  );
+                })}
             </div>
           )}
         </div>
