@@ -1,93 +1,146 @@
-# 🚧 WPADC Archive Site 🚧
+# Washington Project for the Arts (WPA) DC Archive
 
-🟡 Slow for the Dev Zone - Devs At Work 👷🏽🟡
-<br>
-<br>
-<strong>Project Status</strong>: 🟢 On Track
-<br>
-<strong>Dev Link</strong>:
-<br>
-<strong>Project Log</strong>:
+A digital archive showcasing the rich history of Washington DC's arts community. This headless WordPress site features searchable collections of artworks, artist profiles, public programs, and cultural stories from the Washington Project for the Arts.
 
-- 9/16/24: WP Backend built locally
-- 9/19/24: Frontend connected to backend and queries are successful; Docs in progress; Backend and frontend ready to be pushed to WPEngine
+## 🎨 About the Project
 
-## 🛠️ Local Setup - Faust.js & Local (by Flywheel)
+The WPA DC Archive preserves and presents decades of artistic work and cultural programming from Washington DC. Users can explore:
 
-Clone project repo:
+- **Assets**: Artworks, photographs, and cultural artifacts
+- **People**: Artist profiles and collaborator information  
+- **Public Programs**: Events, exhibitions, and educational initiatives
+- **Stories**: Blog posts and historical narratives
+
+## 🛠️ Tech Stack
+
+- **Frontend**: Next.js 12 with React 17
+- **Backend**: Headless WordPress with WPGraphQL
+- **Framework**: Faust.js (WP Engine's headless WordPress solution)
+- **Styling**: SASS/SCSS with CSS Modules
+- **Data Fetching**: Apollo Client for GraphQL queries
+- **Development**: Local by Flywheel
+- **Hosting**: WP Engine
+
+## ✨ Key Features
+
+- **Advanced Search**: Full-text search across all content types with real-time results
+- **Responsive Design**: Mobile-first approach with component-based architecture
+- **Dynamic Content**: WordPress-powered content management with GraphQL API
+- **SEO Optimized**: Built-in meta management and sitemap generation
+- **Modular Components**: 40+ reusable React components with isolated styling
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **Node.js** ≥18 and npm ≥8
+- **Local by Flywheel**: [Download here](https://localwp.com/)
+- **Git**: For version control
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone git@github.com:weareoutright/wpadc-archive.git wpadc
+   cd wpadc
+   npm install
+   ```
+
+2. **Set up Local by Flywheel**
+   - Install and open Local by Flywheel
+   - In advanced settings, change Router Mode to "Site Domain" (not localhost)
+   - Start your WordPress instance and note the Site domain
+
+3. **Configure environment**
+   - Copy the Site domain from Local into your `.env.local` file:
+   ```bash
+   NEXT_PUBLIC_WORDPRESS_URL={Site domain from Local}
+   ```
+
+4. **Start development server**
+   ```bash
+   npm run dev
+   ```
+
+### Available Scripts
 
 ```bash
-git clone git@github.com:weareoutright/wpadc-archive.git wpadc
-cd wpadc
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+npm run lint         # Run ESLint
 ```
 
-Original code template originates from:
+## 🏗️ Architecture Overview
 
-```bash
-npx create-next-app \
-    -e https://github.com/wpengine/faustjs/tree/canary \
-    --example-path examples/next/faustwp-getting-started \
-    --use-npm
-```
+This project uses a **headless WordPress architecture** with:
 
-(For Faust Setup, see docs: https://faustjs.org/tutorial/get-started-with-faust)
+- **WordPress Backend**: Content management via WPGraphQL API
+- **Next.js Frontend**: React-based static site generation and server-side rendering
+- **Faust.js Integration**: Seamless WordPress-to-Next.js data flow
+- **Component Architecture**: Modular SCSS components in `components/` directory
+- **Custom Hooks**: GraphQL query management in `constants/customQueryHooks/`
 
-1. Be sure to have Local set up on your machine.
-   Download here: https://localwp.com/
-
-2. In your Local advanced settings, change Router Mode to "Site Domain" (instead of the default, localhost).
-
-3. Navigate back to the site in your Local app and take note of Site domain. Copy and paste this domain into your `.env.local` file for:
+## 🗂️ Project Structure
 
 ```
-NEXT_PUBLIC_WORDPRESS_URL={Site domain from Local}
+├── components/          # Reusable React components
+├── constants/           # Utilities and custom hooks
+│   └── customQueryHooks/    # GraphQL query hooks
+├── docs/               # Comprehensive project documentation
+├── fragments/          # GraphQL fragments
+├── pages/              # Next.js pages and API routes
+├── public/             # Static assets
+├── styles/             # Global SCSS styles
+└── wp-templates/       # WordPress template overrides
 ```
 
-4. Once you have all your .env variables in your `.env.local`, run:
+## 🔧 Troubleshooting
 
-```
-npm run dev
-```
-
-<br>
-
-### 🧐 Troubleshooting:
-
-#### 🪲 GraphQL Error
-
+### GraphQL Connection Issues
 ```
 error - Unable to find a GraphQL endpoint at https://wpadc-archive-dev.local/index.php?graphql
-error - WPGraphQL may not be active, or your WordPress site is unavailable.
 ```
+**Solutions:**
+- Ensure WordPress instance in Local is running
+- Verify WPGraphQL plugin is installed and activated
+- Check Local Router Mode is set to "Site Domain"
+- Validate `.env.local` variables
 
-- Be sure your Wordpress instance in Local is started and running
-- Be sure WPGraphQL is installed and activated in your Wordpress instance
-- Be sure your Local advanced settings for Router Mode is set to "Site domain"
-- Check your `.env.local` variables; Ensure they are correct
-
-#### 🪲 Validation Failed
-
+### Faust Configuration Error
 ```
-error - Validation Failed: Your Faust front-end site URL value is misconfigured. It should NOT match the `NEXT_PUBLIC_WORDPRESS_URL.
+error - Validation Failed: Your Faust front-end site URL value is misconfigured
 ```
+**Solutions:**
+- Frontend URL should be `localhost:3000` for local development
+- Production URL should match your WP Engine deployment domain
+- Ensure frontend URL ≠ `NEXT_PUBLIC_WORDPRESS_URL`
 
-- Frontend url needed for the Faust.js plugin is the url from which your frontend site is being hosted. For local development, this means it will probably be a `localhost:{PORT}` address
-- If your repo is already hosted on WPEngine Headless Wordpress, your frontend url will be the domain WPEngine Headless generates for you
+## 🚀 Deployment
 
-<br>
+This project is configured for **WP Engine Headless** hosting:
+- WordPress backend: Managed WordPress instance
+- Frontend: Automatically deployed Next.js application
+- Environment variables configured in WP Engine dashboard
 
-# 📚 Docs & Helpful Articles
+## 📚 Documentation
 
-- Local (WPEngine Desktop App) - https://localwp.com/help-docs/
-- Faust.js (more helpful for setup compared to WPEngine Headless docs) - https://faustjs.org/tutorial/get-started-with-faust
-- WPEngine Headless Wordpress - https://developers.wpengine.com/docs/atlas/overview/
+Comprehensive documentation is available in the [`docs/`](./docs/) directory:
+- **Architecture**: System design and technical decisions
+- **Development**: Setup guides and best practices  
+- **Planning**: Feature roadmaps and completion plans
 
-<br>
+## 🔗 Resources
 
-# 🫂 Support
+- [Faust.js Documentation](https://faustjs.org/tutorial/get-started-with-faust)
+- [Local by Flywheel Help](https://localwp.com/help-docs/)
+- [WP Engine Headless](https://developers.wpengine.com/docs/atlas/overview/)
+- [WPGraphQL Documentation](https://www.wpgraphql.com/)
 
-If you got aaaalllll the way down here and your console/terminal is still screaming at you, you are on the verge of throwing your computer in a dumpster, or perhaps questioning your career choices, reach out to Dakota 😅
+## 🤝 Contributing
 
-<br>
+Please review the documentation in `docs/development/` before contributing. For questions or support, contact the development team.
 
-Happy Coding!
+---
+
+**Washington Project for the Arts DC Archive** - Preserving and sharing Washington DC's rich cultural heritage through digital innovation.
