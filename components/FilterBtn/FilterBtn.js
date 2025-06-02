@@ -70,9 +70,10 @@ const FilterBtn = ({
   };
 
   const filterCounts = dropdownItems.reduce((acc, item) => {
-    if (item != null) {
-      acc[item] = (acc[item] || 0) + 1;
-    }
+    const key = item;
+
+    if (key == null) return acc;
+    acc[key] = (acc[key] || 0) + 1;
     return acc;
   }, {});
 
@@ -84,12 +85,22 @@ const FilterBtn = ({
     }
   }, [selectedItems, activeItems]);
 
+  useEffect(() => {
+    console.log(dropdownItems);
+  }, [dropdownItems]);
+
   return (
     <div className={cx("FilterBtn")}>
       <div className={cx(["main-filter", "filter"])}>
         <div className={cx("custom-select-dropdown")} ref={filterDropdownRef}>
           {/* Fake Select Box */}
-          <div className={cx("select-box")} onClick={toggleDropdown}>
+          <div
+            className={cx(
+              "select-box",
+              dropdownItems.length <= 0 && "disabled"
+            )}
+            onClick={toggleDropdown}
+          >
             <span className={cx("filter-text")}>{filterText}</span>
 
             {!mainDropdownOpen ? (
@@ -113,7 +124,7 @@ const FilterBtn = ({
           </div>
 
           {/* Parent Dropdown Options (Checkboxes) */}
-          {mainDropdownOpen && (
+          {mainDropdownOpen && !dropdownItems.length <= 0 && (
             <div className={cx(["parent", "dropdown-options"])}>
               {[...new Set(dropdownItems)]
                 .filter((item) => item != null)
