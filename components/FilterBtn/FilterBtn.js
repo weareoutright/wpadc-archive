@@ -85,10 +85,6 @@ const FilterBtn = ({
     }
   }, [selectedItems, activeItems]);
 
-  useEffect(() => {
-    console.log(dropdownItems);
-  }, [dropdownItems]);
-
   return (
     <div className={cx("FilterBtn")}>
       <div className={cx(["main-filter", "filter"])}>
@@ -101,7 +97,11 @@ const FilterBtn = ({
             )}
             onClick={toggleDropdown}
           >
-            <span className={cx("filter-text")}>{filterText}</span>
+            {!dropdownItems.length <= 0 && (
+              <span className={cx("filter-text")}>
+                {filterText} <small>({dropdownItems.length})</small>
+              </span>
+            )}
 
             {!mainDropdownOpen ? (
               <Image
