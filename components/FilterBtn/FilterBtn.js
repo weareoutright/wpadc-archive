@@ -14,6 +14,7 @@ const FilterBtn = ({
   setSelectedItems,
   activeItems,
   setActiveItems,
+  filterCountArr,
 }) => {
   const filterDropdownRef = useRef(null);
   const [mainDropdownOpen, setMainDropdownOpen] = useState(false);
@@ -77,6 +78,10 @@ const FilterBtn = ({
     return acc;
   }, {});
 
+  const countOccurrencesWithFilter = (arr = [], target) => {
+    return arr.filter((el) => el === target).length;
+  };
+
   useEffect(() => {
     if (!selectedItems) return;
 
@@ -84,6 +89,10 @@ const FilterBtn = ({
       setMainDropdownOpen(false);
     }
   }, [selectedItems, activeItems]);
+
+  useEffect(() => {
+    console.log(dropdownItems, filterCountArr);
+  }, []);
 
   return (
     <div className={cx("FilterBtn")}>
@@ -97,11 +106,12 @@ const FilterBtn = ({
             )}
             onClick={toggleDropdown}
           >
-            {!dropdownItems.length <= 0 && (
-              <span className={cx("filter-text")}>
-                {filterText} <small>({dropdownItems.length})</small>
-              </span>
-            )}
+            <span className={cx("filter-text")}>
+              {filterText}{" "}
+              {!dropdownItems.length <= 0 && (
+                <small>({dropdownItems.length})</small>
+              )}
+            </span>
 
             {!mainDropdownOpen ? (
               <Image
@@ -146,7 +156,8 @@ const FilterBtn = ({
                             checked={selectedItems.hasOwnProperty(parent)}
                             className={cx("checkbox-input")}
                           />{" "}
-                          {parent} ({filterCounts[parent]})
+                          {parent} (
+                          {countOccurrencesWithFilter(filterCountArr, parent)})
                         </span>
                         {parent?.childrenItems?.length > 0 ? (
                           <Image

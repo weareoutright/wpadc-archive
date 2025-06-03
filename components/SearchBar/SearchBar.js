@@ -28,6 +28,8 @@ export default function SearchBar({
   const router = useRouter();
   const { keyword } = router.query;
 
+  let flatProps = [];
+
   const [localKeyword, setLocalKeyword] = useState(() => {
     return searchKeyword || (typeof keyword === "string" ? keyword : "");
   });
@@ -101,7 +103,6 @@ export default function SearchBar({
 
     results?.forEach((result) => {
       const node = result?.node || result;
-
       if (node?.__typename === "Asset_post") {
         const card = node.assetCard?.assetCard?.[0];
         if (card?.startDate)
@@ -316,6 +317,7 @@ export default function SearchBar({
               activeItems={activeItems}
               setActiveItems={setActiveItems}
               resultsArr={results}
+              filterCountArr={flatProps}
             />
           ))}
         </div>

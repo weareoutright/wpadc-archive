@@ -41,7 +41,7 @@
       width: fit-content;
       z-index: 6;
       min-width: 10rem;
-      max-width: 12rem;
+      max-width: 15rem;
 
       .select-box {
         background: var(--dark-grey);
@@ -55,7 +55,8 @@
         justify-content: space-around !important;
         display: flex;
         align-items: center !important;
-        min-width: fit-content;
+        min-width: 10rem;
+        width: fit-content;
         transition: all 120ms ease-in-out;
         outline: 1px solid var(--dark-grey);
 
