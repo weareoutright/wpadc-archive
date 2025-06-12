@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useAssetsBySlug from "../../constants/customQueryHooks/useAssetsBySlug";
 import { LoadingPage } from "../../components";
 import { useRouter } from "next/router";
@@ -44,7 +44,20 @@ const AssetPage = () => {
   const assetTitle = assetPostBySlug?.title || "";
 
   const assetCard = assetPostBySlug?.assetCard?.assetCard?.[0];
-  const relatedItems = assetCard;
+  const artist = assetCard?.location;
+  const relatedItems = assetCard?.related;
+  // console.log('relatedItems', relatedItems);
+  const mediaFiles = assetCard?.assetFiles || [];
+  // console.log('mediaFiles', mediaFiles);
+  // const parentLinkUri = assetCard?.eyebrow?.nodes?.[0]?.uri || null;
+  // console.log('parentLinkUri', parentLinkUri);
+  const parentLink = assetCard?.eyebrow?.nodes[0] || null;
+  console.log('parentLink', parentLink);
+  const curator = assetCard?.curator?.nodes || null;
+
+  console.log('Asset card:', assetPostBySlug?.assetCard?.assetCard?.[0]);
+  console.log('Eyebrow:', assetPostBySlug?.assetCard?.assetCard?.[0]?.eyebrow);
+
 
   return (
     <>
@@ -71,6 +84,7 @@ const AssetPage = () => {
                     .map((edge) => edge?.node?.title)
                     .filter(Boolean)}
                   assetName={assetTitle}
+                  curator={curator}
                   eventName={null}
                   description={parse(assetCard?.description || "")}
                   tagsArr={
@@ -96,14 +110,23 @@ const AssetPage = () => {
                     assetPostBySlug?.assetCard?.assetCard?.[0]?.externalLinks
                   }
                   pageType={"asset"}
-                  parentLink={null}
+                  parentLink={
+                    parentLink?.title && parentLink?.uri
+                    ? parentLink
+                    : null
+                  }
+                />
+                <InThisProjectSection
+                  headerText="Images"
+                  itemsArr={null}
+                  frontPageCarousel={false}
                 />
                 <InThisProjectSection
                   headerText="In This Project"
                   itemsArr={null}
                   frontPageCarousel={false}
                 />
-                <RelatedSection itemsArr={null} />
+                <RelatedSection itemsArr={relatedItems} />
               </div>
             )}
           </Container>

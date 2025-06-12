@@ -20,15 +20,23 @@ const ContainerHeader = ({
   externalLinksArr,
   pageType,
   parentLink,
+  curator,
 }) => {
   return (
     <div className={cx("ContainerHeader")}>
-      {(pageType === "public-programs" || pageType === "content" || pageType === "event") && (
+      {/* {(pageType === "public-programs" || pageType === "content" || pageType === "event") && (
           <a href={parentLink?.uri} className={cx("eyebrow-link")}>
             <Image src={LEFT_ARROW} alt="left arrow" />{" "}
-            <span>{parentLink?.title}</span>
+            <span>{parentLink?.title || "placeholder title"}</span>
+          </a>
+        )} */}
+      {(pageType === "public-programs" || pageType === "content" || pageType === "event" || pageType === "asset") && parentLink?.title && (
+          <a href={parentLink.uri} className={cx("eyebrow-link")}>
+            <Image src={LEFT_ARROW} alt="left arrow" />
+            <span>{parentLink.title}</span>
           </a>
         )}
+
       {pageType === "public-programs" && <h2>{programName}</h2>}
       {pageType === "event" && <h2>{eventName}</h2>}
       {pageType === "asset" && <h2>{assetName}</h2>}
@@ -131,6 +139,22 @@ const ContainerHeader = ({
                     </p>
                   </>
               )}
+              {Array.isArray(curator) && curator.length > 0 && (
+                <>
+                  <small>Curator(s)</small>
+                  <p>
+                    {curator.map((curatorItem, index) => (
+                      <span key={curatorItem.id}>
+                        <a href={curatorItem.uri || `/person/${curatorItem.slug}`}>
+                          {curatorItem.title}
+                        </a>
+                        {index < curator.length - 1 ? ', ' : ''}
+                      </span>
+                    ))}
+                  </p>
+                </>
+              )}
+
             </div>
 
             {/* {pageType === "artist" ||

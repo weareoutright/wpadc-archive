@@ -1,7 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 
 const GET_ASSET = gql`
-  query MyQuery2($slug: String!) {
+  query getAssetPostBySlug($slug: String!) {
     assetPostBy(slug: $slug) {
       title
       assetCard {
@@ -13,10 +13,12 @@ const GET_ASSET = gql`
             year
             location
             eyebrow {
-              edges {
-                node {
+              nodes {
+                ... on Asset_post {
+                __typename
                   id
-                  link
+                  title
+                  uri
                   slug
                 }
               }
@@ -47,6 +49,7 @@ const GET_ASSET = gql`
             curator {
               nodes {
                 slug
+                uri
                 ... on Person {
                   id
                   title
@@ -89,6 +92,7 @@ const GET_ASSET = gql`
                   description
                   sourceUrl
                   title
+                  filePath
                 }
               }
             }
