@@ -19,6 +19,53 @@ const GET_HOME_BLOCKS = gql`
                     modified
                     ... on Post {
                       id
+                      slug
+                      title
+                      link
+                      featuredImage {
+                        node {
+                          sourceUrl
+                          title
+                        }
+                      }
+                    }
+                    ... on Asset_post {
+                      id
+                      slug
+                      title
+                      link
+                      featuredImage {
+                        node {
+                          sourceUrl
+                          title
+                        }
+                      }
+                    }
+                    ... on StoryBlogPost {
+                      id
+                      slug
+                      title
+                      uri
+                      link
+                      featuredImage {
+                        node {
+                          sourceUrl
+                          title
+                        }
+                      }
+                    }
+                    ... on PublicProgram {
+                      id
+                      title
+                      uri
+                      slug
+                      link
+                      featuredImage {
+                        node {
+                          sourceUrl
+                          title
+                        }
+                      }
                     }
                   }
                 }
@@ -30,6 +77,11 @@ const GET_HOME_BLOCKS = gql`
                 edges {
                   node {
                     id
+                    link
+                    ... on Person {
+                      id
+                      title
+                    }
                   }
                 }
               }
