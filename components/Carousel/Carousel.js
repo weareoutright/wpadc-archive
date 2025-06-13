@@ -108,7 +108,6 @@ const Carousel = ({
       >
         {slides ? (
           slides.map((slide, index) => {
-            console.log(slide);
             return (
               <div
                 key={index}

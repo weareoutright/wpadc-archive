@@ -19,26 +19,26 @@ const RelatedItemCard = ({ node }) => {
   const publicProgramTitle = publicProgramData?.publicProgram?.title;
   const storyBlogTitle = storyBlogData?.storyBlog?.title;
 
-  const assetAuthor = assetData?.assetPostBySlug?.assetCard?.assetCard?.[0]?.artists?.[0]?.collaborator?.edges?.[0]?.node;
+  const assetAuthor =
+    assetData?.assetPostBySlug?.assetCard?.assetCard?.[0]?.artists?.[0]
+      ?.collaborator?.edges?.[0]?.node;
   const imgSrc = node;
-  
+
   const personThumbnail = node?.personCard?.personInfo?.[0]?.headshot?.node;
   const assetThumbnail = node?.assetCard?.assetInfo?.[0]?.thumbnail?.node;
-  
-  console.log('assetThumbnail:', assetThumbnail);
 
   // Determine which title to use based on the URI
   const getTitle = () => {
-    if (uri?.includes('/person/')) {
+    if (uri?.includes("/person/")) {
       return personTitle;
     }
-    if (uri?.includes('/asset/')) {
+    if (uri?.includes("/asset/")) {
       return assetTitle;
     }
-    if (uri?.includes('/public-program/')) {
+    if (uri?.includes("/public-program/")) {
       return publicProgramTitle;
     }
-    if (uri?.includes('/story-blog-post/')) {
+    if (uri?.includes("/story-blog-post/")) {
       return storyBlogTitle;
     }
     return title; // fallback to original title
@@ -46,8 +46,8 @@ const RelatedItemCard = ({ node }) => {
 
   // But when creating the link, convert the URI
   const getLink = () => {
-    if (uri?.includes('/public-program/')) {
-      return uri.replace('/public-program/', '/public-programs/');
+    if (uri?.includes("/public-program/")) {
+      return uri.replace("/public-program/", "/public-programs/");
     }
     return uri;
   };
@@ -67,11 +67,8 @@ const RelatedItemCard = ({ node }) => {
         <a href={getLink()} className={cx("asset-link")}>
           <h3>{getTitle()}</h3>
         </a>
-        {!uri?.includes('/person/') && (
-          <a
-            href={assetAuthor?.uri}
-            className={cx("asset-link")}
-          >
+        {!uri?.includes("/person/") && (
+          <a href={assetAuthor?.uri} className={cx("asset-link")}>
             <small>{assetAuthor?.title || author}</small>
           </a>
         )}
