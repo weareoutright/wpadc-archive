@@ -100,7 +100,7 @@ export default function Component() {
   const { query } = router;
 
   const [isNavShown, setIsNavShown] = useState(false);
-  const RESULTS_PER_PAGE = 16;
+  const RESULTS_PER_PAGE = 15;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [debouncedKeyword, setDebouncedKeyword] = useState("");
