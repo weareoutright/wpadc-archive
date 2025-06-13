@@ -51,6 +51,8 @@ export default function Component(props) {
     data: dataAbout,
   } = useAboutBlocks();
 
+  const { title, id, aboutBlocks } = dataAbout?.pages.edges[0].node || {};
+
   const primaryMenu = menus;
 
   if (loading || loadingAbout || loadingSettings || loadingMenus)
@@ -71,7 +73,7 @@ export default function Component(props) {
         title={generalSettings.title}
         description={generalSettings.description}
         menuItems={primaryMenu}
-        currentRoute={"/about"}
+        currentRoute={"/about-the-archive"}
         isNavShown={isNavShown}
         setIsNavShown={setIsNavShown}
       />
