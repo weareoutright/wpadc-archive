@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import SEARCH_BTN from "../../assets/search-bar/search-icon.svg";
 import FilterBtn from "../FilterBtn/FilterBtn";
@@ -24,11 +24,11 @@ export default function SearchBar({
   setSelectedItems,
   unfilteredResults,
   isFrontPage,
+  filterCounts = {},
+  setFilterCounts, // 🆕 make sure you pass this prop from the parent!
 }) {
   const router = useRouter();
   const { keyword } = router.query;
-
-  let flatProps = [];
 
   const [localKeyword, setLocalKeyword] = useState(() => {
     return searchKeyword || (typeof keyword === "string" ? keyword : "");
@@ -40,14 +40,11 @@ export default function SearchBar({
   const [activeItems, setActiveItems] = useState([]);
   const [hasMounted, setHasMounted] = useState(false);
 
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
+  useEffect(() => setHasMounted(true), []);
 
   const shouldSyncWithParent =
     hasMounted && router.asPath.startsWith("/search");
 
-  // Only sync local keyword back to parent on /search
   useEffect(() => {
     if (!shouldSyncWithParent) return;
 
@@ -55,15 +52,12 @@ export default function SearchBar({
       const timer = setTimeout(() => {
         setSearchKeyword(localKeyword);
       }, 300);
-
       return () => clearTimeout(timer);
     }
   }, [localKeyword, searchKeyword, shouldSyncWithParent]);
 
   useEffect(() => {
-    if (!hasMounted) return;
-    if (!router.asPath.startsWith("/search")) return;
-    if (!selectedItems || typeof selectedItems !== "object") return;
+    if (!hasMounted || !router.asPath.startsWith("/search")) return;
 
     const newQuery = {
       ...router.query,
@@ -73,75 +67,100 @@ export default function SearchBar({
           : undefined,
     };
 
-    router.replace(
-      {
-        pathname: "/search",
-        query: newQuery,
-      },
-      undefined,
-      { shallow: true }
-    );
+    router.replace({ pathname: "/search", query: newQuery }, undefined, {
+      shallow: true,
+    });
   }, [selectedItems, hasMounted, router.asPath]);
 
-  // rebuild filter dropdowns
   useEffect(() => {
-    if (results?.length <= 0) return;
+    if (!results?.length) return;
+
     const updatedFilters = JSON.parse(JSON.stringify(FILTER_PILL_BTNS_DEFAULT));
+    const counts = {};
 
-    const yearFilter = updatedFilters.find((f) => f.filterText === "Year");
-    const peopleFilter = updatedFilters.find((f) => f.filterText === "People");
-    const roleFilter = updatedFilters.find((f) => f.filterText === "Role");
-    const documentTypeFilter = updatedFilters.find(
-      (f) => f.filterText === "Document Type"
-    );
-    const projectTypeFilter = updatedFilters.find(
-      (f) => f.filterText === "Project Type"
-    );
-    const locationFilter = updatedFilters.find(
-      (f) => f.filterText === "Location"
-    );
+    updatedFilters.forEach((filter) => {
+      counts[filter.filterText] = {};
+    });
 
-    results?.forEach((result) => {
+    results.forEach((result) => {
       const node = result?.node || result;
-      if (node?.__typename === "Asset_post") {
-        const card = node.assetCard?.assetCard?.[0];
-        if (card?.startDate)
-          yearFilter.dropdownItems.push(new Date(card.startDate).getFullYear());
 
-        const people = card?.artists?.[0]?.collaborator?.edges;
-        people?.forEach((p) => {
-          peopleFilter.dropdownItems.push(p.node.title);
-          const roles = p.node.personCard?.personInfo?.[0]?.roleType?.edges;
-          roles?.forEach((r) => roleFilter.dropdownItems.push(r.node.title));
+      updatedFilters.forEach((filter) => {
+        const key = filter.filterText;
+        let values = [];
+
+        switch (key) {
+          case "Year":
+            const rawDate =
+              node?.assetCard?.assetCard?.[0]?.startDate || node?.date;
+            const year = rawDate
+              ? String(new Date(rawDate).getFullYear())
+              : null;
+            if (year) values.push(year);
+            break;
+
+          case "People":
+            if (node?.__typename === "Asset_post") {
+              const people =
+                node?.assetCard?.assetCard?.[0]?.artists?.[0]?.collaborator
+                  ?.edges || [];
+              values.push(...people.map((p) => p?.node?.title).filter(Boolean));
+            } else if (node?.__typename === "Person") {
+              values.push(node?.title);
+            } else if (node?.__typename === "StoryBlogPost") {
+              const author = node?.storyBlocks?.mainContent?.[0]?.author;
+              if (author) values.push(author);
+            }
+            break;
+
+          case "Location":
+            const loc =
+              node?.assetCard?.assetCard?.[0]?.location ||
+              node?.personCard?.personInfo?.[0]?.location;
+            if (loc) values.push(loc);
+            break;
+
+          case "Role":
+            const roles =
+              node?.assetCard?.assetCard?.[0]?.artists?.[0]?.collaborator
+                ?.edges || [];
+
+            roles.forEach((edge) => {
+              const nestedRoles =
+                edge?.node?.personCard?.personInfo?.[0]?.roleType?.edges || [];
+              nestedRoles.forEach((r) => {
+                if (r?.node?.title) values.push(r.node.title);
+              });
+            });
+
+            if (node?.__typename === "StoryBlogPost") values.push("Author");
+            break;
+
+          case "Document Type":
+          case "Project Type":
+            const types =
+              node?.assetCard?.assetCard?.[0]?.type?.[0]?.type?.edges || [];
+            values.push(...types.map((e) => e?.node?.title).filter(Boolean));
+
+            if (
+              node?.__typename === "PublicProgram" &&
+              key === "Project Type"
+            ) {
+              const events =
+                node?.programCard?.programCard?.[0]?.eventType || [];
+              values.push(...events.filter(Boolean));
+            }
+            break;
+
+          default:
+            break;
+        }
+
+        values.filter(Boolean).forEach((val) => {
+          filter.dropdownItems.push(val);
+          counts[key][val] = (counts[key][val] || 0) + 1;
         });
-
-        const types = card?.type?.[0]?.type?.edges;
-        types?.forEach((t) => {
-          documentTypeFilter.dropdownItems.push(t.node.title);
-          projectTypeFilter.dropdownItems.push(t.node.title);
-        });
-
-        if (card?.location) locationFilter.dropdownItems.push(card.location);
-      }
-
-      if (node?.__typename === "Person") {
-        peopleFilter.dropdownItems.push(node.title);
-        const loc = node.personCard?.personInfo?.[0]?.location;
-        if (loc) locationFilter.dropdownItems.push(loc);
-      }
-
-      if (node?.__typename === "PublicProgram") {
-        const events = node.programCard?.programCard?.[0]?.eventType;
-        projectTypeFilter.dropdownItems.push(...(events || []));
-      }
-
-      if (node?.__typename === "StoryBlogPost") {
-        if (node.date)
-          yearFilter.dropdownItems.push(new Date(node.date).getFullYear());
-        const author = node.storyBlocks?.mainContent?.[0]?.author;
-        if (author) peopleFilter.dropdownItems.push(author);
-        roleFilter.dropdownItems.push("Author");
-      }
+      });
     });
 
     updatedFilters.forEach((f) => {
@@ -149,6 +168,7 @@ export default function SearchBar({
     });
 
     setFilterButtons(updatedFilters);
+    setFilterCounts(counts); // ✅ THIS LINE FIXES THE ISSUE
   }, [results]);
 
   useEffect(() => {
@@ -157,92 +177,27 @@ export default function SearchBar({
       newKeys.length === activeItems.length &&
       newKeys.every((k) => activeItems.includes(k));
 
-    if (!areSame) {
-      setActiveItems(newKeys);
-    }
+    if (!areSame) setActiveItems(newKeys);
   }, [selectedItems, activeItems]);
-
-  useEffect(() => {
-    if (!unfilteredResults?.length) return;
-
-    let filtered = [...unfilteredResults];
-
-    Object.entries(selectedItems).forEach(([key, values]) => {
-      if (!values?.length) return;
-
-      filtered = filtered.filter((item) => {
-        const node = item.node || item;
-
-        if (key === "Year") {
-          const year = node?.assetCard?.assetCard?.[0]?.startDate
-            ? new Date(node.assetCard.assetCard[0].startDate).getFullYear()
-            : null;
-          return values.includes(year);
-        }
-
-        if (key === "People") {
-          const people =
-            node?.assetCard?.assetCard?.[0]?.artists?.[0]?.collaborator?.edges?.map(
-              (e) => e.node.title
-            ) || [];
-          return people.some((p) => values.includes(p));
-        }
-
-        if (key === "Location") {
-          const loc =
-            node?.assetCard?.assetCard?.[0]?.location ||
-            node?.personCard?.personInfo?.[0]?.location;
-          return values.includes(loc);
-        }
-
-        if (key === "Role") {
-          const roles =
-            node?.assetCard?.assetCard?.[0]?.artists?.[0]?.collaborator?.edges?.flatMap(
-              (e) =>
-                e.node.personCard?.personInfo?.[0]?.roleType?.edges?.map(
-                  (r) => r.node.title
-                )
-            ) || [];
-          return roles.some((r) => values.includes(r));
-        }
-
-        if (key === "Document Type" || key === "Project Type") {
-          const types =
-            node?.assetCard?.assetCard?.[0]?.type?.[0]?.type?.edges?.map(
-              (e) => e.node.title
-            ) || [];
-          return types.some((t) => values.includes(t));
-        }
-
-        return true;
-      });
-    });
-
-    setResults(filtered);
-  }, [selectedItems, unfilteredResults]);
 
   const clearFilters = () => {
     setSelectedItems({});
     setActiveItems([]);
   };
 
-  const performSearch = useCallback(() => {
-    // on “/” default to “art” if nothing is typed
+  const performSearch = () => {
     let keywordParam = localKeyword.trim();
-    if (!keywordParam && router.pathname === "/") {
-      keywordParam = "art";
-    }
+    if (!keywordParam && router.pathname === "/") keywordParam = "art";
     if (!keywordParam) return;
 
-    setResults && setResults([]);
-
+    setResults([]);
     setFilterButtons(JSON.parse(JSON.stringify(FILTER_PILL_BTNS_DEFAULT)));
 
     router.push({
       pathname: "/search",
       query: { keyword: keywordParam },
     });
-  }, [localKeyword, setResults, router.pathname]);
+  };
 
   const handleSearch = (e) => setLocalKeyword(e.target.value);
 
@@ -317,7 +272,7 @@ export default function SearchBar({
               activeItems={activeItems}
               setActiveItems={setActiveItems}
               resultsArr={results}
-              filterCountArr={flatProps}
+              filterCountArr={filterCounts[filter.filterText] || {}}
             />
           ))}
         </div>

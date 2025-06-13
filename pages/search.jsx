@@ -106,6 +106,7 @@ export default function Component() {
   const [debouncedKeyword, setDebouncedKeyword] = useState("");
   const [unfilteredResults, setUnfilteredResults] = useState([]);
   const [selectedItems, setSelectedItems] = useState({});
+  const [filterCounts, setFilterCounts] = useState({});
 
   const { loading: ls, generalSettings } = useGeneralSettings();
   const { loading: lm, menus } = useHeaderMenu();
@@ -221,6 +222,8 @@ export default function Component() {
             setSelectedItems={setSelectedItems}
             unfilteredResults={unfilteredResults}
             isFrontPage={false}
+            filterCounts={filterCounts}
+            setFilterCounts={setFilterCounts}
           />
           <Main>
             <Container>
