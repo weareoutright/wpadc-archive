@@ -83,35 +83,29 @@ export default function Component(props) {
             <Container className="about-container">
               <div className="About">
                 <div className="page-description">
-                  {dataAbout?.pages.edges?.[0]?.node?.aboutBlocks
-                    ?.howToUseTheArchive &&
-                    dataAbout.pages.edges[0].node.aboutBlocks.howToUseTheArchive
-                      .length > 0 &&
-                    dataAbout.pages.edges[0].node.aboutBlocks
-                      .howToUseTheArchive[0]?.howToUseTheArchiveContent &&
+                  {aboutBlocks?.howToUseTheArchive &&
+                    aboutBlocks.howToUseTheArchive.length > 0 &&
+                    aboutBlocks.howToUseTheArchive[0]
+                      ?.howToUseTheArchiveContent &&
                     parse(
-                      dataAbout.pages.edges[0].node.aboutBlocks
-                        .howToUseTheArchive[0].howToUseTheArchiveContent
+                      aboutBlocks.howToUseTheArchive[0]
+                        .howToUseTheArchiveContent
                     )}
                 </div>
                 <div className="page-content">
                   <div className={"img-container"}>
-                    {dataAbout?.pages.edges?.[0]?.node?.aboutBlocks
-                      ?.aboutContentBlocks &&
-                      dataAbout.pages.edges[0].node.aboutBlocks
-                        .aboutContentBlocks.length > 0 &&
-                      dataAbout.pages.edges[0].node.aboutBlocks
-                        .aboutContentBlocks[0]?.aboutFeaturedImage && (
+                    {aboutBlocks?.aboutContentBlocks &&
+                      aboutBlocks.aboutContentBlocks.length > 0 &&
+                      aboutBlocks.aboutContentBlocks[0]?.aboutFeaturedImage && (
                         <img
                           className="about-featured-image"
                           src={
-                            dataAbout.pages.edges[0].node.aboutBlocks
-                              .aboutContentBlocks[0]?.aboutFeaturedImage?.node
-                              ?.sourceUrl || ABOUT_FEATURED_IMAGE
+                            aboutBlocks.aboutContentBlocks[0]
+                              ?.aboutFeaturedImage?.node?.sourceUrl ||
+                            ABOUT_FEATURED_IMAGE
                           }
                           alt={`${
-                            dataAbout?.pages.edges?.[0]?.node?.aboutBlocks
-                              ?.title
+                            aboutBlocks?.title
                               ? parse(
                                   dataAbout.pages.edges[0].node.aboutBlocks
                                     .title
@@ -124,48 +118,31 @@ export default function Component(props) {
                   <div className="text-content">
                     <h2>
                       {" "}
-                      {dataAbout?.pages.edges?.[0]?.node?.aboutBlocks
-                        ?.aboutContentBlocks &&
-                        dataAbout.pages.edges[0].node.aboutBlocks
-                          .aboutContentBlocks.length > 0 &&
-                        dataAbout.pages.edges[0].node.aboutBlocks
-                          .aboutContentBlocks[0]?.aboutPageHeader &&
+                      {aboutBlocks?.aboutContentBlocks &&
+                        aboutBlocks.aboutContentBlocks.length > 0 &&
+                        aboutBlocks.aboutContentBlocks[0]?.aboutPageHeader &&
                         parse(
-                          dataAbout.pages.edges[0].node.aboutBlocks
-                            .aboutContentBlocks[0]?.aboutPageHeader
+                          aboutBlocks.aboutContentBlocks[0]?.aboutPageHeader
                         )}
                     </h2>{" "}
-                    {dataAbout?.pages.edges?.[0]?.node?.aboutBlocks
-                      ?.aboutContentBlocks &&
-                      dataAbout.pages.edges[0].node.aboutBlocks
-                        .aboutContentBlocks.length > 0 &&
-                      parse(
-                        dataAbout?.pages.edges[0].node.aboutBlocks
-                          .aboutContentBlocks[0]?.aboutContent
-                      )}
+                    {aboutBlocks?.aboutContentBlocks &&
+                      aboutBlocks.aboutContentBlocks.length > 0 &&
+                      parse(aboutBlocks.aboutContentBlocks[0]?.aboutContent)}
                     <div className="external-links external-links-light">
                       {" "}
-                      {dataAbout?.pages.edges?.[0]?.node?.aboutBlocks
-                        ?.aboutContentBlocks &&
-                        dataAbout.pages.edges[0].node.aboutBlocks
-                          .aboutContentBlocks.length > 0 &&
-                        dataAbout.pages.edges[0].node.aboutBlocks
-                          .aboutContentBlocks[0]?.buttons &&
-                        dataAbout.pages.edges[0].node.aboutBlocks.aboutContentBlocks[0].buttons.map(
-                          (btn) => (
-                            <a
-                              key={`about-ext-link-${btn.title}`}
-                              href={btn.url}
-                            >
-                              {btn.title}{" "}
-                              <Image
-                                className="right-arrow"
-                                src={RIGHT_ARROW}
-                                alt="right arrow"
-                              />
-                            </a>
-                          )
-                        )}
+                      {aboutBlocks?.aboutContentBlocks &&
+                        aboutBlocks.aboutContentBlocks.length > 0 &&
+                        aboutBlocks.aboutContentBlocks[0]?.buttons &&
+                        aboutBlocks.aboutContentBlocks[0].buttons.map((btn) => (
+                          <a key={`about-ext-link-${btn.title}`} href={btn.url}>
+                            {btn.title}{" "}
+                            <Image
+                              className="right-arrow"
+                              src={RIGHT_ARROW}
+                              alt="right arrow"
+                            />
+                          </a>
+                        ))}
                     </div>
                   </div>
                 </div>
@@ -176,27 +153,20 @@ export default function Component(props) {
             <h2>How to Use the Archive</h2>
             <div className={cx("text-content")}>
               <div className={cx("how-to-use-the-archive")}>
-                {dataAbout?.pages.edges?.[0]?.node?.aboutBlocks
-                  ?.howToUseTheArchive &&
-                  dataAbout.pages.edges[0].node.aboutBlocks.howToUseTheArchive
-                    .length > 0 &&
-                  dataAbout.pages.edges[0].node.aboutBlocks
-                    .howToUseTheArchive[0]?.howToUseTheArchiveContent &&
+                {aboutBlocks?.howToUseTheArchive &&
+                  aboutBlocks.howToUseTheArchive.length > 0 &&
+                  aboutBlocks.howToUseTheArchive[0]
+                    ?.howToUseTheArchiveContent &&
                   parse(
-                    dataAbout.pages.edges[0].node.aboutBlocks
-                      .howToUseTheArchive[0].howToUseTheArchiveContent
+                    aboutBlocks.howToUseTheArchive[0].howToUseTheArchiveContent
                   )}
               </div>
               <div className={cx("submission-btns")}>
-                {dataAbout?.pages.edges?.[0]?.node?.aboutBlocks
-                  ?.howToUseTheArchive &&
-                  dataAbout.pages.edges[0].node.aboutBlocks.howToUseTheArchive
-                    .length > 0 &&
-                  dataAbout.pages.edges[0].node.aboutBlocks
-                    .howToUseTheArchive[0]?.buttons &&
-                  dataAbout.pages.edges[0].node.aboutBlocks
-                    .howToUseTheArchive[0].buttons.length > 0 &&
-                  dataAbout.pages.edges[0].node.aboutBlocks.howToUseTheArchive[0].buttons.map(
+                {aboutBlocks?.howToUseTheArchive &&
+                  aboutBlocks.howToUseTheArchive.length > 0 &&
+                  aboutBlocks.howToUseTheArchive[0]?.buttons &&
+                  aboutBlocks.howToUseTheArchive[0].buttons.length > 0 &&
+                  aboutBlocks.howToUseTheArchive[0].buttons.map(
                     (link, index) => (
                       <a
                         key={index}
