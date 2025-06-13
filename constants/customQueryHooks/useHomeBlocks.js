@@ -77,6 +77,11 @@ const GET_HOME_BLOCKS = gql`
                 edges {
                   node {
                     id
+                    link
+                    ... on Person {
+                      id
+                      title
+                    }
                   }
                 }
               }

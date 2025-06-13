@@ -9,6 +9,7 @@ import { useRef, useState, useEffect } from "react";
 import { AssetSearchResultCard } from "../AssetSearchResultCard";
 import { FeaturedArtistCard } from "../FeaturedArtistCard";
 import HomePageCarouselCard from "../HomePageCarouselCard/HomePageCarouselCard";
+import { HomePageFeaturedArtistCard } from "../HomePageFeaturedArtistCard";
 
 let cx = className.bind(styles);
 
@@ -66,8 +67,6 @@ const Carousel = ({
     return () => observer.disconnect();
   }, [slides]);
 
-  console.log(slides);
-
   return (
     <div
       className={cx(["Carousel", className])}
@@ -109,6 +108,7 @@ const Carousel = ({
       >
         {slides ? (
           slides.map((slide, index) => {
+            console.log(slide);
             return (
               <div
                 key={index}
@@ -120,6 +120,15 @@ const Carousel = ({
                     "HomeBlocksFeaturedCollectionsAndStories" && (
                     <HomePageCarouselCard
                       node={slide}
+                      personName={personName}
+                      isHomepageCarouselCard={true}
+                    />
+                  )}
+
+                {cardType === "homepage" &&
+                  slide.node?.__typename === "Person" && (
+                    <HomePageFeaturedArtistCard
+                      node={slide.node}
                       personName={personName}
                       isHomepageCarouselCard={true}
                     />

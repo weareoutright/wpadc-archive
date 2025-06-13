@@ -34,3 +34,4 @@ export { ArtistContainerHeader } from "./ArtistContainerHeader";
 export { PageContentWrapper } from "./PageContentWrapper";
 export { FullPageFocusOverlay } from "./FullPageFocusOverlay";
 export { HomePageCarouselCard } from "./HomePageCarouselCard";
+export { HomePageFeaturedArtistCard } from "./HomePageFeaturedArtistCard";

@@ -34,8 +34,6 @@ export default function Component() {
 
   const { loading: loadingHome, data: dataHome } = useHomeBlocks();
 
-  console.log(dataHome);
-
   const { route } = useRouter();
 
   return (
@@ -64,7 +62,7 @@ export default function Component() {
                 </h3>
                 <p>
                   {
-                    dataHome.pages.edges[0].node.homeBlocks
+                    dataHome?.pages.edges[0].node.homeBlocks
                       .featuredCollectionsStoriesDescription
                   }
                 </p>
@@ -72,7 +70,7 @@ export default function Component() {
 
               <Carousel
                 slides={
-                  dataHome.pages.edges[0].node.homeBlocks
+                  dataHome?.pages.edges[0].node.homeBlocks
                     .featuredCollectionsAndStories
                 }
                 cardType="homepage"
@@ -89,14 +87,17 @@ export default function Component() {
                 <p>
                   {" "}
                   {
-                    dataHome.pages.edges[0].node.homeBlocks
+                    dataHome?.pages.edges[0].node.homeBlocks
                       .featuredArtistsDescription
                   }
                 </p>
               </div>
               <Carousel
-                slides={null}
-                cardType="asset"
+                slides={
+                  dataHome?.pages.edges[0].node.homeBlocks.featuredArtists[0]
+                    .artist.edges
+                }
+                cardType="homepage"
                 className="front-page-carousel"
               />
 
@@ -106,18 +107,18 @@ export default function Component() {
                 <h3 style={{ textWrap: "nowrap" }}>Browse By</h3>
                 <p>
                   {" "}
-                  {dataHome.pages.edges[0].node.homeBlocks.browseByDescription}
+                  {dataHome?.pages.edges[0].node.homeBlocks.browseByDescription}
                 </p>
               </div>
             </FrontPageContainer>
             <div className={FullWidthLinkCx("front-page-full-width-links")}>
               <FullWidthLink
                 label={
-                  dataHome.pages.edges[0].node.homeBlocks.browseByLinks[0]
+                  dataHome?.pages.edges[0].node.homeBlocks.browseByLinks[0]
                     .browseByItem.linkTitle
                 }
                 path={
-                  dataHome.pages.edges[0].node.homeBlocks.browseByLinks[0]
+                  dataHome?.pages.edges[0].node.homeBlocks.browseByLinks[0]
                     .browseByItem.url
                 }
                 bgHex={"6741f5"}
@@ -125,33 +126,33 @@ export default function Component() {
               />
               <FullWidthLink
                 label={
-                  dataHome.pages.edges[0].node.homeBlocks.browseByLinks[1]
+                  dataHome?.pages.edges[0].node.homeBlocks.browseByLinks[1]
                     .browseByItem.linkTitle
                 }
                 path={
-                  dataHome.pages.edges[0].node.homeBlocks.browseByLinks[1]
+                  dataHome?.pages.edges[0].node.homeBlocks.browseByLinks[1]
                     .browseByItem.url
                 }
                 bgHex={"f66639"}
               />
               <FullWidthLink
                 label={
-                  dataHome.pages.edges[0].node.homeBlocks.browseByLinks[2]
+                  dataHome?.pages.edges[0].node.homeBlocks.browseByLinks[2]
                     .browseByItem.linkTitle
                 }
                 path={
-                  dataHome.pages.edges[0].node.homeBlocks.browseByLinks[2]
+                  dataHome?.pages.edges[0].node.homeBlocks.browseByLinks[2]
                     .browseByItem.url
                 }
                 bgHex={"f63939"}
               />
               <FullWidthLink
                 label={
-                  dataHome.pages.edges[0].node.homeBlocks.browseByLinks[3]
+                  dataHome?.pages.edges[0].node.homeBlocks.browseByLinks[3]
                     .browseByItem.linkTitle
                 }
                 path={
-                  dataHome.pages.edges[0].node.homeBlocks.browseByLinks[3]
+                  dataHome?.pages.edges[0].node.homeBlocks.browseByLinks[3]
                     .browseByItem.url
                 }
                 bgHex={"FF00D2"}

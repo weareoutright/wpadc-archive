@@ -18,9 +18,9 @@ const stripLocalDomain = (url) => {
 
 const HomePageCarouselCard = ({ node }) => {
   const { id, title, link, featuredImg } =
-    node.featuredCollectionStory.edges[0].node;
+    node.featuredCollectionStory?.edges[0].node;
   let isWPAStory =
-    node.featuredCollectionStory.edges[0].node.__typename === "Post";
+    node.featuredCollectionStory?.edges[0].node.__typename === "Post";
 
   const borderColor = getRandomColor(WPA_STORY_BORDER_COLOR_CLASSES);
 
