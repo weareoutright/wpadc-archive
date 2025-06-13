@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useRef, useState, useEffect } from "react";
 import { AssetSearchResultCard } from "../AssetSearchResultCard";
 import { FeaturedArtistCard } from "../FeaturedArtistCard";
+import HomePageCarouselCard from "../HomePageCarouselCard/HomePageCarouselCard";
 
 let cx = className.bind(styles);
 
@@ -65,6 +66,8 @@ const Carousel = ({
     return () => observer.disconnect();
   }, [slides]);
 
+  console.log(slides);
+
   return (
     <div
       className={cx(["Carousel", className])}
@@ -112,6 +115,15 @@ const Carousel = ({
                 className={cx("carousel-item")}
                 data-index={index} // Assign index for reference in observer
               >
+                {cardType === "homepage" &&
+                  slide.__typename ===
+                    "HomeBlocksFeaturedCollectionsAndStories" && (
+                    <HomePageCarouselCard
+                      node={slide}
+                      personName={personName}
+                      isHomepageCarouselCard={true}
+                    />
+                  )}
                 {cardType === "asset" && (
                   <AssetSearchResultCard node={slide} personName={personName} />
                 )}

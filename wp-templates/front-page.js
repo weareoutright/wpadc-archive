@@ -21,24 +21,6 @@ import useHomeBlocks from "../constants/customQueryHooks/useHomeBlocks";
 let frontPageContainerCx = className.bind(frontPageStyles);
 let FullWidthLinkCx = className.bind(FullWidthLinkStyles);
 
-// const DUMMY_ITEMS = [
-//   {
-//     title: "sample",
-//     asset_postId: "hello",
-//     uri: "hello",
-//     author: "sample",
-//     slug: "test",
-//   },
-// ];
-
-// const DUMMY_ARTISTS = [
-//   {
-//     people_postId: "hello",
-//     author: "sample",
-//     slug: "test",
-//   },
-// ];
-
 export default function Component() {
   const [isNavShown, setIsNavShown] = useState(false);
   const { data } = useQuery(Component.query, {
@@ -50,11 +32,9 @@ export default function Component() {
   const primaryMenu = data?.headerMenuItems?.nodes ?? [];
   const footerMenu = data?.footerMenuItems?.nodes ?? [];
 
-  const {
-    loading: loadingHome,
-    error: errorHome,
-    data: dataHome,
-  } = useHomeBlocks();
+  const { loading: loadingHome, data: dataHome } = useHomeBlocks();
+
+  console.log(dataHome);
 
   const { route } = useRouter();
 
@@ -91,8 +71,11 @@ export default function Component() {
               </div>
 
               <Carousel
-                slides={null}
-                cardType="asset"
+                slides={
+                  dataHome.pages.edges[0].node.homeBlocks
+                    .featuredCollectionsAndStories
+                }
+                cardType="homepage"
                 className="front-page-carousel"
               />
 
@@ -113,7 +96,7 @@ export default function Component() {
               </div>
               <Carousel
                 slides={null}
-                cardType="artist"
+                cardType="asset"
                 className="front-page-carousel"
               />
 
