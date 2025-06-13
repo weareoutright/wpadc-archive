@@ -28,7 +28,6 @@ import NEXT_BTN from "../assets/icons/next-btn.svg";
 import usePublicProgramsKeywordSearch from "../constants/customQueryHooks/usePublicPrograms";
 import LoadingIcons from "react-loading-icons";
 
-// filter keys
 const FILTER_KEYS = [
   "Year",
   "People",
@@ -38,7 +37,6 @@ const FILTER_KEYS = [
   "Project Type",
 ];
 
-// Extract values for each filter key
 function getFilterValues(node, key) {
   switch (key) {
     case "Year": {
@@ -91,11 +89,6 @@ function applyFilters(resultsArray, selectedItems) {
 
   const selectedValues = Object.keys(selectedItems).flat();
 
-  resultsArray.filter((item) => {
-    const allProps = Object.values(item.filterProps).flat();
-    return selectedValues.some((v) => allProps.includes(v));
-  });
-
   return resultsArray.filter((item) => {
     const allProps = Object.values(item.filterProps).flat();
     return selectedValues.some((v) => allProps.includes(v));
@@ -103,11 +96,12 @@ function applyFilters(resultsArray, selectedItems) {
 }
 
 export default function Component() {
-  const [isNavShown, setIsNavShown] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
   const router = useRouter();
   const { query } = router;
 
+  const [isNavShown, setIsNavShown] = useState(false);
+  const RESULTS_PER_PAGE = 16;
+  const [currentPage, setCurrentPage] = useState(1);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [debouncedKeyword, setDebouncedKeyword] = useState("");
   const [unfilteredResults, setUnfilteredResults] = useState([]);
@@ -124,7 +118,6 @@ export default function Component() {
 
   const allLoaded = !la && !lp && !lpp && !lb;
 
-  // Debounce input
   useEffect(() => {
     const id = setTimeout(() => {
       if (searchKeyword.trim() !== debouncedKeyword) {
@@ -134,7 +127,6 @@ export default function Component() {
     return () => clearTimeout(id);
   }, [searchKeyword]);
 
-  // Refetch GraphQL
   const { refetch } = useQuery(Component.query, {
     variables: Component.variables({
       searchKeyword: debouncedKeyword || "_none_",
@@ -145,7 +137,6 @@ export default function Component() {
     if (debouncedKeyword.trim()) refetch();
   }, [debouncedKeyword, refetch]);
 
-  // Combine raw results & annotate filterProps
   useEffect(() => {
     if (!allLoaded) return;
     const combined = [
@@ -157,22 +148,22 @@ export default function Component() {
       const node = item.node || item;
       const filterProps = FILTER_KEYS.reduce((acc, key) => {
         acc[key] = getFilterValues(node, key);
-
         return acc;
       }, {});
-
       return { ...item, filterProps };
     });
     setUnfilteredResults(combined);
   }, [allLoaded, assetPosts, people, publicPrograms, storyBlogs]);
 
-  // Compute filtered results
   const filteredResults = useMemo(() => {
     if (!unfilteredResults.length) return [];
     return applyFilters(unfilteredResults, selectedItems);
   }, [unfilteredResults, selectedItems]);
 
-  // Hydrate state from URL
+  const startIndex = (currentPage - 1) * RESULTS_PER_PAGE;
+  const endIndex = startIndex + RESULTS_PER_PAGE;
+  const paginatedResults = filteredResults.slice(startIndex, endIndex);
+
   useEffect(() => {
     if (typeof query.keyword === "string" && query.keyword.trim()) {
       setSearchKeyword(query.keyword);
@@ -182,7 +173,24 @@ export default function Component() {
         setSelectedItems(JSON.parse(query.filters));
       } catch {}
     }
-  }, [query.keyword, query.filters]);
+    if (query.page) {
+      const page = parseInt(query.page);
+      if (!isNaN(page)) setCurrentPage(page);
+    }
+  }, [query.keyword, query.filters, query.page]);
+
+  const updatePageInUrl = (pageNum) => {
+    const newQuery = { ...router.query, page: pageNum };
+    router.push({ pathname: router.pathname, query: newQuery }, undefined, {
+      shallow: true,
+    });
+  };
+
+  const handlePageClick = (pageNum) => {
+    setCurrentPage(pageNum);
+    updatePageInUrl(pageNum);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   if (ls || lm) return <LoadingPage stroke="#808080" />;
 
@@ -238,9 +246,9 @@ export default function Component() {
                   )}
                   {filteredResults.length > 0 && (
                     <div className="results-container">
-                      {filteredResults.map((res, i) => {
+                      {paginatedResults.map((res, i) => {
                         const node = res?.node || res;
-                        const key = `${node?.__typename}-${i}`;
+                        const key = `${node?.__typename}-${node?.id || i}`;
                         if (node?.__typename === "Asset_post")
                           return (
                             <AssetSearchResultCard key={key} node={node} />
@@ -272,11 +280,24 @@ export default function Component() {
                   <hr />
                 </div>
                 <div className="pagination">
-                  <a href="#" className="pagination-btn">
+                  <a
+                    href="#"
+                    className={`pagination-btn ${
+                      currentPage === 1 ? "disabled" : ""
+                    }`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (currentPage > 1) handlePageClick(currentPage - 1);
+                    }}
+                  >
                     <Image src={PREV_BTN_DARK} alt="previous results" />
                   </a>
                   {Array.from(
-                    { length: Math.ceil(filteredResults.length / 16) },
+                    {
+                      length: Math.ceil(
+                        filteredResults.length / RESULTS_PER_PAGE
+                      ),
+                    },
                     (_, i) => i + 1
                   ).map((pageNum) => (
                     <a
@@ -287,14 +308,31 @@ export default function Component() {
                       } page-number-btn`}
                       onClick={(e) => {
                         e.preventDefault();
-                        setCurrentPage(pageNum);
+                        handlePageClick(pageNum);
                       }}
                     >
                       {pageNum}
                     </a>
                   ))}
-                  <a href="#" className="pagination-btn">
-                    <Image src={NEXT_BTN} alt="more results" />
+                  <a
+                    href="#"
+                    className={`pagination-btn ${
+                      currentPage ===
+                      Math.ceil(filteredResults.length / RESULTS_PER_PAGE)
+                        ? "disabled"
+                        : ""
+                    }`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (
+                        currentPage <
+                        Math.ceil(filteredResults.length / RESULTS_PER_PAGE)
+                      ) {
+                        handlePageClick(currentPage + 1);
+                      }
+                    }}
+                  >
+                    <Image src={NEXT_BTN} alt="next results" />
                   </a>
                 </div>
               </div>
