@@ -3,7 +3,10 @@ import carouselStyles from "../Carousel/Carousel.module.scss";
 import className from "classnames/bind";
 import { Carousel } from "../Carousel";
 import { FullPageFocusOverlay } from "../FullPageFocusOverlay";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import Image from "next/image";
+import LEFT_ARROW from "../../assets/icons/previous-btn-dark.svg";
+import RIGHT_ARROW from "../../assets/icons/next-btn.svg";
 
 let cx = className.bind(styles);
 let carouselCx = className.bind(carouselStyles);
@@ -23,12 +26,12 @@ const InThisProjectSection = ({
 
   const [isOverlayShown, setIsOverlayShown] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const rowRef = useRef(null);
   let filteredResults = [];
 
   if (headerText === "Images") {
     try {
       if (Array.isArray(itemsArr)) {
-        // Transform the data into a format that AssetSearchResultCard expects
         filteredResults = itemsArr
           .map(item => ({
             id: item?.file?.node?.id || Math.random().toString(),
@@ -36,25 +39,10 @@ const InThisProjectSection = ({
             sourceUrl: item?.file?.node?.sourceUrl,
             caption: item?.file?.node?.caption,
             description: item?.file?.node?.description,
-            assetCard: {
-              assetCard: [{
-                artists: [{
-                  collaborator: {
-                    edges: [{
-                      node: {
-                        uri: item?.file?.node?.sourceUrl
-                      }
-                    }]
-                  }
-                }]
-              }]
-            }
           }))
           .filter(Boolean);
       }
-      console.log("Transformed results for Images:", filteredResults);
     } catch (error) {
-      console.error('Error processing images:', error);
       return null;
     }
 
@@ -79,6 +67,12 @@ const InThisProjectSection = ({
       .map((edge) => edge.node);
   }
 
+  const scrollRow = (direction) => {
+    if (rowRef.current) {
+      rowRef.current.scrollLeft += direction * 300; // adjust scroll amount as needed
+    }
+  };
+
   return (
     <>
       {headerText === "Images" && isOverlayShown && (
@@ -93,34 +87,48 @@ const InThisProjectSection = ({
         <h2>
           {headerText} <small>({filteredResults?.length || "- "} items)</small>
         </h2>
-        <div className={cx("in-this-project")}>
-          <div className={cx("in-this-project-carousel")}>
-            {headerText === "Images"
-              ? filteredResults.map((img, idx) => (
-                  <img
-                    key={img.id}
-                    src={img.sourceUrl}
-                    alt={img.title}
-                    style={{ cursor: "pointer", maxHeight: "200px", margin: "0 8px" }}
-                    onClick={() => {
-                      setSelectedImageIndex(idx);
-                      setIsOverlayShown(true);
-                    }}
-                  />
-                ))
-              : (
-                <Carousel
-                  slides={filteredResults}
-                  cardType={headerText === "Images" ? "image" : "asset"}
-                  setIsOverlayShown={setIsOverlayShown}
-                  personName={personName}
-                  className={carouselCx(
-                    !frontPageCarousel && "template-page-carousel"
-                  )}
+        {headerText === "Images" ? (
+          <div className={cx("in-this-project-carousel-wrapper")}> 
+          <div className={cx("carousel-controls")}> 
+              <button className={cx("scroll-btn", "left")} onClick={() => scrollRow(-1)}>
+                <Image src={LEFT_ARROW} alt="Scroll left" />
+              </button>
+              <button className={cx("scroll-btn", "right")} onClick={() => scrollRow(1)}>
+                <Image src={RIGHT_ARROW} alt="Scroll right" />
+              </button>
+            </div>
+            <div
+              className={cx("in-this-project-carousel")}
+              ref={rowRef}
+              style={{ overflowX: "auto", whiteSpace: "nowrap" }}
+            >
+              {filteredResults.map((img, idx) => (
+                <img
+                  key={img.id}
+                  src={img.sourceUrl}
+                  alt={img.title}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    setSelectedImageIndex(idx);
+                    setIsOverlayShown(true);
+                  }}
                 />
-              )}
+              ))}
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className={cx("in-this-project-carousel")}>            
+            <Carousel
+              slides={filteredResults}
+              cardType="asset"
+              setIsOverlayShown={setIsOverlayShown}
+              personName={personName}
+              className={carouselCx(
+                !frontPageCarousel && "template-page-carousel"
+              )}
+            />
+          </div>
+        )}
       </div>
     </>
   );

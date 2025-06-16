@@ -33,6 +33,7 @@ const AssetSearchResultCard = ({
             width={244}
             height={320}
             layout="fixed"
+            style={{ objectFit: "cover"}}
             className={cx(
               "asset-image",
               isWPAStory && "wpa-story-border",
@@ -59,6 +60,7 @@ const AssetSearchResultCard = ({
             width={244}
             height={320}
             layout="fixed"
+            style={{ objectFit: "cover"}}
             className={cx("asset-image")}
           />
         </a>
@@ -79,6 +81,7 @@ const AssetSearchResultCard = ({
             width={244}
             height={320}
             layout="fixed"
+            style={{ objectFit: "cover"}}
             className={cx(
               "asset-image",
               isWPAStory && "wpa-story-border",
@@ -107,6 +110,7 @@ const AssetSearchResultCard = ({
               width={244}
               height={326}
               layout="fixed"
+              style={{ objectFit: "cover"}}
             />
           )}
           {isImageOnly && (
@@ -121,6 +125,7 @@ const AssetSearchResultCard = ({
                 width={244}
                 height={326}
                 layout="fixed"
+                style={{ objectFit: "cover"}}
               />
             </a>
           )}

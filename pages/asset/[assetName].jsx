@@ -49,6 +49,7 @@ const AssetPage = () => {
   const curator = assetCard?.curator?.nodes || null;
   const parentLink = assetCard?.eyebrow?.nodes?.[0] || null;
   const assetFiles = assetCard?.assetFiles || [];
+  const hasImages = assetFiles.length > 0;
   
   console.log('assetCard:', assetCard);
   console.log('assetFiles structure:', JSON.stringify(assetFiles, null, 2));
@@ -112,14 +113,16 @@ const AssetPage = () => {
                 />
                 <InThisProjectSection
                   headerText="Images"
-                  itemsArr={assetCard?.assetFiles || []}
+                  itemsArr={assetFiles}
                   frontPageCarousel={false}
                 />
-                <InThisProjectSection
-                  headerText="In This Project"
-                  itemsArr={null}
-                  frontPageCarousel={false}
-                />
+                {!hasImages && (
+                  <InThisProjectSection
+                    headerText="In This Project"
+                    itemsArr={null}
+                    frontPageCarousel={false}
+                  />
+                )}
                 <RelatedSection itemsArr={relatedItems} />
               </div>
             )}
