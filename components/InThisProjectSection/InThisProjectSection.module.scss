@@ -32,3 +32,26 @@
     }
   }
 }
+
+.in-this-project-carousel {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  justify-content: flex-start;
+  align-items: flex-end;
+  padding: 3rem 0;
+
+  img {
+    height: 200px;
+    width: auto;
+    object-fit: cover;
+    // border-radius: 16px;
+    // box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    // transition: box-shadow 0.2s;
+    cursor: pointer;
+    // background: #e6f6fa;
+    // &:hover {
+    //   box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    // }
+  }
+}

@@ -58,7 +58,6 @@ const InThisProjectSection = ({
       return null;
     }
 
-    // Don't render the section if there are no image results
     if (filteredResults.length === 0) return null;
   }
 
