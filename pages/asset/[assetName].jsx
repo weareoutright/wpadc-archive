@@ -111,18 +111,21 @@ const AssetPage = () => {
                     : null
                   }
                 />
-                <InThisProjectSection
-                  headerText="Images"
-                  itemsArr={assetFiles}
-                  frontPageCarousel={false}
-                />
-                {!hasImages && (
-                  <InThisProjectSection
-                    headerText="In This Project"
-                    itemsArr={null}
-                    frontPageCarousel={false}
-                  />
+                {Array.isArray(assetFiles) && assetFiles.length > 0 && (
+                    <InThisProjectSection
+                        headerText="Images"
+                        itemsArr={assetFiles}
+                        frontPageCarousel={false}
+                    />
                 )}
+
+                {/*{Array.isArray(inThisProjectItems) && inThisProjectItems.length > 0 && (*/}
+                    <InThisProjectSection
+                        headerText="In This Project"
+                        itemsArr={null}
+                        frontPageCarousel={false}
+                    />
+                {/*)}*/}
                 <RelatedSection itemsArr={relatedItems} />
               </div>
             )}

@@ -9,18 +9,28 @@ import useStoryBlogsBySlug from "../../constants/customQueryHooks/useStoryBlogsB
 let cx = className.bind(styles);
 
 const RelatedItemCard = ({ node }) => {
-  const { title, asset_postId, author, slug, uri, sourceUrl } = node;
-  const assetData = useAssetsBySlug(slug);
-  const publicProgramData = usePublicProgramsBySlug(slug);
-  const storyBlogData = useStoryBlogsBySlug(slug);
+  // Debug log for node prop
+  console.log('RelatedItemCard node prop:', node);
 
-  // console.log('RelatedItemCard - slug:', slug);
-  // console.log('RelatedItemCard - storyBlogData:', storyBlogData);
-  // console.log('RelatedItemCard - storyBlogData.storyBlog:', storyBlogData?.storyBlog);
-  // console.log('RelatedItemCard - storyBlogData.loading:', storyBlogData?.loading);
-  // console.log('RelatedItemCard - storyBlogData.error:', storyBlogData?.error);
+  // Extract the actual asset data from the nested structure
+  const assetNode = node?.manuallySetCards?.nodes?.[0] || node;
+  const { title, asset_postId, author, slug, uri, sourceUrl } = assetNode || {};
+  
+  // Only fetch data if we have a slug
+  const assetData = slug ? useAssetsBySlug(slug) : null;
+  const publicProgramData = slug ? usePublicProgramsBySlug(slug) : null;
+  const storyBlogData = slug ? useStoryBlogsBySlug(slug) : null;
 
-  const personTitle = usePersonBySlug(slug)?.data?.title;
+  // Debug logs for asset data
+  console.log('Asset Data:', {
+    slug,
+    assetData,
+    assetPostBySlug: assetData?.assetPostBySlug,
+    assetCard: assetData?.assetPostBySlug?.assetCard,
+    thumbnail: assetData?.assetPostBySlug?.assetCard?.assetCard?.[0]?.thumbnail?.node
+  });
+
+  const personTitle = slug ? usePersonBySlug(slug)?.data?.title : null;
   const assetTitle = assetData?.assetPostBySlug?.title;
   const publicProgramTitle = publicProgramData?.publicProgram?.title;
   const storyBlogTitle = storyBlogData?.storyBlog?.title;
@@ -28,10 +38,10 @@ const RelatedItemCard = ({ node }) => {
   const assetAuthor =
     assetData?.assetPostBySlug?.assetCard?.assetCard?.[0]?.artists?.[0]
       ?.collaborator?.edges?.[0]?.node;
-  const imgSrc = node;
+  const imgSrc = assetNode;
 
-  const personThumbnail = node?.personCard?.personInfo?.[0]?.headshot?.node;
-  const assetThumbnail = node?.assetCard?.assetInfo?.[0]?.thumbnail?.node;
+  const personThumbnail = assetNode?.personCard?.personInfo?.[0]?.headshot?.node;
+  const assetThumbnail = assetData?.assetPostBySlug?.assetCard?.assetCard?.[0]?.thumbnail?.node;
 
   // Debug logs
   console.log("assetThumbnail:", assetThumbnail);
@@ -42,7 +52,7 @@ const RelatedItemCard = ({ node }) => {
       return personTitle;
     }
     if (uri?.includes("/asset/")) {
-      return assetTitle;
+      return assetData?.assetPostBySlug?.title || title;
     }
     if (uri?.includes("/public-program/")) {
       return publicProgramTitle;
@@ -69,7 +79,7 @@ const RelatedItemCard = ({ node }) => {
       return personThumbnail?.sourceUrl || "/sample-img.png";
     }
     if (uri?.includes('/asset/')) {
-      return assetThumbnail?.sourceUrl || "/sample-img.png";
+      return assetData?.assetPostBySlug?.assetCard?.assetCard?.[0]?.thumbnail?.node?.sourceUrl || "/sample-img.png";
     }
     if (uri?.includes('/public-program/')) {
       return publicProgramData?.publicProgram?.programCard?.programCard?.[0]?.thumbnail?.node?.sourceUrl || "/sample-img.png";
