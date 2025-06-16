@@ -1,3 +1,5 @@
+import HomePageCarouselCard from "./HomePageCarouselCard/HomePageCarouselCard";
+
 export { Container } from "./Container";
 export { ContentWrapper } from "./ContentWrapper";
 export { EntryHeader } from "./EntryHeader";
@@ -31,3 +33,5 @@ export { InThisProjectSection } from "./InThisProjectSection";
 export { ArtistContainerHeader } from "./ArtistContainerHeader";
 export { PageContentWrapper } from "./PageContentWrapper";
 export { FullPageFocusOverlay } from "./FullPageFocusOverlay";
+export { HomePageCarouselCard } from "./HomePageCarouselCard";
+export { HomePageFeaturedArtistCard } from "./HomePageFeaturedArtistCard";

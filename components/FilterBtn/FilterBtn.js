@@ -18,81 +18,44 @@ const FilterBtn = ({
 }) => {
   const filterDropdownRef = useRef(null);
   const [mainDropdownOpen, setMainDropdownOpen] = useState(false);
-  const [subDropdownOpen, setSubDropdownOpen] = useState({}); // Track sub-dropdowns per parent
+  const [subDropdownOpen, setSubDropdownOpen] = useState({});
 
-  // Toggle Parent Dropdown
   const toggleDropdown = () => setMainDropdownOpen((prev) => !prev);
 
-  // Toggle Child Dropdowns (each parent has its own state)
-  // const toggleSubDropdown = (parentTitle) => {
-  //   setSubDropdownOpen((prev) => ({
-  //     ...prev,
-  //     [parentTitle]: !prev[parentTitle],
-  //   }));
-  // };
-
-  // Handle Parent Checkbox Selection
   const handleParentChange = (event) => {
     const { value, checked } = event.target;
-
     setSelectedItems((prev) => {
-      const updatedSelection = { ...prev };
-
+      const updated = { ...prev };
       if (checked) {
-        updatedSelection[value] = []; // Add parent with an empty child array
+        updated[value] = [];
       } else {
-        delete updatedSelection[value]; // Remove parent if unchecked
+        delete updated[value];
       }
-
-      return updatedSelection;
+      return updated;
     });
   };
 
-  // Handle Child Checkbox Selection
   const handleChildChange = (event, parentTitle) => {
     const { value, checked } = event.target;
-
     setSelectedItems((prev) => {
-      const updatedSelection = { ...prev };
-
+      const updated = { ...prev };
       if (checked) {
-        updatedSelection[parentTitle] = [
-          ...(updatedSelection[parentTitle] || []),
-          value,
-        ]; // Add child item under its parent
+        updated[parentTitle] = [...(updated[parentTitle] || []), value];
       } else {
-        updatedSelection[parentTitle] = updatedSelection[parentTitle].filter(
+        updated[parentTitle] = updated[parentTitle].filter(
           (item) => item !== value
-        ); // Remove child item if unchecked
+        );
       }
-
-      return updatedSelection;
+      return updated;
     });
-  };
-
-  const filterCounts = dropdownItems.reduce((acc, item) => {
-    const key = item;
-
-    if (key == null) return acc;
-    acc[key] = (acc[key] || 0) + 1;
-    return acc;
-  }, {});
-
-  const countOccurrencesWithFilter = (arr = [], target) => {
-    return arr.filter((el) => el === target).length;
   };
 
   useEffect(() => {
     if (!selectedItems) return;
-
     if (Object.keys(selectedItems).length <= 0 && activeItems?.length <= 0) {
       setMainDropdownOpen(false);
     }
   }, [selectedItems, activeItems]);
-
-  useEffect(() => {
-    console.log(dropdownItems, filterCountArr);
-  }, []);
 
   return (
     <div className={cx("FilterBtn")}>
@@ -113,27 +76,21 @@ const FilterBtn = ({
               )}
             </span>
 
-            {!mainDropdownOpen ? (
-              <Image
-                src={DOWN_CHEVRON}
-                alt=""
-                width={15}
-                height={15}
-                className={cx("chevron-down")}
-              />
-            ) : (
-              <Image
-                src={DOWN_CHEVRON}
-                alt=""
-                width={15}
-                height={15}
-                className={cx("chevron-down")}
-                style={{ transform: "rotate(-180deg)" }}
-              />
-            )}
+            <Image
+              src={DOWN_CHEVRON}
+              alt=""
+              width={15}
+              height={15}
+              className={cx("chevron-down")}
+              style={{
+                transform: mainDropdownOpen
+                  ? "rotate(-180deg)"
+                  : "rotate(0deg)",
+              }}
+            />
           </div>
 
-          {/* Parent Dropdown Options (Checkboxes) */}
+          {/* Parent Dropdown Options */}
           {mainDropdownOpen && !dropdownItems.length <= 0 && (
             <div className={cx(["parent", "dropdown-options"])}>
               {[...new Set(dropdownItems)]
@@ -144,70 +101,60 @@ const FilterBtn = ({
                     sensitivity: "base",
                   });
                 })
-                .map((parent, index) => {
-                  return (
-                    <div key={`${String(parent).split().join("-")}-${index}`}>
-                      <label className={cx("parent-label")}>
-                        <span className={cx("parent-label-text")}>
-                          <input
-                            type="checkbox"
-                            value={parent}
-                            onChange={handleParentChange}
-                            checked={selectedItems.hasOwnProperty(parent)}
-                            className={cx("checkbox-input")}
-                          />{" "}
-                          {parent} (
-                          {countOccurrencesWithFilter(filterCountArr, parent)})
-                        </span>
-                        {parent?.childrenItems?.length > 0 ? (
-                          <Image
-                            src={PLUS_ICON}
-                            alt=""
-                            height={15}
-                            width={15}
-                            className={cx("plus-icon")}
-                          />
-                        ) : null}
-                      </label>
-
-                      {/* Sub Dropdown (Child Options) */}
-                      {selectedItems.hasOwnProperty(parent) && (
-                        <>
-                          {/* <button
-                        className={cx("toggle-child-btn")}
-                        onClick={() => toggleSubDropdown(parent.title)}
-                      /> */}
-
-                          {subDropdownOpen[parent.title] &&
-                            parent.childrenItems && (
-                              <div
-                                className={cx(["child", "dropdown-options"])}
-                              >
-                                {parent.childrenItems.map((child, idx) => (
-                                  <label
-                                    key={`${child.title}-${idx}`}
-                                    className={cx("child-label")}
-                                  >
-                                    <input
-                                      type="checkbox"
-                                      value={child.title}
-                                      onChange={(e) =>
-                                        handleChildChange(e, parent.title)
-                                      }
-                                      checked={selectedItems[
-                                        parent.title
-                                      ]?.includes(child.title)}
-                                    />{" "}
-                                    {child.title} ({child.count})
-                                  </label>
-                                ))}
-                              </div>
-                            )}
-                        </>
+                .map((parent, index) => (
+                  <div key={`${String(parent).split().join("-")}-${index}`}>
+                    <label className={cx("parent-label")}>
+                      <span className={cx("parent-label-text")}>
+                        <input
+                          type="checkbox"
+                          value={parent}
+                          onChange={handleParentChange}
+                          checked={selectedItems.hasOwnProperty(parent)}
+                          className={cx("checkbox-input")}
+                        />{" "}
+                        {parent} ({filterCountArr[parent] || "-"})
+                      </span>
+                      {parent?.childrenItems?.length > 0 && (
+                        <Image
+                          src={PLUS_ICON}
+                          alt=""
+                          height={15}
+                          width={15}
+                          className={cx("plus-icon")}
+                        />
                       )}
-                    </div>
-                  );
-                })}
+                    </label>
+
+                    {/* Sub Dropdown (Child Options) */}
+                    {selectedItems.hasOwnProperty(parent) && (
+                      <>
+                        {subDropdownOpen[parent.title] &&
+                          parent.childrenItems && (
+                            <div className={cx(["child", "dropdown-options"])}>
+                              {parent.childrenItems.map((child, idx) => (
+                                <label
+                                  key={`${child.title}-${idx}`}
+                                  className={cx("child-label")}
+                                >
+                                  <input
+                                    type="checkbox"
+                                    value={child.title}
+                                    onChange={(e) =>
+                                      handleChildChange(e, parent.title)
+                                    }
+                                    checked={selectedItems[
+                                      parent.title
+                                    ]?.includes(child.title)}
+                                  />{" "}
+                                  {child.title} ({child.count})
+                                </label>
+                              ))}
+                            </div>
+                          )}
+                      </>
+                    )}
+                  </div>
+                ))}
             </div>
           )}
         </div>

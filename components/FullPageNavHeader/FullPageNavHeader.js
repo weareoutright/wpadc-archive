@@ -49,7 +49,7 @@ export default function FullPageNavHeader({
             {description && <p className={cx("description")}>{description}</p>}
           </div>
           <div className={cx("full-page-nav-btns")}>
-            <a href="/search" alt="Go to Search">
+            <a href="/search?keyword=art&filters=" alt="Go to Search">
               <Image src={SEARCH_ICON} alt="Go to Search" />
             </a>
             <a

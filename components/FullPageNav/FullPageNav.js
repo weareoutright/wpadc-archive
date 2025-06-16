@@ -19,7 +19,7 @@ const DEFAULT_MENU_ITEMS = [
   {
     id: "about-default",
     label: "ABOUT",
-    path: "/about",
+    path: "/about-the-archive",
   },
   {
     id: "people-default",
