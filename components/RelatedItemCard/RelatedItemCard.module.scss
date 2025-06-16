@@ -45,4 +45,11 @@
     width: 66%;
     padding-left: 1rem;
   }
+
+  .related-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 25px;
+  }
 }
