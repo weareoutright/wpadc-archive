@@ -53,6 +53,7 @@
   .asset-image {
     transition: transform 0.25s ease-in-out;
     border-radius: 1rem !important;
+    object-fit: cover;
     &:hover {
       transform: scale(1.1);
     }

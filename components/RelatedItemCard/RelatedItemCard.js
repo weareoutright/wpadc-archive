@@ -14,6 +14,12 @@ const RelatedItemCard = ({ node }) => {
   const publicProgramData = usePublicProgramsBySlug(slug);
   const storyBlogData = useStoryBlogsBySlug(slug);
 
+  // console.log('RelatedItemCard - slug:', slug);
+  // console.log('RelatedItemCard - storyBlogData:', storyBlogData);
+  // console.log('RelatedItemCard - storyBlogData.storyBlog:', storyBlogData?.storyBlog);
+  // console.log('RelatedItemCard - storyBlogData.loading:', storyBlogData?.loading);
+  // console.log('RelatedItemCard - storyBlogData.error:', storyBlogData?.error);
+
   const personTitle = usePersonBySlug(slug)?.data?.title;
   const assetTitle = assetData?.assetPostBySlug?.title;
   const publicProgramTitle = publicProgramData?.publicProgram?.title;
@@ -26,6 +32,9 @@ const RelatedItemCard = ({ node }) => {
 
   const personThumbnail = node?.personCard?.personInfo?.[0]?.headshot?.node;
   const assetThumbnail = node?.assetCard?.assetInfo?.[0]?.thumbnail?.node;
+
+  // Debug logs
+  console.log("assetThumbnail:", assetThumbnail);
 
   // Determine which title to use based on the URI
   const getTitle = () => {
@@ -52,15 +61,36 @@ const RelatedItemCard = ({ node }) => {
     return uri;
   };
 
+  console.log('storyBlogData:', storyBlogData);
+
+  // Get the correct thumbnail based on content type
+  const getThumbnail = () => {
+    if (uri?.includes('/person/')) {
+      return personThumbnail?.sourceUrl || "/sample-img.png";
+    }
+    if (uri?.includes('/asset/')) {
+      return assetThumbnail?.sourceUrl || "/sample-img.png";
+    }
+    if (uri?.includes('/public-program/')) {
+      return publicProgramData?.publicProgram?.programCard?.programCard?.[0]?.thumbnail?.node?.sourceUrl || "/sample-img.png";
+    }
+    if (uri?.includes('/story-blog-post/')) {
+      return storyBlogData?.storyBlog?.storyBlocks?.mainContent?.[0]?.thumbnail?.node?.sourceUrl || "/sample-img.png";
+    }
+    return "/sample-img.png";
+  };
+
   return (
     <div key={`${title}-${asset_postId}`} className={cx("RelatedItemCard")}>
       <a href={getLink()} className={cx("asset-link")}>
         <Image
           alt={getTitle()}
-          src={"/sample-img.png"}
+          src={getThumbnail()}
           width={157}
           height={179}
           layout="fixed"
+          objectFit="cover"
+          className={cx("related-image")}
         />
       </a>
       <div className={cx("card-info")}>

@@ -41,22 +41,20 @@ const GET_STORY_BLOGS_BY_SLUG = gql`
                 id
                 slug
                 ... on StoryBlogPost {
-                    id
-                    title
-                    storyBlocks {
-                        mainContent {
-                            ... on StoryBlocksMainContentMainContentLayout {
-                                thumbnail {
-                                    node {
-                                        altText
-                                        caption
-                                        title
-                                        sourceUrl
-                                    }
-                                }
-                            }
+                  id
+                  title
+                  storyBlocks {
+                    mainContent {
+                      ... on StoryBlocksMainContentMainContentLayout {
+                        thumbnail {
+                          node {
+                            altText
+                            sourceUrl
+                          }
                         }
+                      }
                     }
+                  }
                 }
               }
             }

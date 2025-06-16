@@ -44,7 +44,15 @@ const AssetPage = () => {
   const assetTitle = assetPostBySlug?.title || "";
 
   const assetCard = assetPostBySlug?.assetCard?.assetCard?.[0];
-  const relatedItems = assetCard;
+  const artist = assetCard?.location;
+  const relatedItems = assetCard?.related || [];
+  const curator = assetCard?.curator?.nodes || null;
+  const parentLink = assetCard?.eyebrow?.nodes?.[0] || null;
+  const assetFiles = assetCard?.assetFiles || [];
+  const hasImages = assetFiles.length > 0;
+  
+  console.log('assetCard:', assetCard);
+  console.log('assetFiles structure:', JSON.stringify(assetFiles, null, 2));
 
   return (
     <>
@@ -71,6 +79,7 @@ const AssetPage = () => {
                     .map((edge) => edge?.node?.title)
                     .filter(Boolean)}
                   assetName={assetTitle}
+                  curator={curator}
                   eventName={null}
                   description={parse(assetCard?.description || "")}
                   tagsArr={
@@ -96,14 +105,25 @@ const AssetPage = () => {
                     assetPostBySlug?.assetCard?.assetCard?.[0]?.externalLinks
                   }
                   pageType={"asset"}
-                  parentLink={null}
+                  parentLink={
+                    parentLink?.title && parentLink?.uri 
+                    ? parentLink 
+                    : null
+                  }
                 />
                 <InThisProjectSection
-                  headerText="In This Project"
-                  itemsArr={null}
+                  headerText="Images"
+                  itemsArr={assetFiles}
                   frontPageCarousel={false}
                 />
-                <RelatedSection itemsArr={null} />
+                {!hasImages && (
+                  <InThisProjectSection
+                    headerText="In This Project"
+                    itemsArr={null}
+                    frontPageCarousel={false}
+                  />
+                )}
+                <RelatedSection itemsArr={relatedItems} />
               </div>
             )}
           </Container>
