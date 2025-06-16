@@ -17,12 +17,6 @@ const InThisProjectSection = ({
   frontPageCarousel,
   personName,
 }) => {
-  console.log("InThisProjectSection received:", {
-    headerText,
-    itemsArrType: itemsArr ? typeof itemsArr : 'null',
-    isArray: Array.isArray(itemsArr),
-    itemsArr
-  });
 
   const [isOverlayShown, setIsOverlayShown] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);

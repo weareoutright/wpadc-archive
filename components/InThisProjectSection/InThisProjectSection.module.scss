@@ -42,9 +42,11 @@
     gap: 2rem;
     justify-content: flex-start;
     align-items: flex-end;
-    padding: 3rem 0;
+    padding: 0 0 3rem;
     overflow-x: auto;
     white-space: nowrap;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid black;
     img {
       height: 200px;
       width: auto;
